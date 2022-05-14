@@ -4,3 +4,13 @@ nav .btn{
     font-size: 0.9rem;
     margin: 0rem 0rem 0rem 0.5rem;
 }
+
+.btn-5 {
+    width: 7rem;
+}
+
+.imgframe .preview_img {
+    width: 90%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
