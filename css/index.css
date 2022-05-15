@@ -1,4 +1,4 @@
-nav .btn{
+nav .btn {
     padding: 0rem 0.5rem 0rem 0.5rem;
     border-width: 0.1rem;
     font-size: 0.9rem;
@@ -13,4 +13,10 @@ nav .btn{
     width: 90%;
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+#predict p{
+    font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", 
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", 
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

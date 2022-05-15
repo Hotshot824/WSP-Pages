@@ -25,7 +25,7 @@
 <body id="page-top">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-        <div class="container px-4 px-lg-5">
+        <div class="container px-2 px-lg-3">
             <a class="navbar-brand" href="#page-top"><i class="bi-umbrella"></i>Wsout</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -37,12 +37,12 @@
                     <li class="nav-item"><a class="nav-link" href="#drawing">Drawing</a></li>
                     <li class="nav-item"><a class="nav-link" href="#image_lable">Image&Lable</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link d-xl-none text-success" href="#signup">Sign Up</a></li>
-                    <li class="nav-item"><a class="nav-link d-xl-none text-success" href="#signin">Sign In</a></li>
+                    <li class="nav-item"><a class="nav-link d-xl-none d-lg-none text-success" href="#signup">Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link d-xl-none d-lg-none text-success" href="#signin">Sign In</a></li>
                 </ul>
             </div>
-            <a class="btn btn-outline-success d-none d-xl-block" href="#signup" id="signup_button">Sign Up</a>
-            <a class="btn btn-success d-none d-xl-block" href="#signin" id="signin_button">Sign In</a>
+            <a class="btn btn-outline-success d-none d-lg-block d-xl-block" href="#signup" id="signup_button">Sign Up</a>
+            <a class="btn btn-success d-none d-lg-block d-xl-block" href="#signin" id="signin_button">Sign In</a>
         </div>
     </nav>
     <!-- Masthead-->
@@ -77,30 +77,27 @@
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-4 col-sm-4 text-center">
-                    <div class="shadow-sm bg-light rounded imgframe" id="predict_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img">
+                    <div class="shadow-sm bg-light rounded imgframe">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="predict-img">
                     </div>
-                    <button id="upload-button" class="btn btn-5 btn-light my-2" accept="image/*">Upload</button>
+                    <input id="upload-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg"/>
+                    <button id="upload-button" class="btn btn-light my-2 btn-5">
+                        Upload
+                    </button>
                 </div>
                 <div class="col-lg-4 col-sm-4 text-center">
                     <div class="shadow-sm bg-light rounded imgframe" id="edge_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="edge-img">
                     </div>
-                    <button id="edge-button" class="btn btn-5 btn-outline-light my-2" accept="image/*">Edge</button>
+                    <p class="text-light m-1 py-2" id="edge-button">Edge</p>
                 </div>
                 <div class="col-lg-4 col-sm-4 text-center">
                     <div class="shadow-sm bg-light rounded imgframe" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="overlay-img">
                     </div>
-                    <button id="overlay-button" class="btn btn-5 btn-outline-light my-2"
-                        accept="image/*">Overlay</button>
+                    <p class="text-light m-1 py-2" id="overlay-button">Overlay</p>
                 </div>
             </div>
-            <!-- <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-12 text-center">
-                    <button id="upload-button" class="btn btn-light" accept="image/*">Upload</button>
-                </div>
-            </div> -->
         </div>
     </section>
     <!-- Services-->
