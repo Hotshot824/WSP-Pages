@@ -15,12 +15,12 @@ nav .btn {
     margin-bottom: 1rem;
 }
 
-#predict p{
-    font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", 
-    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", 
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+#predict p {
+    font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-.preview_img#predict-img{
+.preview_img#predict-img {
     cursor: pointer;
 }
