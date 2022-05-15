@@ -3,14 +3,14 @@
 $location = "../wound/upload/test/images/" . "111.png";
 if ( move_uploaded_file($_FILES['file']['tmp_name'], $location) ) { 
 		
-    $command = escapeshellcmd('python ../wound/predict.py');
+    $command = escapeshellcmd('../wound/predict.py');
     $output = shell_exec($command);
-    echo $output ."<br>";
+    echo $output;
 
-    $command = escapeshellcmd('python ../wound/edge.py');
+    $command = escapeshellcmd('../wound/edge.py');
     $output = shell_exec($command); 
-    
-    echo $output ."<br>";		
+    echo $output;		
+
 }
 
 ?>
