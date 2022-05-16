@@ -15,10 +15,10 @@ function preview_img_height() {
     }
 }
 
-// Predict upload button
-document.querySelector('#predict-img').addEventListener('click', () => {
-    let inputtag = document.querySelector('#upload-predict-img');
-    
+// Predict image upload button
+document.querySelector('#predict-img-btn').addEventListener('click', () => {
+    let inputtag = document.querySelector('#input-predict-img');
+
     inputtag.click();
     inputtag.addEventListener('change', (event) => {
         let selectedFile = event.target.files[0];
@@ -33,22 +33,26 @@ document.querySelector('#predict-img').addEventListener('click', () => {
     });
 });
 
-
+// Predict button
 document.querySelector('#upload-button').addEventListener('click', () => {
-    let tagInput = document.querySelector('#upload-predict-img');
+    let tagInput = document.querySelector('#input-predict-img');
     let selectedFile = tagInput.files[0];
 
-    if (tagInput.files.length == 0){
+    if (tagInput.files.length == 0) {
         alert("No files selected!")
+    } else if (checkFiletype(selectedFile)) {
+        alert("Upload file must be .jpg .jpge .png type!")
+    } else if (checkFilesize(selectedFile)) {
+        alert("Upload file must less 5MB!")
     } else {
         (async (temp) => {
             let formData = new FormData();
             formData.append("file", temp);
-    
+
             let imgpreview = "./assets/img/preview/pre_img.gif"
             document.querySelector('#edge-img').src = imgpreview;
             document.querySelector('#overlay-img').src = imgpreview;
-    
+
             await fetch('php/predict_upload.php', {
                 method: "POST",
                 body: formData
@@ -66,7 +70,22 @@ document.querySelector('#upload-button').addEventListener('click', () => {
                 .catch((error) => {
                     console.log(`Error: ${error}`);
                 })
-    
+
         })(selectedFile);
     }
 });
+
+// Check image type
+function checkFiletype(file) {
+    if (file.type.match('image/jpg|image/jpge|image/png')) {
+        return false;
+    }
+    return true;
+}
+// Check image size
+function checkFilesize(file) {
+    if (file.size < 5242880) {
+        return false;
+    }
+    return true;
+}

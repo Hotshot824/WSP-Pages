@@ -34,7 +34,7 @@
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="document.html">Document</a></li>
                     <li class="nav-item"><a class="nav-link" href="#predict">Predict</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#image_lable">Image&Lable</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#image_label">Image&Label</a></li>
                     <li class="nav-item"><a class="nav-link" href="#drawing">Drawing</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     <li class="nav-item"><a class="nav-link d-xl-none d-lg-none text-success" href="#signup">Sign Up</a>
@@ -59,8 +59,10 @@
                     <hr class="divider" />
                 </div>
                 <div class="col-lg-8 align-self-baseline">
-                    <p class="text-dark-75 mb-5">We provide an analysis service to quickly analyze the wound area. You
-                        only need to provide a photo of the wound to start the preset. Start now!</p>
+                    <p class="text-dark-75 mb-5">
+                        We provide an analysis service to quickly analyze the wound area. You
+                        only need to provide a photo of the wound to start the preset. Start now!
+                    </p>
                     <a class="btn btn-primary btn-xl" href="#predict">Start Predict</a>
                 </div>
             </div>
@@ -73,42 +75,120 @@
                 <div class="col-lg-8 text-center">
                     <h2 class="text-white mt-0">Wound Predict</h2>
                     <hr class="divider divider-light" />
-                    <p class="text-white-75 mb-4">Uploading the original
+                    <p class="text-white-75 mb-4">
+                        Uploading the original
                         wound image. After 20 seconds of predicting the wound area.
                     </p>
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-4 col-sm-4 text-center">
+                <div class="col-lg-3 col-sm-3 text-center">
+                    <!-- <div class="shadow-sm bg-light rounded imgframe">
+                        <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                    </div> -->
                     <div class="shadow-sm bg-light rounded imgframe">
-                        <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img"
-                            id="predict-img">
+                        <div class="btn-imgbox btn-img text-white rounded">
+                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                            <div class="btn-img-overlay"></div>
+                            <div class="btn-img-content cursor-p" id="predict-img-btn">
+                                <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
+                                    <span class="font-weight-light">Upload</span>
+                                </h5>
+                                <p class="btn-img-description small text-uppercase mb-0">
+                                    Image size need<br>
+                                    224 * 224
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <input id="upload-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
-                    <button id="upload-button" class="btn btn-light my-2 btn-5">
-                        Predict GO
-                    </button>
+                    <input id="input-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <p class="text-light m-1 py-2" id="edge-button">Original Image</p>
                 </div>
-                <div class="col-lg-4 col-sm-4 text-center">
+                <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow-sm bg-light rounded imgframe" id="edge_img">
                         <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="edge-img">
                     </div>
                     <p class="text-light m-1 py-2" id="edge-button">Edge</p>
                 </div>
-                <div class="col-lg-4 col-sm-4 text-center">
+                <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow-sm bg-light rounded imgframe" id="overlay_img">
                         <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="overlay-img">
                     </div>
                     <p class="text-light m-1 py-2" id="overlay-button">Overlay</p>
                 </div>
             </div>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <button id="upload-button" class="btn btn-light my-2 btn-5">
+                    Predict GO
+                </button>
+            </div>
         </div>
     </section>
     <!-- Services-->
-    <section class="page-section" id="image_lable">
+    <section class="page-section" id="image_label">
         <div class="container px-4 px-lg-5">
-            <h2 class="text-center text-primary mt-0">Image&Lable</h2>
-            <hr class="divider" />
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="text-center text-primary mt-0">Image&Label</h2>
+                    <hr class="divider" />
+                    <p class="text-dark mb-4">
+                        Uploading the original wound image and label. Can use
+                        <a href="https://en.wikipedia.org/wiki/Jaccard_index"> IOU </a>
+                        check Accuracy.
+                    </p>
+                </div>
+            </div>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-3 col-sm-3 text-center">
+                    <div class="shadow bg-light rounded imgframe">
+                        <div class="btn-imgbox btn-img text-white rounded">
+                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                            <div class="btn-img-overlay"></div>
+                            <div class="btn-img-content cursor-p" id="predict-img-btn">
+                                <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
+                                    <span class="font-weight-light">Upload</span>
+                                </h5>
+                                <p class="btn-img-description small text-uppercase mb-0">
+                                    Image size need<br>
+                                    224 * 224
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="input-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <p class="text-dark m-1 py-2" id="edge-button">Original Image</p>
+                </div>
+                <div class="col-lg-3 col-sm-3 text-center">
+                    <div class="shadow bg-light rounded imgframe">
+                        <div class="btn-imgbox btn-img text-white rounded">
+                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                            <div class="btn-img-overlay"></div>
+                            <div class="btn-img-content cursor-p" id="predict-img-btn">
+                                <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
+                                    <span class="font-weight-light">Upload</span>
+                                </h5>
+                                <p class="btn-img-description small text-uppercase mb-0">
+                                    Image size need<br>
+                                    224 * 224
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="input-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <p class="text-dark m-1 py-2" id="edge-button">Label</p>
+                </div>
+                <div class="col-lg-3 col-sm-3 text-center">
+                    <div class="shadow bg-light rounded imgframe" id="overlay_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="overlay-img">
+                    </div>
+                    <p class="text-dark m-1 py-2" id="overlay-button">IOU</p>
+                </div>
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <button id="upload-button" class="btn btn-danger my-2 btn-5">
+                    Predict GO
+                </button>
+            </div>
+            </div>
         </div>
     </section>
     <!-- Call to action-->
@@ -123,9 +203,10 @@
     <section class="page-section" id="contact">
         <div class="container px-4 px-lg-5">
             <!--Google map-->
-            <div id="row map-container-google-2" class="z-depth-1-half map-container">
-                <iframe  class="col-lg-12 mb-5" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.029437958324!2d120.4036352151277!3d22.727147185103433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e111c3b372669%3A0x48b39f7fb236fcdc!2sI-Shou%20University!5e0!3m2!1sen!2stw!4v1629864062675!5m2!1sen!2stw" frameborder="0"
-                    style="border:1; height:30rem;" allowfullscreen></iframe>
+            <div id="row map-container-google" class="z-depth-1-half mb-5 map-container">
+                <iframe class="col-lg-12"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.029437958324!2d120.4036352151277!3d22.727147185103433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e111c3b372669%3A0x48b39f7fb236fcdc!2sI-Shou%20University!5e0!3m2!1sen!2stw!4v1629864062675!5m2!1sen!2stw"
+                    frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6 text-center">
