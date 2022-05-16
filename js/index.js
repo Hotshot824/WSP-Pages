@@ -35,32 +35,38 @@ document.querySelector('#predict-img').addEventListener('click', () => {
 
 
 document.querySelector('#upload-button').addEventListener('click', () => {
-    let selectedFile = document.querySelector('#upload-predict-img').files[0];
-    (async (temp) => {
-        let formData = new FormData();
-        formData.append("file", temp);
+    let tagInput = document.querySelector('#upload-predict-img');
+    let selectedFile = tagInput.files[0];
 
-        let imgpreview = "./assets/img/preview/pre_img.gif"
-        document.querySelector('#edge-img').src = imgpreview;
-        document.querySelector('#overlay-img').src = imgpreview;
-
-        await fetch('php/predict_upload.php', {
-            method: "POST",
-            body: formData
-        })
-            .then((response) => {
-                return response.text();
+    if (tagInput.files.length == 0){
+        alert("No files selected!")
+    } else {
+        (async (temp) => {
+            let formData = new FormData();
+            formData.append("file", temp);
+    
+            let imgpreview = "./assets/img/preview/pre_img.gif"
+            document.querySelector('#edge-img').src = imgpreview;
+            document.querySelector('#overlay-img').src = imgpreview;
+    
+            await fetch('php/predict_upload.php', {
+                method: "POST",
+                body: formData
             })
-            .then((response) => {
-                alert(response)
-                let imgpreview = "./wound/upload/"
-                document.querySelector('#edge-img').src = imgpreview + "edge.png";
-                document.querySelector('#overlay-img').src = imgpreview + "superposition.png";
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(`Error: ${error}`);
-            })
-
-    })(selectedFile);
+                .then((response) => {
+                    return response.text();
+                })
+                .then((response) => {
+                    alert(response)
+                    let imgpreview = "./wound/upload/"
+                    document.querySelector('#edge-img').src = imgpreview + "edge.png";
+                    document.querySelector('#overlay-img').src = imgpreview + "superposition.png";
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(`Error: ${error}`);
+                })
+    
+        })(selectedFile);
+    }
 });
