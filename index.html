@@ -34,18 +34,27 @@
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="document.html">Document</a></li>
                     <li class="nav-item"><a class="nav-link" href="#predict">Predict</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#image_label">Image&Label</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#imageLabel">Image&Label</a></li>
                     <li class="nav-item"><a class="nav-link" href="#drawing">Drawing</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link d-xl-none d-lg-none text-success" href="#signup">Sign Up</a>
+                    <li class="nav-item">
+                        <a class="nav-link d-xl-none d-lg-none text-success" href="#signup">
+                            Sign Up
+                        </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link d-xl-none d-lg-none text-success" href="#signin">Sign In</a>
+                    <li class="nav-item">
+                        <a class="nav-link d-xl-none d-lg-none text-success" href="#signin">
+                            Sign In
+                        </a>
                     </li>
                 </ul>
             </div>
-            <a class="btn btn-outline-success d-none d-lg-block d-xl-block" href="#signup" id="signup_button">Sign
-                Up</a>
-            <a class="btn btn-success d-none d-lg-block d-xl-block" href="#signin" id="signin_button">Sign In</a>
+            <a class="btn btn-outline-success d-none d-lg-block d-xl-block" href="#signup" id="signup_button">
+                Sign Up
+            </a>
+            <a class="btn btn-success d-none d-lg-block d-xl-block" href="#signin" id="signin_button">
+                Sign In
+            </a>
         </div>
     </nav>
     <!-- Masthead-->
@@ -83,14 +92,15 @@
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-3 col-sm-3 text-center">
-                    <!-- <div class="shadow-sm bg-light rounded imgframe">
-                        <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                    <!-- <div class="shadow-sm bg-light rounded img-frame">
+                        <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img" id="predictImg">
                     </div> -->
-                    <div class="shadow-sm bg-light rounded imgframe">
+                    <div class="shadow-sm bg-light rounded img-frame">
                         <div class="btn-imgbox btn-img text-white rounded">
-                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
+                                id="predictImg">
                             <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="predict-img-btn">
+                            <div class="btn-img-content cursor-p" id="predictImgBtn">
                                 <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
                                     <span class="font-weight-light">Upload</span>
                                 </h5>
@@ -101,36 +111,38 @@
                             </div>
                         </div>
                     </div>
-                    <input id="input-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
-                    <p class="text-light m-1 py-2" id="edge-button">Original Image</p>
+                    <input id="inputPredictImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <p class="text-light m-1 py-2" id="edge-button">
+                        Original Image
+                    </p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded imgframe" id="edge_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="edge-img">
+                    <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="edge-img">
                     </div>
                     <p class="text-light m-1 py-2" id="edge-button">Edge</p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded imgframe" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="overlay-img">
+                    <div class="shadow-sm bg-light rounded img-frame" id="overlay_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlay-img">
                     </div>
                     <p class="text-light m-1 py-2" id="overlay-button">Overlay</p>
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <button id="upload-button" class="btn btn-light my-2 btn-5">
+                <button id="uploadButton" class="btn btn-light my-2 btn-5">
                     Predict GO
                 </button>
             </div>
         </div>
     </section>
     <!-- Services-->
-    <section class="page-section" id="image_label">
+    <section class="page-section" id="imageLabel">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="text-center text-primary mt-0">Image&Label</h2>
-                    <hr class="divider" />
+                    <h2 class="text-center text-dark mt-0">Image&Label</h2>
+                    <hr class="divider divider-dark" />
                     <p class="text-dark mb-4">
                         Uploading the original wound image and label. Can use
                         <a href="https://en.wikipedia.org/wiki/Jaccard_index"> IOU </a>
@@ -140,11 +152,12 @@
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow bg-light rounded imgframe">
+                    <div class="shadow bg-light rounded img-frame">
                         <div class="btn-imgbox btn-img text-white rounded">
-                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
+                                id="LimageImg">
                             <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="predict-img-btn">
+                            <div class="btn-img-content cursor-p" id="LimageImgBtn">
                                 <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
                                     <span class="font-weight-light">Upload</span>
                                 </h5>
@@ -155,15 +168,16 @@
                             </div>
                         </div>
                     </div>
-                    <input id="input-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <input id="inputLimageImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
                     <p class="text-dark m-1 py-2" id="edge-button">Original Image</p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow bg-light rounded imgframe">
+                    <div class="shadow bg-light rounded img-frame">
                         <div class="btn-imgbox btn-img text-white rounded">
-                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview_img" id="predict-img">
+                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
+                                id="labelImg">
                             <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="predict-img-btn">
+                            <div class="btn-img-content cursor-p" id="labelImgBtn">
                                 <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
                                     <span class="font-weight-light">Upload</span>
                                 </h5>
@@ -174,29 +188,31 @@
                             </div>
                         </div>
                     </div>
-                    <input id="input-predict-img" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <input id="inputLabelImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
                     <p class="text-dark m-1 py-2" id="edge-button">Label</p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow bg-light rounded imgframe" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview_img" id="overlay-img">
+                    <div class="shadow bg-light rounded img-frame" id="overlay_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlay-img">
                     </div>
                     <p class="text-dark m-1 py-2" id="overlay-button">IOU</p>
                 </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <button id="upload-button" class="btn btn-danger my-2 btn-5">
-                    Predict GO
-                </button>
-            </div>
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <button id="iouButton" class="btn btn-danger my-2 btn-5">
+                        IOU GO
+                    </button>
+                </div>
             </div>
         </div>
     </section>
     <!-- Call to action-->
     <section class="page-section bg-dark text-white" id="drawing">
-        <div class="container px-4 px-lg-5 text-center">
+        <div class="container px-4 px-lg-5 text-center bg-light">
             <h2 class="text-center mt-0">Drawing</h2>
             <hr class="divider divider-light" />
-            <a class="btn btn-light btn-xl" href="https://startbootstrap.com/theme/creative/">Download Now!</a>
+            <div class="row">
+                <iframe class="col-lg-12 text-center" src="" style="height: 25rem;"></iframe>
+            </div>
         </div>
     </section>
     <!-- Contact-->
@@ -212,8 +228,10 @@
                 <div class="col-lg-8 col-xl-6 text-center">
                     <h2 class="mt-0">Let's Get In Touch!</h2>
                     <hr class="divider" />
-                    <p class="text-muted mb-5">Ready to start your next project with us? Send us a messages and we will
-                        get back to you as soon as possible!</p>
+                    <p class="text-muted mb-5">
+                        Ready to start your next project with us? Send us a messages and we will
+                        get back to you as soon as possible!
+                    </p>
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
@@ -246,7 +264,8 @@
                             <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890"
                                 data-sb-validations="required" />
                             <label for="phone">Phone number</label>
-                            <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.
+                            <div class="invalid-feedback" data-sb-feedback="phone:required">
+                                A phone number is required.
                             </div>
                         </div>
                         <!-- Message input-->
@@ -255,7 +274,8 @@
                                 placeholder="Enter your message here..." style="height: 10rem"
                                 data-sb-validations="required"></textarea>
                             <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.
+                            <div class="invalid-feedback" data-sb-feedback="message:required">
+                                A message is required.
                             </div>
                         </div>
                         <!-- Submit success message-->
@@ -267,8 +287,9 @@
                                 <div class="fw-bolder">Form submission successful!</div>
                                 To activate this form, sign up at
                                 <br />
-                                <a
-                                    href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                <a href="https://startbootstrap.com/solution/contact-forms">
+                                    https://startbootstrap.com/solution/contact-forms
+                                </a>
                             </div>
                         </div>
                         <!-- Submit error message-->

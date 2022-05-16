@@ -12278,6 +12278,10 @@ hr.divider-light {
   background-color: #fff;
 }
 
+hr.divider-dark {
+  background-color: #000;
+}
+
 #mainNav {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   background-color: #fff;

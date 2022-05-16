@@ -1,30 +1,30 @@
 window.addEventListener('DOMContentLoaded', () => {
-    preview_img_height();
+    previewImgHeight();
 });
 
 // Window resize
 window.addEventListener('resize', () => {
-    preview_img_height();
+    previewImgHeight();
 });
 
-function preview_img_height() {
+function previewImgHeight() {
     // Preview image height size
-    let preview_img = document.querySelectorAll(".preview_img");
-    for (let i = 0; i < preview_img.length; i++) {
-        preview_img[i].style.height = preview_img[i].width + "px";
+    let previewImg = document.querySelectorAll(".preview-img");
+    for (let i = 0; i < previewImg.length; i++) {
+        previewImg[i].style.height = previewImg[i].width + "px";
     }
 }
 
 // Predict image upload button
-document.querySelector('#predict-img-btn').addEventListener('click', () => {
-    let inputtag = document.querySelector('#input-predict-img');
+document.querySelector('#predictImgBtn').addEventListener('click', () => {
+    let inputtag = document.querySelector('#inputPredictImg');
 
     inputtag.click();
     inputtag.addEventListener('change', (event) => {
         let selectedFile = event.target.files[0];
 
         let reader = new FileReader();
-        let imgtag = document.querySelector("#predict-img");
+        let imgtag = document.querySelector("#predictImg");
         imgtag.title = selectedFile.name;
         reader.onload = (event) => {
             imgtag.src = event.target.result;
@@ -33,9 +33,45 @@ document.querySelector('#predict-img-btn').addEventListener('click', () => {
     });
 });
 
-// Predict button
-document.querySelector('#upload-button').addEventListener('click', () => {
-    let tagInput = document.querySelector('#input-predict-img');
+// Label image upload button
+document.querySelector('#labelImgBtn').addEventListener('click', () => {
+    let inputtag = document.querySelector('#inputLabelImg');
+
+    inputtag.click();
+    inputtag.addEventListener('change', (event) => {
+        let selectedFile = event.target.files[0];
+
+        let reader = new FileReader();
+        let imgtag = document.querySelector("#labelImg");
+        imgtag.title = selectedFile.name;
+        reader.onload = (event) => {
+            imgtag.src = event.target.result;
+        };
+        reader.readAsDataURL(selectedFile);
+    });
+});
+
+// Label original image upload button
+document.querySelector('#LimageImgBtn').addEventListener('click', () => {
+    let inputtag = document.querySelector('#inputLimageImg');
+
+    inputtag.click();
+    inputtag.addEventListener('change', (event) => {
+        let selectedFile = event.target.files[0];
+
+        let reader = new FileReader();
+        let imgtag = document.querySelector("#LimageImg");
+        imgtag.title = selectedFile.name;
+        reader.onload = (event) => {
+            imgtag.src = event.target.result;
+        };
+        reader.readAsDataURL(selectedFile);
+    });
+});
+
+// Predict original image button
+document.querySelector('#uploadButton').addEventListener('click', () => {
+    let tagInput = document.querySelector('#inputPredictImg');
     let selectedFile = tagInput.files[0];
 
     if (tagInput.files.length == 0) {

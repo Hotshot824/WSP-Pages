@@ -9,7 +9,7 @@ nav .btn {
     width: 7rem;
 }
 
-.imgframe .preview_img {
+.img-frame .preview-img {
     width: 95%;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -21,7 +21,7 @@ nav .btn {
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-#image_lable p {
+#imageLabel p {
     font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
