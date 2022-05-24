@@ -100,7 +100,7 @@
                             <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
                                 id="predictImg">
                             <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="predictImgBtn">
+                            <div class="btn-img-content cursor-p" id="predictImgUploadBtn">
                                 <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
                                     <span class="font-weight-light">Upload</span>
                                 </h5>
@@ -118,19 +118,19 @@
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="edge-img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="edgeImg">
                     </div>
-                    <p class="text-light m-1 py-2" id="edge-button">Edge</p>
+                    <p class="text-light m-1 py-2">Edge</p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow-sm bg-light rounded img-frame" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlay-img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlayImg">
                     </div>
-                    <p class="text-light m-1 py-2" id="overlay-button">Overlay</p>
+                    <p class="text-light m-1 py-2">Overlay</p>
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <button id="uploadButton" class="btn btn-light my-2 btn-5">
+                <button id="predictBtn" class="btn btn-light my-2 btn-5">
                     Predict GO
                 </button>
             </div>
@@ -155,9 +155,9 @@
                     <div class="shadow bg-light rounded img-frame">
                         <div class="btn-imgbox btn-img text-white rounded">
                             <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
-                                id="LimageImg">
+                                id="iouImg">
                             <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="LimageImgBtn">
+                            <div class="btn-img-content cursor-p" id="iouImgUploadBtn">
                                 <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
                                     <span class="font-weight-light">Upload</span>
                                 </h5>
@@ -168,16 +168,16 @@
                             </div>
                         </div>
                     </div>
-                    <input id="inputLimageImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <input id="inputIouImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
                     <p class="text-dark m-1 py-2" id="edge-button">Original Image</p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow bg-light rounded img-frame">
                         <div class="btn-imgbox btn-img text-white rounded">
                             <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
-                                id="labelImg">
+                                id="iouLabel">
                             <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="labelImgBtn">
+                            <div class="btn-img-content cursor-p" id="iouLabelUploadBtn">
                                 <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
                                     <span class="font-weight-light">Upload</span>
                                 </h5>
@@ -188,12 +188,12 @@
                             </div>
                         </div>
                     </div>
-                    <input id="inputLabelImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
+                    <input id="inputIouLabel" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
                     <p class="text-dark m-1 py-2" id="edge-button">Label</p>
                 </div>
                 <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow bg-light rounded img-frame" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlay-img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="iouResultImg">
                     </div>
                     <p class="text-dark m-1 py-2" id="overlay-button">IOU</p>
                 </div>
@@ -207,10 +207,10 @@
     </section>
     <!-- Call to action-->
     <section class="page-section bg-dark text-white" id="drawing">
-        <div class="container px-4 px-lg-5 text-center bg-light">
+        <div class="container px-4 px-lg-5 text-center">
             <h2 class="text-center mt-0">Drawing</h2>
             <hr class="divider divider-light" />
-            <div class="row">
+            <div class="row bg-light">
                 <iframe class="col-lg-12 text-center" src="" style="height: 25rem;"></iframe>
             </div>
         </div>
