@@ -170,3 +170,11 @@ function checkFilesize(file) {
     }
     return true;
 }
+
+// area button
+document.querySelector('#aeraButton').addEventListener('click', () => {
+    let imgpreview = "./paint-main/upload/111context.png";
+    document.querySelector('#areaImg').src = imgpreview;
+
+    alert("AreaShow")
+});
