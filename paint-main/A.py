@@ -17,6 +17,9 @@ def pixelcount():
 
     
 def a(pixel): 
+   
+    f = open("123.txt",'w')
+
                
     imga = cv2.imread('upload/123.png', 0)
 
@@ -32,16 +35,16 @@ def a(pixel):
     pixel = float(pixel)
     
     num=pixelcount()*pixel
-    
+    print(pixelcount())
     num = round(num,2)
     
     
      
     strr="area="+str(num)+"cm^2"
     
-    cv2.putText(imga,strr, (1,50), cv2.FONT_HERSHEY_SIMPLEX, 
-    0.7,(255,255,255), 1, cv2.LINE_AA)
-
+    cv2.putText(imga,strr, (1000,1000), cv2.FONT_HERSHEY_SIMPLEX, 
+    10 ,(255,255,255), 50, cv2.LINE_AA)
+    print(num)
     #保存圖片
     cv2.imwrite("upload/111context.png",imga)
 
@@ -49,3 +52,5 @@ def a(pixel):
 
 if __name__ == "__main__":  
     a(pixel=sys.argv[1])
+
+    
