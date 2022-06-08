@@ -2,20 +2,81 @@
 //###                             以下為Benson新增                                  ###
 //####################################################################################
 
-//狀態機 0==Brush, 1==eraser, 2==Bucket
+// state, 0==Brush, 1==eraser, 2==Bucket 3==ruler
 var state = 0;
 var areaPixelsNum = 0;
 
-//油漆桶功能
+// 切換顯示
+var iconList = ['.paintBucket', '.paintBrush', '.eraser', '.ruler', '.area'];
+function iconChange(className) {
+    for (let i in iconList) {
+        if (className == iconList[i]) {
+            $(iconList[i]).removeClass('unchoose');
+        } else {
+            $(iconList[i]).addClass('unchoose');
+        }
+    }
+}
+
+// 油漆桶功能
 $('.paintBucket').click(function () {
     state = 2;
 
-    //切換按鈕外觀
+    // 切換按鈕外觀
     canvas.style = "cursor:cell;"
-    $('.paintBucket').removeClass('unchoose');
-    $('.paintBrush').addClass('unchoose');
-    $('.eraser').addClass('unchoose');
+    iconChange('.paintBucket');
 });
+
+//面積功能
+$('.area').click(function () {
+    state = 4;
+
+    //切換按鈕外觀
+    if (realScale != 0 && pixelScale != 0) {
+        canvas.style = "cursor:crosshair;"
+        alert('點擊傷口標籤獲得傷口面積')
+        iconChange('.area');
+    } else {
+        alert('No scale, Please give scale first!')
+    }
+});
+
+//比例尺功能
+var realScale = 0;
+var pixelScale = 0;
+$('.ruler').click(function () {
+    state = 3;
+
+    canvas.style = "cursor:crosshair;"
+    //切換按鈕外觀
+    iconChange('.ruler');
+
+    realScale = window.prompt("請輸入長度, 然後在圖片上點擊兩點");
+    document.querySelector('#scaleText').innerHTML = realScale + '/' + pixelScale.toFixed(2);
+});
+
+var count = 1;
+var x1, y1, x2, y2;
+var scalePC = { x1: x1, y1: y1, x2: x2, y2: y2 };
+function scaleGet(x, y) {
+    if (count == 1) {
+        scalePC.x1 = x;
+        scalePC.y1 = y;
+        count++;
+    }
+    else {
+        scalePC.x2 = x;
+        scalePC.y2 = y;
+        // console.log(scalePC.x1, scalePC.x2, scalePC.y1, scalePC.y2);
+        alert("輸入完畢, 此2點之間的距離為" + realScale);
+        count = 1;
+        let perpixel = Math.pow(Math.pow((scalePC.x2 - scalePC.x1), 2) + Math.pow((scalePC.y2 - scalePC.y1), 2), 0.5);
+        pixelScale = realScale / perpixel;
+        document.querySelector('#scaleText').innerHTML = realScale + '/' + pixelScale.toFixed(2);
+        document.querySelector('.paintBrush').click()
+    }
+
+}
 
 //測試笑臉
 function testDrawing() {
@@ -56,7 +117,6 @@ function boundartyFill(x, y, color) {
         y = new_pixel.y;
 
         // console.log( x + ", " + y );
-        console.log(new_pixel);
 
         linear_cords = (y * canvas.width + x) * 4;
         while (y-- >= 0 &&
@@ -76,12 +136,10 @@ function boundartyFill(x, y, color) {
                 pixels.data[linear_cords + 1] == color.g &&
                 pixels.data[linear_cords + 2] == color.b &&
                 pixels.data[linear_cords + 3] == color.a)) {
-
             pixels.data[linear_cords] = color.r;
             pixels.data[linear_cords + 1] = color.g;
             pixels.data[linear_cords + 2] = color.b;
             pixels.data[linear_cords + 3] = color.a;
-            areaPixelsNum++;
 
             if (x > 0) {
                 if (!(pixels.data[linear_cords - 4] == color.r &&
@@ -114,11 +172,10 @@ function boundartyFill(x, y, color) {
             linear_cords += canvas.width * 4;
         }
     }
-    alert(areaPixelsNum);
     ctx.putImageData(pixels, 0, 0);
 }
 
-function flood_fill(x, y, color) {
+function floodFill(x, y, color, area) {
     pixel_stack = [{ x: x, y: y }];
     pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
     var linear_cords = (y * canvas.width + x) * 4;
@@ -134,7 +191,7 @@ function flood_fill(x, y, color) {
         x = new_pixel.x;
         y = new_pixel.y;
 
-        // console.log( x + ", " + y );
+        console.log(x + ", " + y);
 
         linear_cords = (y * canvas.width + x) * 4;
         while (y-- >= 0 &&
@@ -154,10 +211,8 @@ function flood_fill(x, y, color) {
                 pixels.data[linear_cords + 1] == original_color.g &&
                 pixels.data[linear_cords + 2] == original_color.b &&
                 pixels.data[linear_cords + 3] == original_color.a)) {
-            pixels.data[linear_cords] = color.r;
-            pixels.data[linear_cords + 1] = color.g;
-            pixels.data[linear_cords + 2] = color.b;
-            pixels.data[linear_cords + 3] = color.a;
+            pixels.data[linear_cords + 3] = color;
+            areaPixelsNum++;
 
             if (x > 0) {
                 if (pixels.data[linear_cords - 4] == original_color.r &&
@@ -190,6 +245,10 @@ function flood_fill(x, y, color) {
             linear_cords += canvas.width * 4;
         }
     }
+    if (area == true) {
+        alert((areaPixelsNum * pixelScale).toFixed(2) + "c㎡");
+    }
+    areaPixelsNum = 0;
     ctx.putImageData(pixels, 0, 0);
 }
 
@@ -267,6 +326,12 @@ canvas.addEventListener('mousedown', function (obj) {
     } else if (state == 2) {
         boundartyFill(lastX, lastY, color = hexToRgba(ctx.strokeStyle, 255));
         document.querySelector('.paintBrush').click()
+    } else if (state == 3) {
+        scaleGet(lastX, lastY);
+    } else if (state == 4) {
+        floodFill(lastX, lastY, color = 250, area = true);
+        floodFill(lastX, lastY, color = 255, area = false);
+        document.querySelector('.paintBrush').click()
     }
 });
 
@@ -312,6 +377,10 @@ canvas.addEventListener('touchstart', function (obj) {
     } else if (state == 2) {
         boundartyFill(lastX, lastY, color = hexToRgba(ctx.strokeStyle, 255));
         document.querySelector('.paintBrush').click()
+    } else if (state == 3) {
+        document.querySelector('.paintBrush').click()
+    } else if (state == 4) {
+        floodFill(lastX, lastY, color = hexToRgba(ctx.strokeStyle, 255));
     }
 });
 
@@ -487,9 +556,7 @@ for (var i = 0; i < colorItem.length; i++) {
 
     colorItem[i].addEventListener('click', function (obj) {
         //切換按鈕外觀
-        $('.paintBrush').removeClass('unchoose');
-        $('.paintBucket').addClass('unchoose');
-        $('.eraser').addClass('unchoose');
+        iconChange('.paintBrush');
 
         colorItem.forEach(function (item) {
             const check = item;
@@ -508,10 +575,8 @@ for (var i = 0; i < colorItem.length; i++) {
 $('.eraser').click(function () {
     state = 1;
     //切換按鈕外觀
+    iconChange('.eraser');
     canvas.style = "cursor:default;"
-    $('.eraser').removeClass('unchoose');
-    $('.paintBucket').addClass('unchoose');
-    $('.paintBrush').addClass('unchoose');
     //設定畫筆顏色為背景色
     ctx.strokeStyle = '#E8E8E8';
 
@@ -528,9 +593,7 @@ $('.paintBrush').click(function () {
     state = 0;
     //切換按鈕外觀
     canvas.style = "cursor:default;"
-    $('.paintBrush').removeClass('unchoose');
-    $('.paintBucket').addClass('unchoose');
-    $('.eraser').addClass('unchoose');
+    iconChange('.paintBrush');
     //假使colorItem已有被選取,則彈回(無作用)
     for (var i = 0; i < colorItem.length; i++) {
         if (colorItem[i].textContent === 'X') { return }
@@ -583,7 +646,9 @@ function layout(obj) {
     //橡皮擦disable
     $('.eraser').addClass('unchoose');
     $('.paintBucket').addClass('unchoose');
-    $('.paintBrush').removeClass('unchoose');
+    $('.eraser').addClass('unchoose');
+    $('.ruler').addClass('unchoose');
+    $('.area').addClass('unchoose');
     //選色框初始化
     for (var i = 0; i < colorItem.length; i++) {
         if (i === 0) {

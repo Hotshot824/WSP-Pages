@@ -41,7 +41,7 @@ document.querySelector('#predictBtn').addEventListener('click', () => {
     if (tagInput.files.length == 0) {
         alert("No files selected!")
     } else if (checkFiletype(selectedFile)) {
-        alert("Upload file must be .jpg .jpge .png type!")
+        alert("Upload file must be .jpg .jpeg .png type!")
     } else if (checkFilesize(selectedFile)) {
         alert("Upload file must less 5MB!")
     } else {
@@ -121,7 +121,7 @@ document.querySelector('#iouButton').addEventListener('click', () => {
     if (iouImg.files.length == 0 || iouLabel.files.length == 0){
         alert("IOU need two files, Original image and Leabel!")
     } else if (checkFiletype(iouImgFile) || checkFiletype(iouLabelFile)) {
-        alert("Upload file must be .jpg .jpge .png type!")
+        alert("Upload file must be .jpg .jpeg .png type!")
     } else if (checkFilesize(iouImgFile) || checkFilesize(iouImgFile)) {
         alert("Upload file must less 5MB!")
     } else {
@@ -158,7 +158,7 @@ document.querySelector('#iouButton').addEventListener('click', () => {
 
 // Check image type
 function checkFiletype(file) {
-    if (file.type.match('image/jpg|image/jpge|image/png')) {
+    if (file.type.match('image/jpg|image/jpeg|image/png')) {
         return false;
     }
     return true;

@@ -30,7 +30,7 @@
     margin: 0 auto;
   }
   footer #itemBox > div:first-child {
-    width: 235px;
+    width: 30rem;
   }
   footer #itemBox > div:last-child {
     margin-top: 15px;
@@ -81,7 +81,7 @@
     padding: 15px 0;
   }
   footer #itemBox > div:first-child {
-    width: 275px;
+    width: 30rem;
   }
   footer #itemBox > div:last-child {
     width: 220px;
