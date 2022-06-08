@@ -1,3 +1,6 @@
+const iframe = document.querySelector('#woundPaint');
+const iframeDocument = iframe.contentWindow.document;
+
 window.addEventListener('DOMContentLoaded', () => {
     previewImgHeight();
 });
@@ -173,8 +176,39 @@ function checkFilesize(file) {
 
 // area button
 document.querySelector('#aeraButton').addEventListener('click', () => {
-    let imgpreview = "./paint-main/upload/111context.png";
-    document.querySelector('#areaImg').src = imgpreview;
+    // let imgpreview = "./paint-main/upload/111context.png";
+    // document.querySelector('#areaImg').src = imgpreview;
 
-    alert("AreaShow")
+    let inputtag = iframeDocument.document.querySelector('#filetag')
+    // inputtag.click();
+    // inputtag.addEventListener('click', (event) => {
+    //     let selectedFile = event.target.files[0];
+
+    //     let reader = new FileReader();
+    //     let imgtag = document.querySelector("#areaOriginalImg");
+    //     imgtag.title = selectedFile.name;
+    //     reader.onload = (event) => {
+    //         imgtag.src = event.target.result;
+    //     };
+    //     reader.readAsDataURL(selectedFile);
+    // });
+    // alert("AreaShow")
 });
+
+
+// document.querySelector('#iouImgUploadBtn').addEventListener('click', () => {
+//     let inputtag = document.querySelector('#inputIouImg');
+
+//     inputtag.click();
+//     inputtag.addEventListener('change', (event) => {
+//         let selectedFile = event.target.files[0];
+
+//         let reader = new FileReader();
+//         let imgtag = document.querySelector("#iouImg");
+//         imgtag.title = selectedFile.name;
+//         reader.onload = (event) => {
+//             imgtag.src = event.target.result;
+//         };
+//         reader.readAsDataURL(selectedFile);
+//     });
+// });

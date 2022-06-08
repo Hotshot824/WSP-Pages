@@ -211,16 +211,16 @@
             <h2 class="text-center mt-0">Drawing</h2>
             <hr class="divider divider-light" />
             <div class="row bg-light">
-                <iframe class="col-lg-12 text-center" src="./paint-main/index.html" style="height: calc(90vh);"></iframe>
+                <iframe id="woundPaint" class="col-lg-12 text-center" src="./paint-main/index.html" style="height: calc(90vh);"></iframe>
             </div>
         </div>
-        <div class="px-3 px-lg-4 text-center">
+        <!-- <div class="px-3 px-lg-4 text-center">
             <h2 class="text-center mt-0">Drawing</h2>
             <hr class="divider divider-light" />
             <div class="row bg-light">
                 <iframe class="col-lg-12 text-center" src="./paint/Canvas.html" style="height: calc(90vh);"></iframe>
             </div>
-        </div>
+        </div> -->
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
@@ -233,6 +233,12 @@
                 </div>
             </div>
             <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-lg-3 col-sm-3 text-center">
+                    <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
+                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="areaOriginalImg">
+                    </div>
+                    <p class="text-light m-1 py-2">Original</p>
+                </div>
                 <div class="col-lg-3 col-sm-3 text-center">
                     <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
                         <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="areaImg">
