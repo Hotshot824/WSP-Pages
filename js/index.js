@@ -180,40 +180,35 @@ document.querySelector('#aeraButton').addEventListener('click', () => {
 
     let selectedFile = inputtag.files[0];
     if (selectedFile && pixel) {
-        let reader = new FileReader();
-        let imgtag = document.querySelector("#areaOriginalImg");
-        imgtag.title = selectedFile.name;
-        reader.onload = (event) => {
-            imgtag.src = event.target.result;
-        };
 
-        // (async () => {
-        //     let data = {
-        //         "img": img,
-        //         "pixel": pixel
-        //     }
+        (async () => {
+            let data = {
+                "img": img,
+                "pixel": pixel
+            }
 
-        //     let imgpreview = "./assets/img/preview/pre_img.gif"
-        //     document.querySelector('#areaImg').src = imgpreview;
+            let imgpreview = "./assets/img/preview/pre_img.gif"
+            document.querySelector('#areaImg').src = imgpreview;
 
-        //     await fetch('php/predictAreaUpload.php', {
-        //         method: "POST",
-        //         body: JSON.stringify(data)
-        //     })
-        //         .then((response) => {
-        //             return response.text();
-        //         })
-        //         .then((response) => {
-        //             alert(response)
-        //             let imgpreview = "./wound/upload/"
-        //             document.querySelector('#areaImg').src = imgpreview + "paintArea.png";
-        //             console.log(response);
-        //         })
-        //         .catch((error) => {
-        //             console.log(`Error: ${error}`);
-        //         })
+            await fetch('php/predictAreaUpload.php', {
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+                .then((response) => {
+                    return response.text();
+                })
+                .then((response) => {
+                    alert(response)
+                    let imgpreview = "./wound/upload/"
+                    document.querySelector('#areaImg').src = imgpreview + "paintArea.png";
+                    document.querySelector('#areaOriginalImg').src = imgpreview + "test/images/111.png";
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(`Error: ${error}`);
+                })
 
-        // })();
+        })();
     } else {
         alert("Please, input image in paint!")
     }

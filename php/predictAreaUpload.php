@@ -21,7 +21,7 @@ $command = escapeshellcmd('../wound/predict.py');
 $output = shell_exec($command);
 echo $output;
 
-$command = escapeshellcmd("../wound/areaPaint.py.py ". $pixel);
+$command = escapeshellcmd("../wound/areaPaint.py ". $pixel);
 $output = shell_exec($command);
  
 ?>
