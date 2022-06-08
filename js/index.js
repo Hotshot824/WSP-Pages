@@ -1,6 +1,3 @@
-const iframe = document.querySelector('#woundPaint');
-const iframeDocument = iframe.contentWindow.document;
-
 window.addEventListener('DOMContentLoaded', () => {
     previewImgHeight();
 });
@@ -121,7 +118,7 @@ document.querySelector('#iouButton').addEventListener('click', () => {
     let iouLabel = document.querySelector('#inputIouLabel');
     let iouLabelFile = iouLabel.files[0];
 
-    if (iouImg.files.length == 0 || iouLabel.files.length == 0){
+    if (iouImg.files.length == 0 || iouLabel.files.length == 0) {
         alert("IOU need two files, Original image and Leabel!")
     } else if (checkFiletype(iouImgFile) || checkFiletype(iouLabelFile)) {
         alert("Upload file must be .jpg .jpeg .png type!")
@@ -176,22 +173,50 @@ function checkFilesize(file) {
 
 // area button
 document.querySelector('#aeraButton').addEventListener('click', () => {
-    // let imgpreview = "./paint-main/upload/111context.png";
-    // document.querySelector('#areaImg').src = imgpreview;
 
-    let inputtag = iframeDocument.document.querySelector('#filetag')
-    // inputtag.click();
-    // inputtag.addEventListener('click', (event) => {
-    //     let selectedFile = event.target.files[0];
+    let inputtag = document.querySelector("#woundPaint").contentWindow.document.querySelector('#filetag');
+    let img = document.querySelector("#woundPaint").contentWindow.document.querySelector('canvas').toDataURL();
+    let pixel = document.querySelector("#woundPaint").contentWindow.document.querySelector('#scale').value;
 
-    //     let reader = new FileReader();
-    //     let imgtag = document.querySelector("#areaOriginalImg");
-    //     imgtag.title = selectedFile.name;
-    //     reader.onload = (event) => {
-    //         imgtag.src = event.target.result;
-    //     };
-    //     reader.readAsDataURL(selectedFile);
-    // });
+    let selectedFile = inputtag.files[0];
+    if (selectedFile && pixel) {
+        let reader = new FileReader();
+        let imgtag = document.querySelector("#areaOriginalImg");
+        imgtag.title = selectedFile.name;
+        reader.onload = (event) => {
+            imgtag.src = event.target.result;
+        };
+
+        // (async () => {
+        //     let data = {
+        //         "img": img,
+        //         "pixel": pixel
+        //     }
+
+        //     let imgpreview = "./assets/img/preview/pre_img.gif"
+        //     document.querySelector('#areaImg').src = imgpreview;
+
+        //     await fetch('php/predictAreaUpload.php', {
+        //         method: "POST",
+        //         body: JSON.stringify(data)
+        //     })
+        //         .then((response) => {
+        //             return response.text();
+        //         })
+        //         .then((response) => {
+        //             alert(response)
+        //             let imgpreview = "./wound/upload/"
+        //             document.querySelector('#areaImg').src = imgpreview + "paintArea.png";
+        //             console.log(response);
+        //         })
+        //         .catch((error) => {
+        //             console.log(`Error: ${error}`);
+        //         })
+
+        // })();
+    } else {
+        alert("Please, input image in paint!")
+    }
     // alert("AreaShow")
 });
 

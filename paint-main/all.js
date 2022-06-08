@@ -140,6 +140,8 @@ class Paint {
 	
 		var pixel = this.perpixel;
 		var img = this.canvas.toDataURL();
+        console.log(this.canvas);
+        console.log(img);
 		var data ={
 			"img" : img
 		}
@@ -268,7 +270,8 @@ class Paint {
 			this.count = 1;
 			this.perpixel = Math.pow( Math.pow((this.x2-this.x1) ,2) + Math.pow((this.y2-this.y1) ,2) , 0.5 );
 			this.perpixel = this.length / this.perpixel;
-			console.log(this.perpixel);
+			// console.log(this.perpixel);
+            document.querySelector('#scale').value = this.perpixel
 		}		
 		
 	}

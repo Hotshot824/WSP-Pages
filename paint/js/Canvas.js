@@ -67,13 +67,13 @@ function scaleGet(x, y) {
     else {
         scalePC.x2 = x;
         scalePC.y2 = y;
-        // console.log(scalePC.x1, scalePC.x2, scalePC.y1, scalePC.y2);
         alert("輸入完畢, 此2點之間的距離為" + realScale);
         count = 1;
         let perpixel = Math.pow(Math.pow((scalePC.x2 - scalePC.x1), 2) + Math.pow((scalePC.y2 - scalePC.y1), 2), 0.5);
         pixelScale = realScale / perpixel;
         document.querySelector('#scaleText').innerHTML = realScale + '/' + pixelScale.toFixed(2);
         document.querySelector('.paintBrush').click()
+        // console.log(scalePC.x1, scalePC.y1, scalePC.x2, scalePC.y2, perpixel, pixelScale);
     }
 
 }
@@ -191,7 +191,7 @@ function floodFill(x, y, color, area) {
         x = new_pixel.x;
         y = new_pixel.y;
 
-        console.log(x + ", " + y);
+        // console.log(x + ", " + y);
 
         linear_cords = (y * canvas.width + x) * 4;
         while (y-- >= 0 &&
@@ -246,7 +246,7 @@ function floodFill(x, y, color, area) {
         }
     }
     if (area == true) {
-        alert((areaPixelsNum * pixelScale).toFixed(2) + "c㎡");
+        alert((areaPixelsNum * (pixelScale * pixelScale)).toFixed(2) + "c㎡");
     }
     areaPixelsNum = 0;
     ctx.putImageData(pixels, 0, 0);
