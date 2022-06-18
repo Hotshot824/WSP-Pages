@@ -12,12 +12,11 @@ $data = base64_decode($img);
 $file = $uploadpath  . '111.png';
 $success = file_put_contents($file, $data);
  
-// $command = escapeshellcmd('../wound/predict.py');
-// $output = shell_exec($command);
+$command = escapeshellcmd('../wound/predict.py');
+$output = shell_exec($command);
 
-// $command = escapeshellcmd('../wound/edge.py');
-// $output = shell_exec($command); 
-
+$command = escapeshellcmd('../wound/edge.py');
+$output = shell_exec($command); 
 
 $x = $decoded['x'];
 $y = $decoded['y'];
