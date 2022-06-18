@@ -29,6 +29,7 @@ input_dim_x = 224
 input_dim_y = 224
 color_space = 'rgb'
 path = './upload/'
+
 #weight_file_name = 'test.h5'
 
 
