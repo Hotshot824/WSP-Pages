@@ -214,21 +214,3 @@ document.querySelector('#aeraButton').addEventListener('click', () => {
     }
     // alert("AreaShow")
 });
-
-
-// document.querySelector('#iouImgUploadBtn').addEventListener('click', () => {
-//     let inputtag = document.querySelector('#inputIouImg');
-
-//     inputtag.click();
-//     inputtag.addEventListener('change', (event) => {
-//         let selectedFile = event.target.files[0];
-
-//         let reader = new FileReader();
-//         let imgtag = document.querySelector("#iouImg");
-//         imgtag.title = selectedFile.name;
-//         reader.onload = (event) => {
-//             imgtag.src = event.target.result;
-//         };
-//         reader.readAsDataURL(selectedFile);
-//     });
-// });
