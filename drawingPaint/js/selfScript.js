@@ -62,7 +62,7 @@ window.addEventListener('load', function () {
     document.querySelector('#brushBtn').click()
     // painting.init()
     // painting.loaded()
-    painting.saveHistory();
+    painting.saveHistory("brushbtn");
 });
 
 window.addEventListener('resize', function () {
@@ -168,7 +168,7 @@ painting.canvas.addEventListener('touchmove', (e) => {
 
 painting.canvas.addEventListener('touchend', () => {
     painting.isDrawing = false;
-    painting.saveHistory();
+    painting.saveHistory("touchend");
 });
 
 // Save Image
@@ -228,8 +228,8 @@ document.querySelector('#cutBtn').addEventListener('click', () => {
 });
 
 // Undo, Redo, Clear Tool 
-document.querySelector('#undo').addEventListener('click', () => painting.undo());
-document.querySelector('#redo').addEventListener('click', () => painting.redo());
+document.querySelector('#undo').addEventListener('click', () => painting.undo(state));
+document.querySelector('#redo').addEventListener('click', () => painting.redo(state));
 document.querySelector('#clearAll').addEventListener('click', () => painting.clearAll());
 
 document.querySelector('#predictAreaBtn').addEventListener('click', () => painting.areaUpload());

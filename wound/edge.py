@@ -15,7 +15,13 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
  
 img1=cv2.imread('./upload/test/images/111.png')
 img2=cv2.imread('./upload/111.png')
-
+img3=img2
+for i in range(224):
+    for j in range(224):
+      if img2[i][j].all()>0:
+        img3[i][j] =255
+cv2.imwrite('./upload/111.png',img3)
+img2=cv2.imread('./upload/111.png')
 
 dst=cv2.addWeighted(img1,0.9,img2,0.7,0)
 cv2.imwrite('./upload/superposition.png', dst)

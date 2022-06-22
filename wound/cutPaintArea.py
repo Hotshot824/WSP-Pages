@@ -8,7 +8,7 @@ import math
 
 #os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def pixelcount():
-    imga = cv2.imread('./upload/test/images/111.png',0)
+    imga = cv2.imread('./upload/111.png',0)
     imgb=imga
     acount=0
     for i in range(len(imga)):

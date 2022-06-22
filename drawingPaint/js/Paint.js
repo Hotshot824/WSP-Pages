@@ -127,7 +127,7 @@ class Paint {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
-    redo() {
+    redo(str) {
         // console.log("redo");
         if (this.step < this.historyArr.length - 1) {
             this.step++;
@@ -139,12 +139,15 @@ class Paint {
                 this.canvas.setAttribute('width', canvasImg.width);
                 this.canvas.setAttribute('height', canvasImg.height);
                 this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
-
+				if(str == "select")
+				{
+					this.img = canvasImg;
+				}
             })
         }
     }
 
-    undo() {
+    undo(str) {
         // console.log("undo");
         if (this.step > 0) {
             this.step--;
@@ -157,7 +160,10 @@ class Paint {
                 this.canvas.setAttribute('width', canvasImg.width);
                 this.canvas.setAttribute('height', canvasImg.height);
                 this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
-
+				if(str == "select")
+				{
+					this.img = canvasImg;
+				}
             })
         }
     }
@@ -325,9 +331,8 @@ class Paint {
         }
         this.ctx.putImageData(pixels, 0, 0);
     }
-
-    saveHistory() {
-        //紀錄
+    saveHistory(str) {
+		console.log(str);
         this.step++;
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         let img = new Image();

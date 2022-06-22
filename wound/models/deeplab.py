@@ -3,14 +3,8 @@
 """ Deeplabv3+ model for Keras.
 This model is based on this repo:
 https://github.com/bonlime/keras-deeplab-v3-plus
-
-Now this model is only available for the TensorFlow backend,
-due to its reliance on `SeparableConvolution` layers, but Theano will add
-this layer soon.
-
 MobileNetv2 backbone is based on this repo:
 https://github.com/JonathanCMitchell/mobilenet_v2_keras
-
 # Reference
 - [Encoder-Decoder with Atrous Separable Convolution
     for Semantic Image Segmentation](https://arxiv.org/pdf/1802.02611.pdf)
@@ -25,6 +19,7 @@ from __future__ import division
 from __future__ import print_function
 
 import numpy as np
+import tensorflow as tf
 
 from keras.models import Model
 from keras import layers
@@ -38,9 +33,9 @@ from keras.layers import Conv2D
 from keras.layers import DepthwiseConv2D
 from keras.layers import ZeroPadding2D
 from keras.layers import AveragePooling2D
-from keras.engine import Layer
-from keras.engine import InputSpec
-from keras.engine.topology import get_source_inputs
+from keras.layers import Layer
+from tensorflow.keras.layers import InputSpec
+from tensorflow.keras.utils import get_source_inputs
 from keras import backend as K
 from keras.applications import imagenet_utils
 from keras.utils import conv_utils
@@ -89,11 +84,11 @@ class BilinearUpsampling(Layer):
 
     def call(self, inputs):
         if self.upsampling:
-            return K.tf.image.resize_bilinear(inputs, (inputs.shape[1] * self.upsampling[0],
+            return tf.compat.v1.image.resize_bilinear(inputs, (inputs.shape[1] * self.upsampling[0],
                                                        inputs.shape[2] * self.upsampling[1]),
                                               align_corners=True)
         else:
-            return K.tf.image.resize_bilinear(inputs, (self.output_size[0],
+            return tf.compat.v1.image.resize_bilinear(inputs, (self.output_size[0],
                                                        self.output_size[1]),
                                               align_corners=True)
 
@@ -231,7 +226,7 @@ def _make_divisible(v, divisor, min_value=None):
 
 
 def _inverted_res_block(inputs, expansion, stride, alpha, filters, block_id, skip_connection, rate=1):
-    in_channels = inputs._keras_shape[-1]
+    in_channels = inputs.shape[-1]
     pointwise_conv_filters = int(filters * alpha)
     pointwise_filters = _make_divisible(pointwise_conv_filters, 8)
     x = inputs
@@ -275,7 +270,6 @@ def _inverted_res_block(inputs, expansion, stride, alpha, filters, block_id, ski
 def Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3), classes=21, backbone='mobilenetv2'
               , OS=16, alpha=1.):
     """ Instantiates the Deeplabv3+ architecture
-
     Optionally loads weights pre-trained
     on PASCAL VOC. This model is available for TensorFlow only,
     and can only be used with inputs following the TensorFlow
@@ -301,15 +295,12 @@ def Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3)
                 - If `alpha` = 1, default number of filters from the paper
                     are used at each layer.
             Used only for mobilenetv2 backbone
-
     # Returns
         A Keras model instance.
-
     # Raises
         RuntimeError: If attempting to run this model with a
             backend that does not support separable convolutions.
         ValueError: in case of invalid argument for `weights` or `backbone`
-
     """
 
     if not (weights in {'pascal_voc', 'cityscapes', None}):
