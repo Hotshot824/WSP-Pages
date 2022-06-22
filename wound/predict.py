@@ -36,7 +36,7 @@ path = './upload/'
 check()
 
 w=['0028_SegNet.hdf5','0060_FCN_Vgg16_16.hdf5','0478_unet_model_yuanqing.hdf5','3608_MobilenetV2.hdf5']
-weight_file_name='test_model.hdf5'
+weight_file_name='test_model.h5'
 
 data_gen = DataGen(path, split_ratio=0.0, x=input_dim_x, y=input_dim_y, color_space=color_space)
 x_test, test_label_filenames_list = load_test_images(path)
