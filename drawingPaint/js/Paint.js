@@ -36,6 +36,8 @@ class Paint {
         this.cut_beginy;
         this.cut_deltax;
         this.cut_deltay;
+
+        this.frontUploadFlag = 0;
     }
 
     // init() {
@@ -139,10 +141,9 @@ class Paint {
                 this.canvas.setAttribute('width', canvasImg.width);
                 this.canvas.setAttribute('height', canvasImg.height);
                 this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
-				if(str == "select")
-				{
-					this.img = canvasImg;
-				}
+                if (str == "select") {
+                    this.img = canvasImg;
+                }
             })
         }
     }
@@ -160,10 +161,9 @@ class Paint {
                 this.canvas.setAttribute('width', canvasImg.width);
                 this.canvas.setAttribute('height', canvasImg.height);
                 this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
-				if(str == "select")
-				{
-					this.img = canvasImg;
-				}
+                if (str == "select") {
+                    this.img = canvasImg;
+                }
             })
         }
     }
@@ -185,7 +185,6 @@ class Paint {
             alert("輸入完畢，此2點之間的距離為" + this.length);
             this.ruler_deltax = Math.abs(this.x2 - this.x1);
             this.ruler_deltay = Math.abs(this.y2 - this.y1);
-
             this.scaleCount--;
             return true;
         }
@@ -256,7 +255,7 @@ class Paint {
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         this.historyArr.push(this.img.src);
     }
-
+    
     bucketFloodFill(x, y, color) {
         let pixel_stack = [{ x: x, y: y }];
         let pixels = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -277,32 +276,32 @@ class Paint {
 
             linear_cords = (y * this.canvas.width + x) * 4;
             while (y-- >= 0 &&
-                (pixels.data[linear_cords] == original_color.r &&
-                    pixels.data[linear_cords + 1] == original_color.g &&
-                    pixels.data[linear_cords + 2] == original_color.b &&
-                    pixels.data[linear_cords + 3] == original_color.a)) {
-                linear_cords -= this.canvas.width * 4;
+                !(pixels.data[linear_cords] == color.r &&
+                    pixels.data[linear_cords + 1] == color.g &&
+                    pixels.data[linear_cords + 2] == color.b &&
+                    pixels.data[linear_cords + 3] == color.a)) {
+                linear_cords -= canvas.width * 4;
             }
             linear_cords += this.canvas.width * 4;
             y++;
 
             let reached_left = false;
             let reached_right = false;
-            while (y++ < this.canvas.height &&
-                (pixels.data[linear_cords] == original_color.r &&
-                    pixels.data[linear_cords + 1] == original_color.g &&
-                    pixels.data[linear_cords + 2] == original_color.b &&
-                    pixels.data[linear_cords + 3] == original_color.a)) {
+            while (y++ < canvas.height &&
+                !(pixels.data[linear_cords] == color.r &&
+                    pixels.data[linear_cords + 1] == color.g &&
+                    pixels.data[linear_cords + 2] == color.b &&
+                    pixels.data[linear_cords + 3] == color.a)) {
                 pixels.data[linear_cords] = color.r;
                 pixels.data[linear_cords + 1] = color.g;
                 pixels.data[linear_cords + 2] = color.b;
                 pixels.data[linear_cords + 3] = color.a;
 
                 if (x > 0) {
-                    if (pixels.data[linear_cords - 4] == original_color.r &&
-                        pixels.data[linear_cords - 4 + 1] == original_color.g &&
-                        pixels.data[linear_cords - 4 + 2] == original_color.b &&
-                        pixels.data[linear_cords - 4 + 3] == original_color.a) {
+                    if (!(pixels.data[linear_cords - 4] == color.r &&
+                        pixels.data[linear_cords - 4 + 1] == color.g &&
+                        pixels.data[linear_cords - 4 + 2] == color.b &&
+                        pixels.data[linear_cords - 4 + 3] == color.a)) {
                         if (!reached_left) {
                             pixel_stack.push({ x: x - 1, y: y });
                             reached_left = true;
@@ -313,10 +312,10 @@ class Paint {
                 }
 
                 if (x < canvas.width - 1) {
-                    if (pixels.data[linear_cords + 4] == original_color.r &&
-                        pixels.data[linear_cords + 4 + 1] == original_color.g &&
-                        pixels.data[linear_cords + 4 + 2] == original_color.b &&
-                        pixels.data[linear_cords + 4 + 3] == original_color.a) {
+                    if (!(pixels.data[linear_cords + 4] == color.r &&
+                        pixels.data[linear_cords + 4 + 1] == color.g &&
+                        pixels.data[linear_cords + 4 + 2] == color.b &&
+                        pixels.data[linear_cords + 4 + 3] == color.a)) {
                         if (!reached_right) {
                             pixel_stack.push({ x: x + 1, y: y });
                             reached_right = true;
@@ -331,8 +330,9 @@ class Paint {
         }
         this.ctx.putImageData(pixels, 0, 0);
     }
+
     saveHistory(str) {
-		console.log(str);
+        // console.log(str);
         this.step++;
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         let img = new Image();
@@ -348,22 +348,17 @@ class Paint {
 
     displayImg() {
         // console.log("displayimg");
-        var newImage = new Image();
+        let newImage = new Image();
         let openImageInput = document.querySelector('#openImageInput');
-        var del = 0;
-        // toimage
+        // to image
         if (openImageInput.files && openImageInput.files[0]) {
 
             var reader = new FileReader();
-
-            reader.onload = function (e) {
-
-                newImage.setAttribute("src", e.target.result);
-                openImageInput.setAttribute("type", "text");
-            };
-            // alert("1");
             reader.readAsDataURL(openImageInput.files[0]);
-
+            reader.onload = function (e) {
+                newImage.setAttribute("src", e.target.result);
+                // openImageInput.setAttribute("type", "text");
+            };
         }
 
         // draw image on canvas
@@ -380,11 +375,13 @@ class Paint {
             this.setCanvas(height2);
             this.ctx.drawImage(newImage, 0, 0, width2, height2);
 
-            openImageInput.setAttribute("type", "file");
+            // openImageInput.setAttribute("type", "file");
             this.saveHistory();
         });
 
-    } async areaUpload() {
+    }
+
+    async areaUpload() {
 
         var img = this.canvas.toDataURL();
         var data = {
@@ -416,9 +413,9 @@ class Paint {
             .then((response) => {
                 alert(response)
                 let imgpreview = "../wound/upload/"
-                document.querySelector('#edgeImg').src = imgpreview + "edge.png";
-                document.querySelector('#overlayImg').src = imgpreview + "superposition.png";
-                document.querySelector('#areaImg').src = imgpreview + "111context.png";
+                document.querySelector('#edgeImg').src = imgpreview + "edge.png?" + Math.random().toString(2);
+                document.querySelector('#overlayImg').src = imgpreview + "superposition.png?" + Math.random().toString(2);
+                document.querySelector('#areaImg').src = imgpreview + "111context.png?" + Math.random().toString(2);
                 console.log(response);
             })
             .catch((error) => {
@@ -434,6 +431,41 @@ class Paint {
         alert("done");
     }
 
+    async frontendAreaUpload() {
+        this.frontUploadFlag = 0;
+
+        let img = this.canvas.toDataURL();
+        let original_img;
+        
+        let openImageInput = document.querySelector('#openImageInput');
+        // to image
+        if (openImageInput.files && openImageInput.files[0]) {
+
+            var reader = new FileReader();
+            reader.readAsDataURL(openImageInput.files[0]);
+            reader.onload = function (e) {
+                original_img = reader.result
+                let data = {
+                    "img": img,
+                    "original_img": original_img
+                }
+
+                fetch("../php/frontendArea.php", {
+                    method: "POST",
+                    body: JSON.stringify(data)
+                })
+                    .then((response) => {
+                        return response.text();
+                    })
+                    .then((response) => {
+                        // console.log(response);
+                    })
+                    .catch((error) => {
+                        console.log(`Error: ${error}`);
+                    })
+            };
+        }
+    }
 }
 
 export { Paint };
