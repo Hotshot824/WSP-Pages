@@ -68,7 +68,7 @@
 .toast-container {
     position: fixed;
     -webkit-transform: translate(5%, 4rem);
-    transform: translate(77.5vw, 5rem);
+    transform: translate(80vw, 5rem);
 }
 
 .toast-body-sm {
