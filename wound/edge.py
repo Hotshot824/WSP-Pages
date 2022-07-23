@@ -12,30 +12,27 @@ import os
  
 # Change pwd
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
- 
-img1=cv2.imread('./upload/test/images/111.png')
-img2=cv2.imread('./upload/111.png')
-img3=img2
-for i in range(224):
-    for j in range(224):
-      if img2[i][j].all()>0:
-        img3[i][j] =255
-cv2.imwrite('./upload/111.png',img3)
-img2=cv2.imread('./upload/111.png')
 
-dst=cv2.addWeighted(img1,0.9,img2,0.7,0)
-cv2.imwrite('./upload/superposition.png', dst)
+############## superposition.png ########################
 
-image = img2
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-canny = cv2.Canny(blurred, 30, 150)
+img_predict = cv2.imread('./upload/111.png')
+img_origin = cv2.imread('./upload/test/images/111.png')
 
-cv2.imwrite('./upload/uploadedge.png', canny)
-im = cv2.imread('./upload/uploadedge.png')
+output = cv2.addWeighted(img_origin, 0.9, img_predict, 1,0)
 
-dst=cv2.addWeighted(img1,0.9,im,0.7,0) #time()
-#a="2022330"
-#str="C:/AppServ/www/uploadsample/Wound-Segmentation-Pages-main/upload/edge.png"
-cv2.imwrite('./upload/edge.png', dst)
+cv2.imwrite('./upload/superposition.png',output)
 
+
+############## edge.png ########################
+
+img_edge = cv2.Canny(image=img_predict, threshold1=0, threshold2=255)
+
+img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2BGR)
+
+
+cv2.imwrite('./upload/edge.png',img_edge)
+
+############## overlay.png ########################
+
+output = cv2.addWeighted(img_origin, 0.9, img_edge, 1,0)
+cv2.imwrite('./upload/overlay.png',output)

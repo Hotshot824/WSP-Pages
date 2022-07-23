@@ -9,30 +9,12 @@ import math
 #os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def pixelcount():
     imga = cv2.imread('./upload/111.png',0)
-    imgb=imga
-    acount=0
-    for i in range(len(imga)):
-        for j in range(len(imga[0])):
-            if imga[i][j]>=254:
-                acount=acount+1
-                imgb[i][j]=0
-    cv2.imwrite("./upload/test.png",imgb)
+    acount = np.where(imga == 255)
+    acount = acount[0].size
     print(acount)
-    print(len(imga))
-    print(len(imga[0]))
     return acount 
 
-def check():
-  imga = cv2.imread('./upload/test/images/111.png')
-  a=len(imga)
-  b=len(imga[0])
-  if a > 224 or b > 224:
-    img = cv2.resize(imga, (224, 224))  # 將大小修改成224*224
-    cv2.imwrite('./upload/test/images/111.png', img)
 
-def truncate(num, n):
-    integer = int(num * (10**n))/(10**n)
-    return float(integer)
     
 def a(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0): 
     imga = cv2.imread('./upload/test/images/111.png')
@@ -74,24 +56,15 @@ def a(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0):
         if after_cut_y >=224: 
            y=y*(224/after_cut_y)
             
-    check()#resize if > 224
     num=0
     num=float(num)
    
-    
-    #小於224的情況
-    if  len(imga)<224 or len(imga[0])<224:
-        for i in range(len(imga)):
-          for j in range(len(imga[0])):
-            label[i][j]=imga[i][j]
-        cv2.imwrite('./upload/test/labels/label.png',label)
     
     num=math.sqrt(x**2+y**2)  
     num=length/num#此時為比例尺，依照縮放比例調整
     #在圖片上添加文字
     pixel = num
-    num=pixelcount()*pixel*pixel   
-    #num=truncate(num, 4) 
+    num=pixelcount()*pixel*pixel    
     num=round(num,4)   
     strr="area="+str(num)+"cm^2"
     if len(imga[0])<224 or len(imga)<224:
