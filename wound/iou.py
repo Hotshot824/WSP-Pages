@@ -1,4 +1,4 @@
-#! /home/wsout/.conda/envs/tens-1.5/bin/python
+#! /home/wsout/.conda/envs/tens-2.6/bin/python
 # -*- coding: utf-8 -*-
 import numpy as np
 import cv2
@@ -38,4 +38,4 @@ cv2.putText(imga,str, (1,50), cv2.FONT_HERSHEY_SIMPLEX,
 0.7,(255,255,255), 1, cv2.LINE_AA)
 
 #保存圖片
-cv2.imwrite("./upload/111context.png",imga)
+cv2.imwrite("./upload/iou.png",imga)

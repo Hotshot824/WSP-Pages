@@ -331,4 +331,37 @@ document.querySelector('#redo').addEventListener('click', () => painting.redo(st
 document.querySelector('#clearAll').addEventListener('click', () => painting.clearAll());
 
 // Predict btn
-document.querySelector('#predictAreaBtn').addEventListener('click', () => painting.areaUpload());
+document.querySelector('#predictAreaBtn').addEventListener('click', () => {
+    if (painting.length != 0) {
+        document.querySelector('#nav-predict-tab').click()
+        let close = document.querySelectorAll('.btn-close');
+        for (let i = 0; i < close.length; i++) {
+            close[i].click();
+        }
+        painting.areaUpload();
+    } else {
+        alert('No scale, Please give scale first!');
+    }
+});
+
+
+// Iou btn
+document.querySelector('#iouBtn').addEventListener('click', () => {
+    document.querySelector('#nav-predict-tab').click()
+    let close = document.querySelectorAll('.btn-close');
+    for (let i = 0; i < close.length; i++) {
+        close[i].click();
+    }
+    painting.iouUpload();
+});
+
+document.querySelector('#iou_img').addEventListener('click', () =>{
+    document.querySelector('#nav-home-tab').click()
+});
+
+// document.querySelector('.dropdown-toggle').addEventListener('click', () => {
+//     let close = document.querySelectorAll('.btn-close');
+//     for (let i = 0; i < close.length; i++) {
+//         close[i].click();
+//     }
+// });

@@ -1,7 +1,7 @@
 #nav-predict {
     background-color: #ffffff;
-    height: 100vh;
-    width: 100vw;
+    /* height: 100vh;
+    width: 100vw; */
 }
 
 #predictPages {
@@ -55,4 +55,8 @@ p {
     font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+#iou_img {
+    cursor: pointer;
 }

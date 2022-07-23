@@ -26,7 +26,6 @@ $originy = $decoded['originy'];
 $after_cut_x = $decoded['after_cut_x'];
 $after_cut_y = $decoded['after_cut_y'];
 
-
 $command = escapeshellcmd("../wound/cutPaintArea.py ".$x." ".$y." ".$length." ".$originx." ".$originy." ".$after_cut_x." ".$after_cut_y);
 $output = shell_exec($command);
 

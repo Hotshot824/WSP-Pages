@@ -1,4 +1,4 @@
-#! /home/wsout/.conda/envs/tens-1.5/bin/python
+#! /home/wsout/.conda/envs/tens-2.6/bin/python
 # -*- coding: utf-8 -*-
 import numpy as np
 import cv2

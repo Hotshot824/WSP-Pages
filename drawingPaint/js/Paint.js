@@ -7,7 +7,7 @@ class Paint {
         this.lineJoin = "round";
         this.lineCap = "round";
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.height = window.innerHeight*0.9;
         this.canvas.beginHeight = window.innerHeight;
         this.isDrawing = false;
         this.lastX = 0;
@@ -402,6 +402,7 @@ class Paint {
         document.querySelector('#edgeImg').src = imgpreview;
         document.querySelector('#overlayImg').src = imgpreview;
         document.querySelector('#areaImg').src = imgpreview;
+        document.querySelector('#originalImg').src = imgpreview;
 
         await fetch("../php/cutPaintArea.php", {
             method: "POST",
@@ -412,10 +413,11 @@ class Paint {
             })
             .then((response) => {
                 alert(response)
-                let imgpreview = "../wound/upload/"
-                document.querySelector('#edgeImg').src = imgpreview + "edge.png?" + Math.random().toString(2);
-                document.querySelector('#overlayImg').src = imgpreview + "superposition.png?" + Math.random().toString(2);
-                document.querySelector('#areaImg').src = imgpreview + "111context.png?" + Math.random().toString(2);
+                let path = "../wound/upload/"
+                document.querySelector('#edgeImg').src = path + "edge.png?" + Math.random().toString(2);
+                document.querySelector('#overlayImg').src = path + "superposition.png?" + Math.random().toString(2);
+                document.querySelector('#areaImg').src = path + "111context.png?" + Math.random().toString(2);
+                document.querySelector('#originalImg').src = path + "/test/images/111.png?" + Math.random().toString(2);
                 console.log(response);
             })
             .catch((error) => {
@@ -428,6 +430,35 @@ class Paint {
         console.log("原圖的y = " + data["originy"]);
         console.log("裁切後的x = " + data["after_cut_x"]);
         console.log("裁切後的y = " + data["after_cut_y"]);
+        alert("done");
+    }
+
+    async iouUpload() {
+
+        var img = this.canvas.toDataURL();
+        var data = {
+            "label": img
+        }
+
+        let imgpreview = "../assets/img/preview/pre_img.gif"
+        document.querySelector('#iouImg').src = imgpreview;
+
+        await fetch("../php/iouPaint.php", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+            .then((response) => {
+                return response.text();
+            })
+            .then((response) => {
+                alert(response)
+                let path = "../wound/upload/"
+                document.querySelector('#iouImg').src = path + "iou.png?" + Math.random().toString(2);
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
         alert("done");
     }
 

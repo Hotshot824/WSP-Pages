@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
         rel="stylesheet" type="text/css" />
-</head>vi
+</head>
 
 <body>
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light py-0">
@@ -51,7 +51,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" id="predictAreaBtn">Predict</a></li>
-                        <li><a class="dropdown-item">IOU Calc</a></li>
+                        <li><a class="dropdown-item" id="iouBtn">IOU Calc</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -170,22 +170,36 @@
                 </div>
                 <div class="row py-1 gx-4 gx-lg-5 justify-content-center" id="imageBox">
                     <div class="col-lg-3 col-sm-3 text-center">
-                        <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="edge_img">
                             <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="edgeImg">
                         </div>
                         <p class="text-dark m-1 py-2">Overlay</p>
                     </div>
                     <div class="col-lg-3 col-sm-3 text-center">
-                        <div class="shadow-sm bg-light rounded img-frame" id="overlay_img">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="overlay_img">
                             <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlayImg">
                         </div>
                         <p class="text-dark m-1 py-2">Edge</p>
                     </div>
                     <div class="col-lg-3 col-sm-3 text-center">
-                        <div class="shadow-sm bg-light rounded img-frame" id="area_img">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="area_img">
                             <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="areaImg">
                         </div>
                         <p class="text-dark m-1 py-2">Area</p>
+                    </div>
+                </div>
+                <div class="row py-1 pb-5 gx-4 gx-lg-5 justify-content-center" id="imageBox">
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-light rounded img-frame" id="original_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="originalImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">Original</p>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-success rounded img-frame" id="iou_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="iouImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">IOU</p>
                     </div>
                 </div>
             </div>
