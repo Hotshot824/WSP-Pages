@@ -3,4 +3,4 @@ wound/build
 wound/upload
 wound_backup
 paint-main
-save
+save/*.png
