@@ -414,8 +414,8 @@ class Paint {
             .then((response) => {
                 alert(response)
                 let path = "../wound/upload/"
-                document.querySelector('#edgeImg').src = path + "edge.png?" + Math.random().toString(2);
-                document.querySelector('#overlayImg').src = path + "superposition.png?" + Math.random().toString(2);
+                document.querySelector('#edgeImg').src = path + "superposition.png?" + Math.random().toString(2);
+                document.querySelector('#overlayImg').src = path + "overlay.png?" + Math.random().toString(2);
                 document.querySelector('#areaImg').src = path + "111context.png?" + Math.random().toString(2);
                 document.querySelector('#originalImg').src = path + "/test/images/111.png?" + Math.random().toString(2);
                 console.log(response);
