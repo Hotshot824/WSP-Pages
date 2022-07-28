@@ -46,6 +46,13 @@ function getCoordinate(e) {
     painting.lastY = e.offsetY * painting.canvas.height / painting.canvas.clientHeight | 0;
 }
 
+function getTouchCoordinate(e) {
+    painting.left = painting.canvas.getBoundingClientRect().left;
+    painting.top = painting.canvas.getBoundingClientRect().top;
+    painting.lastX = parseInt(e.touches[0].clientX - painting.left)
+    painting.lastY = parseInt(e.touches[0].clientY - painting.top)
+}
+
 function floodFill(x, y, color, area) {
     let pixels_num = 0
     let pixel_stack = [{ x: x, y: y }];
@@ -120,11 +127,40 @@ function floodFill(x, y, color, area) {
     if (area == true) {
         let perpixel = Math.pow(Math.pow((painting.x2 - painting.x1), 2) + Math.pow((painting.y2 - painting.y1), 2), 0.5);
         let pixel_scale = painting.length / perpixel;
-        alert((pixels_num * (pixel_scale * pixel_scale)).toFixed(2) + "c㎡");
+        let str = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2) + "c㎡"
+        alert(str);
+        document.querySelector('.front-areatext').innerHTML = str;
+        toastPosition();
     }
     pixels_num = 0;
     ctx.putImageData(pixels, 0, 0);
 }
+
+function toastPosition() {
+    let toastContainer = document.querySelector('.toast-container')
+    toastContainer.style.transform = 'translate(' + (window.innerWidth - 300) + 'px,' + (70) + 'px)';
+
+    let frontAreatext = document.querySelector('.front-areatext')
+    let text_width = frontAreatext.offsetWidth;
+    let text_height = frontAreatext.offsetHeight;
+    frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 10)) + 'px,' + (window.innerHeight - (text_height + 10)) + 'px)';
+}
+
+window.addEventListener('load', function () {
+    // painting.init()
+    // painting.loaded()
+    // previewImgHeight()
+    toastPosition()
+    document.querySelector('#brushBtn').click()
+    painting.saveHistory("brushbtn");
+});
+
+window.addEventListener('resize', function () {
+    // painting.init()
+    // painting.loaded()
+    // previewImgHeight()
+    toastPosition()
+});
 
 const colorItem = document.querySelectorAll('.colorItem');
 for (let i = 0; i < colorItem.length; i++) {
@@ -143,19 +179,6 @@ for (let i = 0; i < colorItem.length; i++) {
     });
 }
 
-window.addEventListener('load', function () {
-    document.querySelector('#brushBtn').click()
-    // painting.init()
-    // painting.loaded()
-    painting.saveHistory("brushbtn");
-});
-
-window.addEventListener('resize', function () {
-    // painting.init()
-    // painting.loaded()
-});
-
-
 // Mouse event
 painting.canvas.addEventListener('mousedown', (e) => {
     getCoordinate(e)
@@ -170,10 +193,10 @@ painting.canvas.addEventListener('mousedown', (e) => {
         case 'ruler':
             if (painting.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
+                document.querySelector('#brushBtn').click()
             };
             break;
         case 'area':
-            getCoordinate(e)
             floodFill(painting.lastX, painting.lastY, 250, true);
             floodFill(painting.lastX, painting.lastY, 255, false);
 
@@ -215,45 +238,42 @@ painting.canvas.addEventListener('mouseup', () => {
 
 // Touch event
 painting.canvas.addEventListener('touchstart', (e) => {
+    getTouchCoordinate(e)
     switch (state) {
         case 'brush':
             painting.isDrawing = true;
-            painting.left = painting.canvas.getBoundingClientRect().left;
-            painting.top = painting.canvas.getBoundingClientRect().top;
-            painting.lastX = e.touches[0].clientX - painting.left;
-            painting.lastY = e.touches[0].clientY - painting.top;
             break;
         case 'bucket':
-            painting.isDrawing = true;
-            painting.left = painting.canvas.getBoundingClientRect().left;
-            painting.top = painting.canvas.getBoundingClientRect().top;
-            painting.lastX = e.touches[0].clientX - painting.left;
-            painting.lastY = e.touches[0].clientY - painting.top;
             painting.bucketFloodFill(painting.lastX, painting.lastY, hexToRgba(painting.color, 255));
             document.querySelector('#brushBtn').click();
             break;
-        case 'ruler':
-            if (painting.getScale(e) == true) {
-                document.querySelector('#scaleText').innerHTML = 'OK';
-            };
-            break;
         case 'area':
+            floodFill(painting.lastX, painting.lastY, 250, true);
+            floodFill(painting.lastX, painting.lastY, 255, false);
+
+            // upload image for frontend area compute
+            if (painting.frontUploadFlag != 0) {
+                painting.frontendAreaUpload()
+            }
+
+            document.querySelector('#brushBtn').click()
             break;
         case 'select':
             painting.isDrawing = true;
-            painting.left = painting.canvas.getBoundingClientRect().left;
-            painting.top = painting.canvas.getBoundingClientRect().top;
-            painting.lastX = e.touches[0].clientX - painting.left;
-            painting.lastY = e.touches[0].clientY - painting.top;
             break;
     }
 });
 
 painting.canvas.addEventListener('touchmove', (e) => {
     if (e.targetTouches.length == 1) {
-        // painting.changeColor();
-        painting.changeStroke();
-        painting.touchStartDrawing(e, painting.left, painting.top);
+        switch (state) {
+            case 'brush':
+                painting.touchStartDrawing(e, painting.left, painting.top);
+                break;
+            case 'select':
+                painting.getSelectAreaMobile(e);
+                break;
+        }
     }
 });
 
@@ -274,6 +294,7 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
 openImageInput.addEventListener('change', () => {
     painting.frontUploadFlag = 1;
     painting.displayImg();
+    document.querySelector('.front-areatext').innerHTML = '';
 });
 
 
@@ -355,13 +376,6 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
     painting.iouUpload();
 });
 
-document.querySelector('#iou_img').addEventListener('click', () =>{
+document.querySelector('#iou_img').addEventListener('click', () => {
     document.querySelector('#nav-home-tab').click()
 });
-
-// document.querySelector('.dropdown-toggle').addEventListener('click', () => {
-//     let close = document.querySelectorAll('.btn-close');
-//     for (let i = 0; i < close.length; i++) {
-//         close[i].click();
-//     }
-// });

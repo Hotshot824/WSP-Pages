@@ -12,10 +12,10 @@ if __name__ == '__main__':
     localtime = time.localtime()
     ostime = time.strftime("%Y-%m-%d_%H%M%S", localtime)
 
-    original = ostime + '_backEnd' + "_original.png"
-    predict_result = ostime + '_backEnd' + "_predict.png"
-    area_image = ostime + '_backEnd' + "_area.png"
-    scale = ostime + '_backEnd' + "_scale.txt"
+    original = 'original/' + ostime + '_backEnd' + "_original.png"
+    predict_result = 'predict/' + ostime + '_backEnd' + "_predict.png"
+    area_image = 'area/' + ostime + '_backEnd' + "_area.png"
+    scale = 'area/' + ostime + '_backEnd' + "_scale.txt"
 
     target_path = './upload'
     save_path = '../save/backEndSave/'

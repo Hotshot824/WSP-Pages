@@ -29,3 +29,9 @@ body {
     margin-right: 0.1rem;
     text-align: center;
 }
+
+.front-areatext {
+    position: fixed;
+    /* -webkit-transform: translate(5%, 4rem);
+    transform: translate(80vw, 5rem); */
+}

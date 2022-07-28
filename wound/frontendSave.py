@@ -12,8 +12,8 @@ if __name__ == '__main__':
     localtime = time.localtime()
     ostime = time.strftime("%Y-%m-%d_%H%M%S", localtime)
 
-    original = ostime + '_frontEnd' + "_original.png"
-    predict_result = ostime + '_frontEnd' + "_label.png"
+    original = 'original/' + ostime + '_frontEnd' + "_original.png"
+    predict_result = 'label/' + ostime + '_frontEnd' + "_label.png"
 
     target_path = './upload'
     save_path = '../save/frontEndSave/'

@@ -29,6 +29,11 @@ $("#upperBtn").click(function () {
 let colorArray = ['#000000', '#FFFFFF'];
 for (let i = 0; i < colorArray.length; i++) {
     let str = '';
-    str += `<div class="colorItem" style="background:${colorArray[i]}"></div>`;
-    $('#colorAfter').after(str);
+    if (colorArray[i] == '#FFFFFF'){
+        str += `<div class="colorItem" style="background:${colorArray[i]}">✓</div>`;
+        $('#colorAfter').after(str);
+    } else {
+        str += `<div class="colorItem" style="background:${colorArray[i]}">✓</div>`;
+        $('#colorAfter').after(str);
+    }
 }

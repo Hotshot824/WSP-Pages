@@ -168,7 +168,30 @@ class Paint {
         }
     }
 
-    getScale(e) {
+    getScale() {
+        if (this.scaleCount == 1) {
+            console.log("test")
+            this.x1 = this.lastX;
+            this.y1 = this.lastY;
+
+            this.scaleCount++;
+            return false;
+        }
+        else {
+            console.log("test2")
+            this.x2 = this.lastX;
+            this.y2 = this.lastY;
+            console.log(this.x1, this.y1, this.x2, this.y2, this.length);
+            alert("輸入完畢，此2點之間的距離為" + this.length);
+            this.ruler_deltax = Math.abs(this.x2 - this.x1);
+            this.ruler_deltay = Math.abs(this.y2 - this.y1);
+            this.scaleCount--;
+            return true;
+        }
+
+    }
+
+    getScaleMobile(e) {
         if (this.scaleCount == 1) {
             console.log("test")
             this.x1 = e.offsetX;
@@ -210,6 +233,31 @@ class Paint {
 
         this.cut_deltax = (e.offsetX * this.canvas.width / this.canvas.clientWidth | 0) - this.lastX;
         this.cut_deltay = (e.offsetY * this.canvas.height / this.canvas.clientHeight | 0) - this.lastY;
+
+        this.ctx.strokeRect(this.lastX, this.lastY,
+            this.cut_deltax, this.cut_deltay);
+        this.selectflag = 1;
+    }
+
+	getSelectAreaMobile(e) {
+        // console.log("select");
+		e.preventDefault();
+        if (!this.isDrawing) return;
+
+        this.ctx.strokeStyle = "black";
+
+        //this.ctx.setLineDash([4, 8]);
+        this.ctx.lineWidth = this.lineWidth;
+        this.ctx.beginPath();
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(this.img, 0, 0, this.canvas.width, this.canvas.height);
+
+        this.cut_beginx = this.lastX;
+        this.cut_beginy = this.lastY;
+
+        this.cut_deltax = e.touches[0].clientX - this.left - this.lastX;
+        this.cut_deltay = e.touches[0].clientY - this.top  - this.lastY;
 
         this.ctx.strokeRect(this.lastX, this.lastY,
             this.cut_deltax, this.cut_deltay);
