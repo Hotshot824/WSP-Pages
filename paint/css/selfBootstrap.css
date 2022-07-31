@@ -80,3 +80,11 @@
     display: flex;
     justify-content: space-between;
 }
+
+.popover {
+    z-index: 999999999;
+}
+
+.tooltip {
+    z-index: 999999999;
+}

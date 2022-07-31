@@ -12,8 +12,6 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- Bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/selfBootstrap.css">
@@ -29,6 +27,8 @@
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light py-0">
         <div id="navbar" class="container py-2">
             <div>
+                <a class="navbar-brand align-middle d-none d-lg-inline d-xl-inline" href="../index.html#page-top"><i
+                        class="bi-umbrella"></i>Wsout</a>
                 <div class="btn-group">
                     <div class="nav btn-group" id="nav-tab" role="tablist">
                         <button class="btn btn-outline-success active" id="nav-home-tab" data-bs-toggle="tab"
@@ -39,7 +39,7 @@
                             aria-selected="false">P</button>
                     </div>
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                        data-bs-auto-close="outside" aria-expanded="false">
                         File
                     </button>
                     <ul class="dropdown-menu">
@@ -50,8 +50,25 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" id="predictAreaBtn">Predict</a></li>
-                        <li><a class="dropdown-item" id="iouBtn">IOU Calc</a></li>
+                        <li>
+                            <div class="dropdown-item main-btn">
+                                <a type="button" id="predictAreaBtn">Predict</a>
+                                <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="focus hover" data-bs-html="true"
+                                    data-bs-content="Use AI tec to automatically predcit the wound area and calculate. How to use? <a href='../document.html#predict'>Here</a>">
+                                    <i class="bi bi-question-circle text-danger"></i>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="dropdown-item main-btn">
+                                <a type="button" id="iouBtn">IOU Calc</a>
+                                <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="focus hover" data-bs-html="true"
+                                    data-bs-content="Use IOU algorithm validating of the AI predcit area. How to use? <a href='../document.html#frontend_area'>Here</a>">
+                                    <i class="bi bi-question-circle text-danger"></i>
+                                </span>
+                            </div>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -62,12 +79,21 @@
             </div>
             <div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-primary" id="brushTool"><i
-                            class="bi bi-brush-fill"></i></button>
-                    <button type="button" class="btn btn-outline-primary" id="clearTool"><i
-                            class="bi bi-arrow-repeat"></i></button>
-                    <button type="button" class="btn btn-outline-primary" id="areaTool"><i
-                            class="bi bi-badge-ar-fill"></i></button>
+                    <button type="button" class="btn btn-outline-primary" id="brushTool">
+                        <i class="bi bi-brush-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="clearTool">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="areaTool">
+                        <i class="bi bi-badge-ar-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="message" tabindex="0" data-bs-toggle="popover"
+                        data-bs-trigger="focus hover" data-bs-html="true" data-bs-title="Introduction"
+                        data-bs-content="WSP is a wound analysis platform, for detailed introduction <a href='../document.html'>Here</a><br>
+                        Please give us some feedback to After use, Your feedback will allow us to improve the platform. <a href='../index.html#contactForm'>Feedback</a>">
+                        <i class="bi bi-question-circle-fill"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -95,7 +121,9 @@
                         <button type="button" class="btn btn-outline-secondary" id="eraserBtn">
                             <i class="bi bi-eraser-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" id="bucketBtn">
+                        <button type="button" class="btn btn-outline-secondary" id="bucketBtn" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover focus"
+                            data-bs-title="The bucket in testing phase, currently only can used in closed blocks.">
                             <i class="bi bi-paint-bucket"></i>
                         </button>
                     </div>
@@ -139,13 +167,21 @@
             <div class="toast-body toast-body-sm">
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
-                        <i class="bi bi-rulers"></i></button>
-                    <button type="button" class="btn btn-outline-secondary" id="areaBtn">
-                        <i class="bi bi-badge-ar-fill"></i></button>
-                    <button type="button" class="btn btn-outline-secondary" id="selectBtn">
+                        <i class="bi bi-rulers"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="areaBtn" data-bs-toggle="tooltip"
+                        data-bs-trigger="hover focus"
+                        data-bs-title="Click on a filled color block to calculate the area.">
+                        <i class="bi bi-badge-ar-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="selectBtn" data-bs-toggle="tooltip"
+                        data-bs-trigger="hover focus"
+                        data-bs-title="Circle the area to be cut and click the cut button.">
                         <i class="bi bi-square"></i>
-                        <button type="button" class="btn btn-outline-secondary" id="cutBtn">
-                            <i class="bi bi-scissors"></i></button>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="cutBtn">
+                        <i class="bi bi-scissors"></i>
+                    </button>
                 </div>
                 <div class="py-2 fw-bold">
                     Scale:
@@ -208,6 +244,8 @@
             </div>
         </div>
     </div>
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"

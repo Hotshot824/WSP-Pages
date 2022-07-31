@@ -29,7 +29,7 @@ $("#upperBtn").click(function () {
 let colorArray = ['#000000', '#FFFFFF'];
 for (let i = 0; i < colorArray.length; i++) {
     let str = '';
-    if (colorArray[i] == '#FFFFFF'){
+    if (colorArray[i] == '#FFFFFF') {
         str += `<div class="colorItem" style="background:${colorArray[i]}">✓</div>`;
         $('#colorAfter').after(str);
     } else {
@@ -37,3 +37,9 @@ for (let i = 0; i < colorArray.length; i++) {
         $('#colorAfter').after(str);
     }
 }
+
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

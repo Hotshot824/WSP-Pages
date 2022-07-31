@@ -138,28 +138,37 @@ function floodFill(x, y, color, area) {
 
 function toastPosition() {
     let toastContainer = document.querySelector('.toast-container')
-    toastContainer.style.transform = 'translate(' + (window.innerWidth - 300) + 'px,' + (70) + 'px)';
+    toastContainer.style.transform = 'translate(' + (window.innerWidth - 310) + 'px,' + (70) + 'px)';
 
     let frontAreatext = document.querySelector('.front-areatext')
     let text_width = frontAreatext.offsetWidth;
     let text_height = frontAreatext.offsetHeight;
-    frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 10)) + 'px,' + (window.innerHeight - (text_height + 10)) + 'px)';
+    frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
 }
 
-window.addEventListener('load', function () {
+
+window.addEventListener('load', () => {
     // painting.init()
     // painting.loaded()
     // previewImgHeight()
+    $("#message").popover('show');
     toastPosition()
-    document.querySelector('#brushBtn').click()
+    document.querySelector('#brushBtn').click();
     painting.saveHistory("brushbtn");
 });
 
-window.addEventListener('resize', function () {
+window.addEventListener('resize', () => {
     // painting.init()
     // painting.loaded()
-    // previewImgHeight()
-    toastPosition()
+    previewImgHeight();
+    toastPosition();
+});
+
+window.addEventListener('beforeunload', (event) => {
+    // Cancel the event as stated by the standard.
+    event.preventDefault();
+    // Chrome requires returnValue to be set.
+    event.returnValue = "Write something clever here..";
 });
 
 const colorItem = document.querySelectorAll('.colorItem');
@@ -181,6 +190,7 @@ for (let i = 0; i < colorItem.length; i++) {
 
 // Mouse event
 painting.canvas.addEventListener('mousedown', (e) => {
+    $("#message").popover('hide');
     getCoordinate(e)
     switch (state) {
         case 'brush':
@@ -238,6 +248,7 @@ painting.canvas.addEventListener('mouseup', () => {
 
 // Touch event
 painting.canvas.addEventListener('touchstart', (e) => {
+    $("#message").popover('hide');
     getTouchCoordinate(e)
     switch (state) {
         case 'brush':
@@ -294,6 +305,7 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
 openImageInput.addEventListener('change', () => {
     painting.frontUploadFlag = 1;
     painting.displayImg();
+    document.querySelector('#brushBtn').click();
     document.querySelector('.front-areatext').innerHTML = '';
 });
 

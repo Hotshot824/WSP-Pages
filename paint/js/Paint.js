@@ -7,7 +7,7 @@ class Paint {
         this.lineJoin = "round";
         this.lineCap = "round";
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight*0.9;
+        this.canvas.height = window.innerHeight*0.99;
         this.canvas.beginHeight = window.innerHeight;
         this.isDrawing = false;
         this.lastX = 0;
@@ -38,6 +38,7 @@ class Paint {
         this.cut_deltay;
 
         this.frontUploadFlag = 0;
+        this.test;
     }
 
     // init() {
@@ -404,6 +405,7 @@ class Paint {
             var reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);
             reader.onload = function (e) {
+                this.test = reader;
                 newImage.setAttribute("src", e.target.result);
                 // openImageInput.setAttribute("type", "text");
             };
@@ -431,10 +433,11 @@ class Paint {
 
     async areaUpload() {
 
-        var img = this.canvas.toDataURL();
-        var data = {
+        let img = this.canvas.toDataURL();
+        let data = {
             "img": img
         }
+        
         if (this.ruler_deltax != 0 || this.ruler_deltay != 0) {
             data["x"] = this.ruler_deltax;
             data["y"] = this.ruler_deltay;
@@ -510,7 +513,7 @@ class Paint {
         alert("done");
     }
 
-    async frontendAreaUpload() {
+    frontendAreaUpload() {
         this.frontUploadFlag = 0;
 
         let img = this.canvas.toDataURL();
@@ -518,7 +521,7 @@ class Paint {
         
         let openImageInput = document.querySelector('#openImageInput');
         // to image
-        if (openImageInput.files && openImageInput.files[0]) {
+        if (openImageInput.files[0]) {
 
             var reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);

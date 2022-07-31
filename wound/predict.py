@@ -78,7 +78,7 @@ image_path = './upload/111.png'
 
 img = cv2.imread(image_path)  
 
-output = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
+output = cv2.threshold(img, 90, 255, cv2.THRESH_BINARY)
 output = cv2.cvtColor(output[1], cv2.COLOR_BGR2GRAY)
 
 
