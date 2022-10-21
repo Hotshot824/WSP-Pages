@@ -1,6 +1,9 @@
 ## WSP
 ## benson
-## version: 0.0.1
-wound/build
-wound/upload
-save
+## version: 0.0.2
+web_server/WSP-Pages/wound/upload
+web_server/WSP-Pages/wound/build
+web_server/WSP-Pages/wound/3527_MobilenetV2.hdf5
+web_server/WSP-Pages/wound/test_model.h5
+web_server/WSP-Pages/save
+image/

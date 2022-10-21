@@ -1,6 +1,0 @@
-0918-2022 development daily
-
-1. 依照Google coding style更改文件名稱
-2. 測試裁切比例尺紀錄正常, 預測正常.
-3. backend save功能正常
-4. 

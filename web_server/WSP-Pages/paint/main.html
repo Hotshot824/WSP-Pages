@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>WSP - Paint</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/selfBootstrap.css">
+    <link rel="stylesheet" href="css/selfStyle.css">
+    <link rel="stylesheet" href="css/predictPages.css">
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic"
+        rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light py-0">
+        <div id="navbar" class="container py-2">
+            <div>
+                <a class="navbar-brand align-middle d-none d-lg-inline d-xl-inline" href="../index.html#page-top"><i
+                        class="bi-umbrella"></i>Wsout</a>
+                <div class="btn-group">
+                    <div class="nav btn-group" id="nav-tab" role="tablist">
+                        <button class="btn btn-outline-success active" id="nav-home-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                            aria-selected="true">D</button>
+                        <button class="btn btn-outline-success" id="nav-predict-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-predict" type="button" role="tab" aria-controls="nav-predict"
+                            aria-selected="false">P</button>
+                    </div>
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="fileBtn"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-files"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="openImageBtn">Open Image</a></li>
+                        <input type="file" id="openImageInput" class="d-none"
+                            accept="image/gif,image/jpeg,image/jpg,image/png">
+                        <li><a class="dropdown-item" id="saveImageBtn" download="draw.png">Save Image</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <div class="dropdown-item main-btn">
+                                <a type="button" id="predictAreaBtn">Predict</a>
+                                <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="focus hover" data-bs-html="true"
+                                    data-bs-content="Use AI tec to automatically predcit the wound area and calculate. How to use? <a href='../document.html#predict'>Here</a>">
+                                    <i class="bi bi-question-circle text-danger"></i>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="dropdown-item main-btn">
+                                <a type="button" id="iouBtn">IOU Calc</a>
+                                <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="focus hover" data-bs-html="true"
+                                    data-bs-content="Use IOU algorithm validating of the AI predcit area. How to use? <a href='../document.html#frontend_area'>Here</a>">
+                                    <i class="bi bi-question-circle text-danger"></i>
+                                </span>
+                            </div>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="btn btn-outline-success">Sign Up</a></li>
+                        <li><a class="btn btn-success">Sign In</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group" role="group">
+                    <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
+                        data-bs-trigger="focus hover" data-bs-html="true"
+                        data-bs-content="If the scale is set, then you can start automatic or manual calculation area.E">
+                        <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
+                            <i class="bi bi-rulers"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <!-- Test butten -->
+                <!-- <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
+                            <i class="bi bi-xbox"></i>
+                        </button>
+                </div> -->
+                <div class="btn-group" role="group" id="toolBtnGroup">
+                    <button type="button" class="btn btn-outline-primary" id="brushTool">
+                        <i class="bi bi-brush-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" id="areaTool">
+                        <i class="bi bi-badge-ar-fill"></i>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary" id="message" tabindex="0"
+                        data-bs-toggle="popover" data-bs-trigger="focus hover" data-bs-html="true"
+                        data-bs-title="Introduction"
+                        data-bs-content="WSP is a wound analysis platform, for detailed introduction <a href='../document.html'>Here</a><br>
+                        Please give us some feedback to After use, Your feedback will allow us to improve the platform. <a href='../index.html#contactForm'>Feedback</a>">
+                        <i class="bi bi-question-circle-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button id="upperBtn" class="btn btn-primary btn-circle btn-circle-bottom" type="button"
+            data-bs-toggle="collapse" data-bs-target="#collapseTop" aria-expanded="false" aria-controls="collapseTop">
+            ▲
+        </button>
+    </nav>
+    <p class="h5 front-areatext font-weight-bold d-inline text-success" style="user-select:none;">
+        Hello
+    </p>
+    <div class="toast-container top-0 start-0">
+        <div class="toast" id="brushToast" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto"><i class="bi bi-brush-fill"></i>Brush Toolbar</strong>
+                <small>Size and Color</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <div class="toast-row">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary" id="brushBtn">
+                            <i class="bi bi-brush-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="eraserBtn">
+                            <i class="bi bi-eraser-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="bucketBtn" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover focus"
+                            data-bs-title="The bucket in testing phase, currently only can used in closed blocks.">
+                            <i class="bi bi-paint-bucket"></i>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary" id="undo">
+                            <i class="bi bi-arrow-counterclockwise"></i></button>
+                        <button type="button" class="btn btn-outline-secondary" id="redo">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="clearAll">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="toast-row">
+                    <div class="py-2 fw-bold">
+                        Size:
+                        <input class="penPath" id="stroke" type="number" min="1" max="30" value="5"
+                            style='width:3rem; height: 1.5rem;'>
+                        Px
+                    </div>
+                    <div style="display: flex;">
+                        <span class="py-2 fw-bold" id="colorAfter">Color:</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toast" id="areaToast" data-bs-autohide="false">
+            <div class="toast-header">
+                <strong class="me-auto"><i class="bi bi-badge-ar-fill"></i>Area Toolbar</strong>
+                <small>Scale and Area</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body toast-body-sm">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary" id="areaBtn" data-bs-toggle="tooltip"
+                        data-bs-trigger="hover focus"
+                        data-bs-title="Click on a filled color block to calculate the area.">
+                        <i class="bi bi-badge-ar-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="selectBtn" data-bs-toggle="tooltip"
+                        data-bs-trigger="hover focus"
+                        data-bs-title="Circle the area to be cut and click the cut button.">
+                        <i class="bi bi-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="cutBtn">
+                        <i class="bi bi-scissors"></i>
+                    </button>
+                </div>
+                <div class="py-2 fw-bold">
+                    Scale:
+                    <span id="scaleText" style="color: red;">None</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="tab-pane fade" id="nav-predict" role="tabpanel" aria-labelledby="nav-predict-tab">
+            <div id="predictPages" class="container-fluid px-4 px-lg-5">
+                <!-- <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-center text-dark mt-0">Predict</h2>
+                        <hr class="divider divider-dark" />
+                        <p class="text-dark mb-4">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente pariatur aliquam natus ad
+                            sunt atque nam quo consequuntur vel suscipit adipisci, error esse quas, incidunt laborum
+                            laudantium, rerum velit.
+                        </p>
+                    </div>
+                </div> -->
+                <div class="row py-1 gx-4 gx-lg-5 justify-content-center" id="imageBox">
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="overlay_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlayImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">Edge</p>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="superposition_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img"
+                                id="superpositionImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">Overlay</p>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="area_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="areaImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">Area</p>
+                    </div>
+                </div>
+                <div class="row py-1 pb-5 gx-4 gx-lg-5 justify-content-center" id="imageBox">
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-light rounded img-frame" id="original_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="originalImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">Original</p>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-success rounded img-frame" id="iou_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="iouImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">IOU</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <!-- Self JQuery -->
+    <script type="module" src="./js/selfJquery.js"></script>
+    <!-- Self JS -->
+    <script type="module" src="./js/selfScript.js"></script>
+    <script src="./js/predictPages.js"></script>
+</body>
+
+</html>

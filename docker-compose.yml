@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  Web:
+    image: hotshot824/wsp-server:1.0.0
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./web_data/:/var/www/html/
+    ports:
+      - 80:80
+
+  Database:
+    image: mysql:8.0-debian
+    # restart: always
+    environment:
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: testdb
+    working_dir: /root/
+    volumes:
+      - ./db_data/data/:/root/
+      - ./db_data/init/:/docker-entrypoint-initdb.d/
+    ports:
+      - 3306:3306
