@@ -1,4 +1,4 @@
-#! /home/wsout/.conda/envs/tens-1.5/bin/python
+#! /home/wsp/.conda/envs/wsp/bin/python
 # -*- coding: utf-8 -*-
 import numpy as np
 import cv2
@@ -8,7 +8,7 @@ import math
 
 #os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def pixelcount():
-    imga = cv2.imread('./upload/111.png',0)
+    imga = cv2.imread('./upload/predict_ccl.png',0)
     acount = np.where(imga == 255)
     acount = acount[0].size
     print(acount)
@@ -17,12 +17,12 @@ def pixelcount():
 
     
 def a(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0): 
-    imga = cv2.imread('./upload/test/images/111.png')
+    imga = cv2.imread('./upload/test/images/original.png')
     label = cv2.imread('./upload/test/labels/label.png')
     print("Test!")
 
     
-    f = open("111.txt",'w')
+    f = open("./upload/scale.txt",'w')
     f.write("比例尺的x = " + x +"\n")
     f.write("比例尺的y = " + y +"\n")
     f.write("用戶輸入的長 = " + length + "\n")
@@ -79,7 +79,7 @@ def a(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0):
     0.7*avg,(0,0,0), 1*avg, cv2.LINE_AA)
     
     #保存圖片
-    cv2.imwrite("./upload/111context.png",imga)
+    cv2.imwrite("./upload/area.png",imga)
     
 if __name__ == "__main__": 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))

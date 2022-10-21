@@ -43,3 +43,39 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+// UI/UX datail
+$("#nav-predict-tab").click(function () {
+    $('.btn-close').each(function (i, obj) {
+        obj.click();
+    });
+
+    // hide scrpt
+    toolbar_hide();
+    $('.front-areatext').addClass('d-none');
+});
+
+$("#nav-home-tab").click(function () {
+    toolbar_hide();
+    $('.front-areatext').removeClass('d-none');
+});
+
+function toolbar_hide() {
+    let nav_home_tab = document.querySelector('#nav-home-tab');
+    let toolBtnGroup = document.querySelector('#toolBtnGroup');
+    if (nav_home_tab.classList.contains('active')) {
+        if (toolBtnGroup.classList.contains('active')) {
+            $("#toolBtnGroup").removeClass('active');
+            $("#toolBtnGroup").animate({ width: 'toggle' }, "slow");
+            $('#rulerBtn').show(500);
+        } else {
+        }
+    } else {
+        if (toolBtnGroup.classList.contains('active')) {
+        } else {
+            $("#toolBtnGroup").addClass('active');
+            $("#toolBtnGroup").animate({ width: 'toggle' }, "slow");
+            $('#rulerBtn').hide(500);
+        }
+    }
+};

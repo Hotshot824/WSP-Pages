@@ -1,6 +1,6 @@
 <?php
 
-// Upload directory
+Upload directory
 
 $content = trim(file_get_contents("php://input"));
 
@@ -11,14 +11,13 @@ $img = $decoded['label'];
 $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
 $data = base64_decode($img);
-$file = $uploadpath  . '1111.png';
+$file = $uploadpath  . 'iou_label.png';
 $success = file_put_contents($file, $data);
    
-$command = escapeshellcmd('../wound/creatlabel.py');
+$command = escapeshellcmd('python ../wound/creatlabel.py');
 $IOU = shell_exec($command);
 
-$command = escapeshellcmd('../wound/iou.py');
+$command = escapeshellcmd('python ../wound/iou.py');
 $output = shell_exec($command);	
-
 
 ?>

@@ -1,4 +1,4 @@
-#! /home/wsout/.conda/envs/tens-1.5/bin/python
+#! /home/wsp/.conda/envs/wsp/bin/python
 # -*- coding: utf-8 -*-
 import numpy as np
 import cv2
@@ -22,9 +22,9 @@ def iou( imga ,imgb ):
 # Change pwd
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
            
-imga = cv2.imread('upload/111.png', 0)
+imga = cv2.imread('./upload/original.png', 0)
 
-imgc = cv2.imread('upload/1111.png', 0)
+imgc = cv2.imread('./upload/iou_label.png', 0)
 
 print(iou(imga, imgc)*100)
 #print(iou(imgb,imgd)*100)                      
@@ -36,4 +36,5 @@ cv2.putText(imgc,str, (1,50), cv2.FONT_HERSHEY_SIMPLEX,
 0.7,(255,255,255), 1, cv2.LINE_AA)
 
 #保存圖片
-cv2.imwrite("./upload/iou.png",imgc)
+cv2.imwrite("./upload/iou_result.png",imgc)
+

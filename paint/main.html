@@ -38,9 +38,9 @@
                             data-bs-target="#nav-predict" type="button" role="tab" aria-controls="nav-predict"
                             aria-selected="false">P</button>
                     </div>
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
-                        data-bs-auto-close="outside" aria-expanded="false">
-                        File
+                    <button type="button" class="btn btn-secondary dropdown-toggle" id="fileBtn"
+                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <i class="bi bi-files"></i>
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="openImageBtn">Open Image</a></li>
@@ -76,20 +76,35 @@
                         <li><a class="btn btn-success">Sign In</a></li>
                     </ul>
                 </div>
+                <div class="btn-group" role="group">
+                    <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
+                        data-bs-trigger="focus hover" data-bs-html="true"
+                        data-bs-content="If the scale is set, then you can start automatic or manual calculation area.E">
+                        <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
+                            <i class="bi bi-rulers"></i>
+                        </button>
+                    </span>
+                </div>
             </div>
             <div>
-                <div class="btn-group" role="group">
+                <!-- Test butten -->
+                <!-- <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
+                            <i class="bi bi-xbox"></i>
+                        </button>
+                </div> -->
+                <div class="btn-group" role="group" id="toolBtnGroup">
                     <button type="button" class="btn btn-outline-primary" id="brushTool">
                         <i class="bi bi-brush-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary" id="clearTool">
-                        <i class="bi bi-arrow-repeat"></i>
                     </button>
                     <button type="button" class="btn btn-outline-primary" id="areaTool">
                         <i class="bi bi-badge-ar-fill"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary" id="message" tabindex="0" data-bs-toggle="popover"
-                        data-bs-trigger="focus hover" data-bs-html="true" data-bs-title="Introduction"
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary" id="message" tabindex="0"
+                        data-bs-toggle="popover" data-bs-trigger="focus hover" data-bs-html="true"
+                        data-bs-title="Introduction"
                         data-bs-content="WSP is a wound analysis platform, for detailed introduction <a href='../document.html'>Here</a><br>
                         Please give us some feedback to After use, Your feedback will allow us to improve the platform. <a href='../index.html#contactForm'>Feedback</a>">
                         <i class="bi bi-question-circle-fill"></i>
@@ -102,13 +117,13 @@
             ▲
         </button>
     </nav>
-    <p class="h5 front-areatext font-weight-bold d-inline text-success">
+    <p class="h5 front-areatext font-weight-bold d-inline text-success" style="user-select:none;">
         Hello
     </p>
     <div class="toast-container top-0 start-0">
         <div class="toast" id="brushToast" data-bs-autohide="false">
             <div class="toast-header">
-                <strong class="me-auto"><i class="bi bi-brush-fill"></i> Brush Toolbar</strong>
+                <strong class="me-auto"><i class="bi bi-brush-fill"></i>Brush Toolbar</strong>
                 <small>Size and Color</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -127,48 +142,38 @@
                             <i class="bi bi-paint-bucket"></i>
                         </button>
                     </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary" id="undo">
+                            <i class="bi bi-arrow-counterclockwise"></i></button>
+                        <button type="button" class="btn btn-outline-secondary" id="redo">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="clearAll">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="toast-row">
                     <div class="py-2 fw-bold">
                         Size:
                         <input class="penPath" id="stroke" type="number" min="1" max="30" value="5"
                             style='width:3rem; height: 1.5rem;'>
                         Px
                     </div>
-                </div>
-                <div style="display: flex;">
-                    <span class="py-2 fw-bold" id="colorAfter">Color:</span>
-                </div>
-            </div>
-        </div>
-        <div class="toast" id="clearToast" data-bs-autohide="false">
-            <div class="toast-header">
-                <strong class="me-auto"><i class="bi bi-brush-fill"></i> Clear Toolbar</strong>
-                <small>Undo and Redo</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body toast-body-sm">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-secondary" id="undo">
-                        <i class="bi bi-arrow-counterclockwise"></i></button>
-                    <button type="button" class="btn btn-outline-secondary" id="redo">
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary" id="clearAll">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
+                    <div style="display: flex;">
+                        <span class="py-2 fw-bold" id="colorAfter">Color:</span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="toast" id="areaToast" data-bs-autohide="false">
             <div class="toast-header">
-                <strong class="me-auto"><i class="bi bi-badge-ar-fill"></i> Area Toolbar</strong>
+                <strong class="me-auto"><i class="bi bi-badge-ar-fill"></i>Area Toolbar</strong>
                 <small>Scale and Area</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body toast-body-sm">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
-                        <i class="bi bi-rulers"></i>
-                    </button>
                     <button type="button" class="btn btn-outline-secondary" id="areaBtn" data-bs-toggle="tooltip"
                         data-bs-trigger="hover focus"
                         data-bs-title="Click on a filled color block to calculate the area.">
@@ -196,7 +201,7 @@
         </div>
         <div class="tab-pane fade" id="nav-predict" role="tabpanel" aria-labelledby="nav-predict-tab">
             <div id="predictPages" class="container-fluid px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
+                <!-- <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8 text-center">
                         <h2 class="text-center text-dark mt-0">Predict</h2>
                         <hr class="divider divider-dark" />
@@ -206,19 +211,20 @@
                             laudantium, rerum velit.
                         </p>
                     </div>
-                </div>
+                </div> -->
                 <div class="row py-1 gx-4 gx-lg-5 justify-content-center" id="imageBox">
-                    <div class="col-lg-3 col-sm-3 text-center">
-                        <div class="shadow-sm bg-secondary rounded img-frame" id="edge_img">
-                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="edgeImg">
-                        </div>
-                        <p class="text-dark m-1 py-2">Overlay</p>
-                    </div>
                     <div class="col-lg-3 col-sm-3 text-center">
                         <div class="shadow-sm bg-secondary rounded img-frame" id="overlay_img">
                             <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlayImg">
                         </div>
                         <p class="text-dark m-1 py-2">Edge</p>
+                    </div>
+                    <div class="col-lg-3 col-sm-3 text-center">
+                        <div class="shadow-sm bg-secondary rounded img-frame" id="superposition_img">
+                            <img src="../assets/img/preview/pre_bg.jpg" alt="" class="preview-img"
+                                id="superpositionImg">
+                        </div>
+                        <p class="text-dark m-1 py-2">Overlay</p>
                     </div>
                     <div class="col-lg-3 col-sm-3 text-center">
                         <div class="shadow-sm bg-secondary rounded img-frame" id="area_img">

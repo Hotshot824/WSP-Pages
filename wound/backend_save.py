@@ -1,4 +1,4 @@
-#! /home/wsout/.conda/envs/tens-2.6/bin/python
+#! /home/wsp/.conda/envs/wsp/bin/python
 # -*- coding: utf-8 -*-
 
 import os
@@ -6,7 +6,7 @@ import time
 
 if __name__ == '__main__':
 
-    # Change pwd
+    # change pwd
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     localtime = time.localtime()
@@ -18,14 +18,14 @@ if __name__ == '__main__':
     scale = 'area/' + ostime + '_backEnd' + "_scale.txt"
 
     target_path = './upload'
-    save_path = '../save/backEndSave/'
+    save_path = '../save/backend_save/'
 
-    #save scale file
-    os.system("cp " + './111.txt ' + save_path + scale)
+    # save scale file
+    os.system("cp " + './upload/scale.txt ' + save_path + scale)
 
-    #save original image
-    os.system("cp " + target_path + '/test/images/111.png ' + save_path + original)
+    # save original image
+    os.system("cp " + target_path + '/test/images/original.png ' + save_path + original)
 
-    #save predict image
-    os.system("cp " + target_path + '/111.png ' + save_path + predict_result)
-    os.system("cp " + target_path + '/111context.png ' + save_path + area_image)
+    # save predict image
+    os.system("cp " + target_path + '/original.png ' + save_path + predict_result)
+    os.system("cp " + target_path + '/area.png ' + save_path + area_image)

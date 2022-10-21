@@ -324,12 +324,13 @@ class Paint {
             // console.log( x + ", " + y );
 
             linear_cords = (y * this.canvas.width + x) * 4;
-            while (y-- >= 0 &&
+            while (y >= 0 &&
                 !(pixels.data[linear_cords] == color.r &&
                     pixels.data[linear_cords + 1] == color.g &&
                     pixels.data[linear_cords + 2] == color.b &&
                     pixels.data[linear_cords + 3] == color.a)) {
                 linear_cords -= canvas.width * 4;
+            y--;
             }
             linear_cords += this.canvas.width * 4;
             y++;
@@ -431,7 +432,7 @@ class Paint {
 
     }
 
-    async areaUpload() {
+    async backend_upload() {
 
         let img = this.canvas.toDataURL();
         let data = {
@@ -450,12 +451,12 @@ class Paint {
         }
 
         let imgpreview = "../assets/img/preview/pre_img.gif"
-        document.querySelector('#edgeImg').src = imgpreview;
         document.querySelector('#overlayImg').src = imgpreview;
+        document.querySelector('#superpositionImg').src = imgpreview;
         document.querySelector('#areaImg').src = imgpreview;
         document.querySelector('#originalImg').src = imgpreview;
 
-        await fetch("../php/cutPaintArea.php", {
+        await fetch("../php/backend_predict.php", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -465,26 +466,26 @@ class Paint {
             .then((response) => {
                 alert(response)
                 let path = "../wound/upload/"
-                document.querySelector('#edgeImg').src = path + "superposition.png?" + Math.random().toString(2);
                 document.querySelector('#overlayImg').src = path + "overlay.png?" + Math.random().toString(2);
-                document.querySelector('#areaImg').src = path + "111context.png?" + Math.random().toString(2);
-                document.querySelector('#originalImg').src = path + "/test/images/111.png?" + Math.random().toString(2);
+                document.querySelector('#superpositionImg').src = path + "superposition.png?" + Math.random().toString(2);
+                document.querySelector('#areaImg').src = path + "area.png?" + Math.random().toString(2);
+                document.querySelector('#originalImg').src = path + "/test/images/original.png?" + Math.random().toString(2);
                 console.log(response);
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);
             })
-        console.log("比例尺的x = " + data["x"]);
-        console.log("比例尺的y = " + data["y"]);
-        console.log("用戶輸入的長 = " + data["length"]);
-        console.log("原圖的x = " + data["originx"]);
-        console.log("原圖的y = " + data["originy"]);
-        console.log("裁切後的x = " + data["after_cut_x"]);
-        console.log("裁切後的y = " + data["after_cut_y"]);
-        alert("done");
+
+        // console.log("比例尺的x = " + data["x"]);
+        // console.log("比例尺的y = " + data["y"]);
+        // console.log("用戶輸入的長 = " + data["length"]);
+        // console.log("原圖的x = " + data["originx"]);
+        // console.log("原圖的y = " + data["originy"]);
+        // console.log("裁切後的x = " + data["after_cut_x"]);
+        // console.log("裁切後的y = " + data["after_cut_y"]);
     }
 
-    async iouUpload() {
+    async backend_iou_upload() {
 
         var img = this.canvas.toDataURL();
         var data = {
@@ -494,7 +495,7 @@ class Paint {
         let imgpreview = "../assets/img/preview/pre_img.gif"
         document.querySelector('#iouImg').src = imgpreview;
 
-        await fetch("../php/iouPaint.php", {
+        await fetch("../php/backend_iou.php", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -504,13 +505,12 @@ class Paint {
             .then((response) => {
                 alert(response)
                 let path = "../wound/upload/"
-                document.querySelector('#iouImg').src = path + "iou.png?" + Math.random().toString(2);
+                document.querySelector('#iouImg').src = path + "iou_result.png?" + Math.random().toString(2);
                 console.log(response);
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);
             })
-        alert("done");
     }
 
     frontendAreaUpload() {

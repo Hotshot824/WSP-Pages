@@ -2621,8 +2621,8 @@ textarea.form-control-lg {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  /* -webkit-print-color-adjust: exact;
+  color-adjust: exact; */
 }
 
 .form-check-input[type=checkbox] {
@@ -12331,7 +12331,7 @@ hr.divider-dark {
   }
 
   #mainNav .navbar-nav .nav-item .nav-link:hover {
-    color: #fff;
+    color: #006284;
   }
 
   #mainNav .navbar-nav .nav-item:last-child .nav-link {

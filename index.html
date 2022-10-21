@@ -34,9 +34,6 @@
                 <ul class="navbar-nav ms-auto my-2 my-lg-0">
                     <li class="nav-item"><a class="nav-link" href="./paint/main.html">Paint</a></li>
                     <li class="nav-item"><a class="nav-link" href="document.html">Document</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="#predict">Predict</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#imageLabel">Image&Label</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#drawing">Drawing</a></li> -->
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     <li class="nav-item">
                         <a class="nav-link d-xl-none d-lg-none text-success" href="#signup">
@@ -78,172 +75,6 @@
             </div>
         </div>
     </header>
-    <!-- Predict-->
-    <!-- <section class="page-section bg-primary" id="predict">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h2 class="text-white mt-0">Wound Predict</h2>
-                    <hr class="divider divider-light" />
-                    <p class="text-white-75 mb-4">
-                        Uploading the original
-                        wound image. After 20 seconds of predicting the wound area.
-                    </p>
-                </div>
-            </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded img-frame">
-                        <div class="btn-imgbox btn-img text-white rounded">
-                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
-                                id="predictImg">
-                            <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="predictImgUploadBtn">
-                                <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
-                                    <span class="font-weight-light">Upload</span>
-                                </h5>
-                                <p class="btn-img-description small text-uppercase mb-0">
-                                    Image size need<br>
-                                    224 * 224
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <input id="inputPredictImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
-                    <p class="text-light m-1 py-2" id="edge-button">
-                        Original Image
-                    </p>
-                </div>
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="edgeImg">
-                    </div>
-                    <p class="text-light m-1 py-2">Edge</p>
-                </div>
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded img-frame" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="overlayImg">
-                    </div>
-                    <p class="text-light m-1 py-2">Overlay</p>
-                </div>
-            </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <button id="predictBtn" class="btn btn-light my-2 btn-5">
-                    Predict GO
-                </button>
-            </div>
-        </div>
-    </section> -->
-    <!-- Services-->
-    <!-- <section class="page-section" id="imageLabel">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h2 class="text-center text-dark mt-0">Image&Label</h2>
-                    <hr class="divider divider-dark" />
-                    <p class="text-dark mb-4">
-                        Uploading the original wound image and label. Can use
-                        <a href="https://en.wikipedia.org/wiki/Jaccard_index"> IOU </a>
-                        check Accuracy.
-                    </p>
-                </div>
-            </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow bg-light rounded img-frame">
-                        <div class="btn-imgbox btn-img text-white rounded">
-                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
-                                id="iouImg">
-                            <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="iouImgUploadBtn">
-                                <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
-                                    <span class="font-weight-light">Upload</span>
-                                </h5>
-                                <p class="btn-img-description small text-uppercase mb-0">
-                                    Image size need<br>
-                                    224 * 224
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <input id="inputIouImg" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
-                    <p class="text-dark m-1 py-2" id="edge-button">Original Image</p>
-                </div>
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow bg-light rounded img-frame">
-                        <div class="btn-imgbox btn-img text-white rounded">
-                            <img src="./assets/img/preview/image_upload_placeholder.jpg" alt="" class="preview-img"
-                                id="iouLabel">
-                            <div class="btn-img-overlay"></div>
-                            <div class="btn-img-content cursor-p" id="iouLabelUploadBtn">
-                                <h5 class="btn-img-description text-uppercase font-weight-bold mb-1">
-                                    <span class="font-weight-light">Upload</span>
-                                </h5>
-                                <p class="btn-img-description small text-uppercase mb-0">
-                                    Image size need<br>
-                                    224 * 224
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <input id="inputIouLabel" name="upload" type="file" class="d-none" accept=".jpg,.png,.jpeg" />
-                    <p class="text-dark m-1 py-2" id="edge-button">Label</p>
-                </div>
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow bg-light rounded img-frame" id="overlay_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="iouResultImg">
-                    </div>
-                    <p class="text-dark m-1 py-2" id="overlay-button">IOU</p>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <button id="iouButton" class="btn btn-danger my-2 btn-5">
-                        IOU GO
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- Call to action-->
-    <!-- <section class="page-section bg-dark text-white" id="drawing">
-        <div class="px-3 px-lg-4 text-center">
-            <h2 class="text-center mt-0">Drawing</h2>
-            <hr class="divider divider-light" />
-            <div class="row bg-light">
-                <iframe id="woundPaint" class="col-lg-12 text-center" src="./paint-main/index.html" style="height: calc(90vh);"></iframe>
-            </div>
-        </div>
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <hr class="divider divider-light" />
-                    <p class="text-white-75 mb-4">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, ad! 
-                        Ab, ex suscipit! Nobis quis at dolor, unde doloremque quae ut aspernatur 
-                        eveniet? Totam exercitationem nulla dolore! Doloribus, autem porro?
-                    </p>
-                </div>
-            </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="areaOriginalImg">
-                    </div>
-                    <p class="text-light m-1 py-2">Original</p>
-                </div>
-                <div class="col-lg-3 col-sm-3 text-center">
-                    <div class="shadow-sm bg-light rounded img-frame" id="edge_img">
-                        <img src="./assets/img/preview/pre_bg.jpg" alt="" class="preview-img" id="areaImg">
-                    </div>
-                    <p class="text-light m-1 py-2">Area</p>
-                </div>
-            </div>
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <button id="aeraButton" class="btn btn-light my-2 btn-5">
-                    Show Area
-                </button>
-            </div>
-        </div>
-    </section> -->
     <!-- Contact-->
     <section class="page-section" id="contact">
         <div class="container px-4 px-lg-5">
@@ -273,67 +104,6 @@
                     <!-- https://startbootstrap.com/solution/contact-forms-->
                     <!-- to get an API token!-->
                     <form id="contactForm" action="./php/message.php">
-                        <!-- Name input-->
-                        <!-- <div class="form-floating mb-3">
-                            <input class="form-control" id="name" type="text" placeholder="Enter your name..."
-                                data-sb-validations="required" />
-                            <label for="name">Full name</label>
-                            <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
-                        </div> -->
-                        <!-- Email address input-->
-                        <!-- <div class="form-floating mb-3">
-                            <input class="form-control" id="email" type="email" placeholder="name@example.com"
-                                data-sb-validations="required,email" />
-                            <label for="email">Email address</label>
-                            <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                            <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                        </div> -->
-                        <!-- Phone number input-->
-                        <!-- <div class="form-floating mb-3">
-                            <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890"
-                                data-sb-validations="required" />
-                            <label for="phone">Phone number</label>
-                            <div class="invalid-feedback" data-sb-feedback="phone:required">
-                                A phone number is required.
-                            </div>
-                        </div> -->
-                        <!-- Message input-->
-                        <!-- <div class="form-floating mb-3">
-                            <textarea class="form-control" id="message" type="text"
-                                placeholder="Enter your message here..." style="height: 10rem"
-                                data-sb-validations="required"></textarea>
-                            <label for="message">Message</label>
-                            <div class="invalid-feedback" data-sb-feedback="message:required">
-                                A message is required.
-                            </div>
-                        </div> -->
-                        <!-- Submit success message-->
-                        <!---->
-                        <!-- This is what your users will see when the form-->
-                        <!-- has successfully submitted-->
-                        <!-- <div class="d-none" id="submitSuccessMessage">
-                            <div class="text-center mb-3">
-                                <div class="fw-bolder">Form submission successful!</div>
-                                To activate this form, sign up at
-                                <br />
-                                <a href="https://startbootstrap.com/solution/contact-forms">
-                                    https://startbootstrap.com/solution/contact-forms
-                                </a>
-                            </div>
-                        </div> -->
-                        <!-- Submit error message-->
-                        <!---->
-                        <!-- This is what your users will see when there is-->
-                        <!-- an error submitting the form-->
-                        <!-- <div class="d-none" id="submitErrorMessage">
-                            <div class="text-center text-danger mb-3">Error sending message!</div>
-                        </div> -->
-                        <!-- Submit Button-->
-                        <!-- <div class="d-grid">
-                            <button class="btn btn-primary btn-xl disabled" id="submitButton"
-                                type="submit">Submit
-                            </button>
-                        </div> -->
                         <div class="align-items-center justify-content-center text-center">
                             <div class="form-floating mb-3">
                                 <textarea class="form-control" id="message" type="text" name="message"
@@ -359,7 +129,7 @@
     <!-- Footer-->
     <footer class="bg-light py-5">
         <div class="container px-4 px-lg-5">
-            <div class="small text-center text-muted">Copyright &copy; 2021 - Company Name</div>
+            <div class="small text-center text-muted">Copyright &copy; 2021 - Company ISU WSout</div>
         </div>
     </footer>
     <!-- Bootstrap core JS-->
@@ -372,7 +142,6 @@
     <!-- * *                               SB Forms JS                               * *-->
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
     <!-- Self page JS-->
     <script src="./js/index.js"></script>
 </body>

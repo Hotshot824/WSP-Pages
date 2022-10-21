@@ -4,7 +4,7 @@ let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
 let painting = new Paint(canvas, ctx);
 
-// state, 0==brush, 1==eraser, 2==bucket 3==ruler, 4==select
+// mouse click status
 let state;
 let toolbarBtnlist = ['#brushBtn', '#eraserBtn', '#bucketBtn', '#rulerBtn', '#areaBtn', '#selectBtn'];
 
@@ -73,12 +73,13 @@ function floodFill(x, y, color, area) {
         // console.log(x + ", " + y);
 
         linear_cords = (y * canvas.width + x) * 4;
-        while (y-- >= 0 &&
+        while (y >= 0 &&
             (pixels.data[linear_cords] == original_color.r &&
                 pixels.data[linear_cords + 1] == original_color.g &&
                 pixels.data[linear_cords + 2] == original_color.b &&
                 pixels.data[linear_cords + 3] == original_color.a)) {
             linear_cords -= canvas.width * 4;
+            y--;
         }
         linear_cords += canvas.width * 4;
         y++;
@@ -139,22 +140,32 @@ function floodFill(x, y, color, area) {
 function toastPosition() {
     let toastContainer = document.querySelector('.toast-container')
     toastContainer.style.transform = 'translate(' + (window.innerWidth - 310) + 'px,' + (70) + 'px)';
-
+    
     let frontAreatext = document.querySelector('.front-areatext')
     let text_width = frontAreatext.offsetWidth;
     let text_height = frontAreatext.offsetHeight;
     frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
 }
 
+window.addEventListener('mousedown', () => {
+    $("#message").popover('hide');
+});
 
 window.addEventListener('load', () => {
     // painting.init()
     // painting.loaded()
     // previewImgHeight()
+
+    // paint version log
+    console.log("##### version 1.01 #####")
+    
     $("#message").popover('show');
-    toastPosition()
+    // $(".dropdown-menu").show();
+
     document.querySelector('#brushBtn').click();
     painting.saveHistory("brushbtn");
+
+    toastPosition();
 });
 
 window.addEventListener('resize', () => {
@@ -190,7 +201,6 @@ for (let i = 0; i < colorItem.length; i++) {
 
 // Mouse event
 painting.canvas.addEventListener('mousedown', (e) => {
-    $("#message").popover('hide');
     getCoordinate(e)
     switch (state) {
         case 'brush':
@@ -204,6 +214,10 @@ painting.canvas.addEventListener('mousedown', (e) => {
             if (painting.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
                 document.querySelector('#brushBtn').click()
+
+                // scale ready animate
+                document.querySelector('#rulerBtn').classList.add("btn-danger");
+                document.querySelector('#rulerBtn').classList.remove("btn-outline-secondary");
             };
             break;
         case 'area':
@@ -248,7 +262,6 @@ painting.canvas.addEventListener('mouseup', () => {
 
 // Touch event
 painting.canvas.addEventListener('touchstart', (e) => {
-    $("#message").popover('hide');
     getTouchCoordinate(e)
     switch (state) {
         case 'brush':
@@ -301,7 +314,9 @@ document.querySelector('#saveImageBtn').addEventListener('click', () => painting
 let openImageInput = document.querySelector('#openImageInput');
 document.querySelector('#openImageBtn').addEventListener('click', () => {
     openImageInput.click();
+    document.querySelector('#nav-home-tab').click()
 });
+
 openImageInput.addEventListener('change', () => {
     painting.frontUploadFlag = 1;
     painting.displayImg();
@@ -331,8 +346,7 @@ document.querySelector('#bucketBtn').addEventListener('click', () => {
 document.querySelector('#rulerBtn').addEventListener('click', () => {
     changeActive('#rulerBtn');
     state = 'ruler';
-
-    painting.length = window.prompt("輸入長度");
+    painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image. ");
 });
 
 document.querySelector('#areaBtn').addEventListener('click', () => {
@@ -371,7 +385,7 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.areaUpload();
+        painting.backend_upload();
     } else {
         alert('No scale, Please give scale first!');
     }
@@ -385,7 +399,7 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
     for (let i = 0; i < close.length; i++) {
         close[i].click();
     }
-    painting.iouUpload();
+    painting.backend_iou_upload();
 });
 
 document.querySelector('#iou_img').addEventListener('click', () => {
