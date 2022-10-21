@@ -6,7 +6,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./web_data/:/var/www/html/
+      - ./web_server/:/var/www/html/
     ports:
       - 80:80
 
@@ -20,7 +20,7 @@ services:
       MYSQL_DATABASE: testdb
     working_dir: /root/
     volumes:
-      - ./db_data/data/:/root/
-      - ./db_data/init/:/docker-entrypoint-initdb.d/
+      - ./db_server/data/:/root/
+      - ./db_server/init/:/docker-entrypoint-initdb.d/
     ports:
       - 3306:3306
