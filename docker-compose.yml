@@ -15,10 +15,10 @@ services:
     image: mysql:8.0-debian
     restart: always
     environment:
-      MYSQL_USER: test
-      MYSQL_PASSWORD: test
+      # MYSQL_USER: test
+      # MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: test
-      MYSQL_DATABASE: testdb
+      MYSQL_DATABASE: WSP
     working_dir: /root/
     volumes:
       - ./db_server/data:/var/lib/mysql
