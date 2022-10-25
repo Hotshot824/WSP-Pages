@@ -11,13 +11,10 @@ This docker compose will listen for:
 * 8080 (gui for database)
 * 3306 (database service)
 
-## Configure
+### Configure
 * Web server php config at `web_server/config/php.ini`
 * Sql initialization script file at `db_server/init/`
 
-```
-docker-compose up
-```
 
 # Predict module
 The Predict mod pack is outside of this repository. \
