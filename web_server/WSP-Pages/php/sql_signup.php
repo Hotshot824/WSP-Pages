@@ -5,12 +5,12 @@ ini_get("mysqli.default_user"),
 ini_get("mysqli.default_pw"),
 $dbname);
 
-$id = "Babalseas";
+$id = "Hsdasd";
 $passsword = "Hello,world!";
 
-$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '$id' LIMIT 1;";
+$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '".$id."' LIMIT 1;";
 $sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" . 
-" VALUE ('$id', '$passsword', 'Hello');";
+" VALUE ('".$id."', '".$passsword."', 'Hello');";
 
 if($link){
     $result = mysqli_query($link, $sql_select);
