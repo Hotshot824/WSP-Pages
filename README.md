@@ -20,3 +20,22 @@ Download and then put in the following path.
 ```
 web_server/WSP-Pages/wound
 ```
+
+# Build from scratch
+
+1. Clone repository, and install docker.
+2. Download prediction module.
+3. Unzip the file, and then join prediction mod to `/web_server/WSP-Pages/wound`.
+4. run `docker-compose up`
+5. web service is start.
+
+currently directory will be like
+```
+|---db_server
+|
+|---img
+|
+|---wbe_server
+|
+|---docker-compose.yml
+```
