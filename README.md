@@ -1,7 +1,7 @@
 # Wound Segementation Prediction Pages
 
 This Repositories is contains code to run to WSP(Wound segementation prediction) web server.
-WSP is a wound analysis platform, focusing on pressure sore type wounds.
+WSP is a wound analysis platform, focusing on **pressure sore** type wounds.
 
 ![](https://github.com/Hotshot824/WSP-Pages/blob/main/img/paint_example.png?raw=true)
 
@@ -10,6 +10,11 @@ This docker compose will listen for:
 * 80 (web service)
 * 8080 (gui for database)
 * 3306 (database service)
+
+## Configure
+* Web server php config at `web_server/config/php.ini`
+* Sql initialization script file at `db_server/init/`
+
 ```
 docker-compose up
 ```
