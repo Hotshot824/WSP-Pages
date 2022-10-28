@@ -2,8 +2,10 @@
 // get jsondecode
 $content = trim(file_get_contents("php://input"));
 $text = json_decode($content, true);
-$account = $text["account"];
-$password = $text["password"];
+$patientID = $text["patientID"];
+$password = $text["inviteCode"];
+$patientName = $text['patientName'];
+$emailAddress = $text['emailAddress'];
 
 // get default var
 $path = "/etc/php//8.1/cli/php.ini";
@@ -27,9 +29,9 @@ try {
 //     $result -> close();
 // }
 
-$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '".$account."' LIMIT 1;";
+$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '".$patientID."' LIMIT 1;";
 $sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" . 
-" VALUE ('".$account."', '".$password."', 'Hello');";
+" VALUE ('".$patientID."', '".$password."', 'Hello');";
 
 if($mysqli){
     $result = mysqli_query($mysqli, $sql_select);
