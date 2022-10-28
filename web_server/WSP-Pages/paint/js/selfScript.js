@@ -140,7 +140,7 @@ function floodFill(x, y, color, area) {
 function toastPosition() {
     let toastContainer = document.querySelector('.toast-container')
     toastContainer.style.transform = 'translate(' + (window.innerWidth - 310) + 'px,' + (70) + 'px)';
-    
+
     let frontAreatext = document.querySelector('.front-areatext')
     let text_width = frontAreatext.offsetWidth;
     let text_height = frontAreatext.offsetHeight;
@@ -158,7 +158,7 @@ window.addEventListener('load', () => {
 
     // paint version log
     console.log("##### version 1.01 #####")
-    
+
     $("#message").popover('show');
     // $(".dropdown-menu").show();
 
@@ -403,5 +403,56 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
 });
 
 document.querySelector('#iou_img').addEventListener('click', () => {
-    document.querySelector('#nav-home-tab').click()
+    document.querySelector('#nav-home-tab').click();
 });
+
+// Signup
+document.querySelector('#signupForm').addEventListener('submit', (event) => {
+    let form = document.querySelector('#signupForm');
+    let form_data = new FormData(form);
+    let formValid = form.checkValidity();
+    let data = {};
+    if (formValid) {
+        event.preventDefault();
+        let formDataObject = Object.fromEntries(form_data.entries());
+        let formDataJsonString = JSON.stringify(formDataObject);
+        console.log(formDataJsonString);
+    }
+    // fetch("../php/test.php", {
+    //     method: "POST",
+    //     body: JSON.stringify(data)
+    // })
+    //     .then((response) => {
+    //         return response.text();
+    //     })
+    //     .then((response) => {
+    //         alert(response);
+    //         console.log(response);
+    //     })
+    //     .catch((error) => {
+    //         console.log(`Error: ${error}`);
+    //     })
+})
+
+// Test btn
+document.querySelector('#testBtn').addEventListener('click', () => {
+    let data = {
+        "account": "test",
+        "password": "test"
+    }
+
+    fetch("../php/test.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.text();
+        })
+        .then((response) => {
+            alert(response);
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
+})
