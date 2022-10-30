@@ -408,32 +408,55 @@ document.querySelector('#iou_img').addEventListener('click', () => {
 });
 
 // Signup
-document.querySelector('#signupForm').addEventListener('submit', (event) => {
+document.querySelector('#signupForm').addEventListener('submit', async (event) => {
     let form = document.querySelector('#signupForm');
     let formValid = form.checkValidity();
     if (formValid) {
         event.preventDefault();
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
-        formDataObiect['inviteCode'] = sha256(formDataObiect['inviteCode']);
-        fetch("../php/sql_signup.php", {
-            method: "POST",
-            body: JSON.stringify(formDataObiect)
-        })
-            .then((response) => {
-                return response.text();
+        formDataObiect['password'] = sha256(formDataObiect['password']);
+        let response = (async () => {
+            return await fetch("../php/sql_signup.php", {
+                method: "POST",
+                body: JSON.stringify(formDataObiect)
             })
-            .then((response) => {
-                alert(response);
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(`Error: ${error}`);
-            })
+                .then((response) => {
+                    return response.json();
+                })
+                .catch((error) => {
+                    console.log(`Error: ${error}`);
+                })
+        })();
+
+        await response.then((response) => {
+            if (!response['sql_connection']){
+                alert(response['sql_connection_error']);
+                return;
+            } 
+
+            if (!response['invite_code']){
+                alert("Error: Incorrect invitation code!");
+                return;
+            } 
+
+            if (!response['exist']){
+                alert("Account created successfully!");
+            } else{
+                alert("Account already existed!");
+                return;
+            }
+
+            document.querySelector('#modalSignup').querySelector('.btn-close').click();
+            let input = document.querySelector('#modalSignup').querySelectorAll('input');
+            for (let i = 0; i < input.length; i++){
+                input[i].value = null;
+            }
+            document.querySelector('#signupAgree').checked = false;
+        });
     }
 })
 
 // Test btn
-document.querySelector('#testBtn').addEventListener('click', () => {
-    console.log(sha256("Hello"));
+document.querySelector('#testBtn').addEventListener('click', async () => {
 })

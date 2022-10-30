@@ -5,7 +5,7 @@ function sha256(ascii) {
 	
 	var mathPow = Math.pow;
 	var maxWord = mathPow(2, 32);
-	var lengthProperty = 'length'
+	var lengthProperty = 'length';
 	var i, j; // Used as a counter across the whole file
 	var result = ''
 

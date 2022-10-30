@@ -16,7 +16,8 @@ services:
     image: mysql:8.0-debian
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: test
+      # MYSQL_ROOT_PASSWORD: test
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: WSP
     working_dir: /root/
     volumes:
