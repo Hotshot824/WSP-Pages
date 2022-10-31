@@ -409,5 +409,5 @@ document.querySelector('#iou_img').addEventListener('click', () => {
 });
 
 // Test btn
-document.querySelector('#testBtn').addEventListener('click', async () => {
+document.querySelector('#testBtn').addEventListener('click', () => {
 })

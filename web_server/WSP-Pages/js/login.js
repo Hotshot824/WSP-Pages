@@ -19,24 +19,24 @@ document.querySelector('#signUpForm').addEventListener('submit', async (event) =
                 })
                 .catch((error) => {
                     console.log(`Error: ${error}`);
-                    return
                 })
         })();
 
         await response.then((response) => {
-            if (!response['sql_connection']){
+            console.log(response);
+            if (!response['sql_connection']) {
                 alert(response['sql_connection_error']);
                 return;
-            } 
+            }
 
-            if (!response['invite_code']){
+            if (!response['invite_code']) {
                 alert("Error: Incorrect invitation code!");
                 return;
-            } 
+            }
 
-            if (!response['exist']){
+            if (!response['exist']) {
                 alert("Account created successfully!");
-            } else{
+            } else {
                 alert("Account already existed!");
                 return;
             }
@@ -61,7 +61,7 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
         let response = (async () => {
-            return await fetch("../php/sign_up.php", {
+            return await fetch("./php/sign_up.php", {
                 method: "POST",
                 body: JSON.stringify(formDataObiect)
             })

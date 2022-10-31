@@ -10,6 +10,7 @@ $content = trim(file_get_contents("php://input"));
 $text = json_decode($content, true);
 $patientID = $text["patientID"];
 $password = $text["password"];
+$emailAddress = $text['emailAddress'];
 
 $respond = array();
 
@@ -34,7 +35,22 @@ try {
     // $respond['sql_connection_error'] = $e->getMessage();
 }
 
-// password add salt
+
+// sql language
+$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '" . $patientID . "' LIMIT 1;";
+$sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" . 
+" VALUE ('" . $patientID . "', '" . $password . "', '" . $salt . "');";
+
+
+if($mysqli){
+    $result = mysqli_query($mysqli, $sql_select);
+    if(mysqli_num_rows($result) > 0){
+        $respond['exist'] = TRUE;
+    } else {
+        $respond['exist'] = FALSE;
+        $result = mysqli_query($mysqli, $sql_insert);
+    }
+}
 
 echo json_encode($respond);
 close_mysqli($mysqli);
