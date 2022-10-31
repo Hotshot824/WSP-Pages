@@ -74,7 +74,7 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalSignup">
+                            <a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalSignUp">
                                 Sign Up
                             </a>
                         </li>
@@ -260,15 +260,15 @@
         </div>
     </div>
     <!-- Signup Modal -->
-    <div class="modal fade" id="modalSignup" tabindex="-1" aria-labelledby="modalSignuplLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSignUp" tabindex="-1" aria-labelledby="modalSignUplLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h5 class="modal-title w-100" id="modalSignupLabel">Sign Up</h5>
+                    <h5 class="modal-title w-100" id="modalSignUpLabel">Sign Up</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="signupForm">
+                    <form id="signUpForm">
                         <div class="row justify-content-md-center px-3">
                             <div class="d-flex justify-content-center">
                                 <label class="d-inline form-label" style="font-size: 1rem; color: brown;">
@@ -277,38 +277,37 @@
                             </div>
                             <div class="col-lg-6 form-outline mb-2">
                                 <label class="form-label mb-0" for="patientID">Patient ID</label>
-                                <input type="text" id="PatientID" class="form-control" name="patientID"
+                                <input type="text" class="form-control" name="patientID"
                                     placeholder="EDA000000" autocomplete="off" required />
                             </div>
                             <div class="col-lg-6 form-outline mb-2">
                                 <label class="form-label mb-0" for="password">Invite Code</label>
-                                <input type="password" id="password" class="form-control" name="password"
+                                <input type="password" class="form-control" name="password"
                                     placeholder="Required" autocomplete="off" required />
                             </div>
                             <!-- <div class="col-lg-6 form-outline mb-2">
                                 <label class="form-label mb-0" for="PatientName">Patient Name</label>
-                                <input type="text" id="PatientName" class="form-control" name="patientName"
+                                <input type="text" class="form-control" name="patientName"
                                     placeholder="Patient Name" autocomplete="off" />
                                 <label class="d-inline form-label" style="font-size: 0.8rem;">Non-essential.</label>
                             </div> -->
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="emailAddress">Email Address </label>
-                                <input type="email" id="emailAddress" class="form-control" name="emailAddress"
+                                <input type="email" class="form-control" name="emailAddress"
                                     placeholder="Email Address" />
                                 <label class="d-inline form-label" style="font-size: 0.8rem;">
                                     Non-essential, Can be used to recover passwords.
                                 </label>
                             </div>
                             <div class="col-lg-12 form-outline mb-2">
-                                <input class="form-check-input" type="checkbox" value="" name="signupAgree"
-                                    id="signupAgree" required />
+                                <input class="form-check-input" type="checkbox" value="" name="signupAgree" required />
                                 <label class="form-label d-inline" for="signupAgree">
                                     Provide data to us to improve service.
                                 </label>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-outline-success btn-block d-flex" id="signupFormBtn">
+                            <button type="submit" class="btn btn-outline-success btn-block d-flex" id="signUpFormBtn">
                                 Sign Up
                             </button>
                         </div>
@@ -329,24 +328,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="signupForm">
+                    <form id="signInForm">
                         <div class="row justify-content-md-center px-3">
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="patientID">Patient ID</label>
-                                <input type="text" id="PatientID" class="form-control" name="patientID"
-                                    placeholder="EDA000000" autocomplete="off" required />
+                                <input type="text" class="form-control" name="patientID" placeholder="EDA000000"
+                                    autocomplete="off" required />
                             </div>
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="inviteCode">Password</label>
-                                <input type="password" id="password" class="form-control" name="password"
-                                    placeholder="Required" autocomplete="off" required />
+                                <input type="password" class="form-control" name="password" placeholder="Required"
+                                    autocomplete="off" required />
                                 <label class="d-inline form-label" style="font-size: 0.8rem;">
                                     Password is same for your invite code.
                                 </label>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-success btn-block d-flex" id="signupFormBtn">
+                            <button type="submit" class="btn btn-success btn-block d-flex" id="signInFormBtn">
                                 Sign In
                             </button>
                         </div>
@@ -368,6 +367,7 @@
     <script type="module" src="./js/self-jquery.js"></script>
     <!-- Self JS -->
     <script type="module" src="./js/self-script.js"></script>
+    <script type="module" src="../js/login.js"></script>
     <script src="./js/predict-pages.js"></script>
 </body>
 
