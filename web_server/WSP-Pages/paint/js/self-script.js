@@ -1,4 +1,4 @@
-import { Paint } from './Paint.js';
+import { Paint } from './paint.js';
 import { sha256 } from '../../js/hash.js';
 
 let canvas = document.querySelector('#canvas');
@@ -161,7 +161,6 @@ window.addEventListener('load', () => {
     console.log("##### version 1.01 #####")
 
     $("#message").popover('show');
-    // $(".dropdown-menu").show();
 
     document.querySelector('#brushBtn').click();
     painting.saveHistory("brushbtn");
@@ -345,9 +344,12 @@ document.querySelector('#bucketBtn').addEventListener('click', () => {
 
 // Area toolbar
 document.querySelector('#rulerBtn').addEventListener('click', () => {
-    changeActive('#rulerBtn');
-    state = 'ruler';
     painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image. ");
+    if (painting.length != null){
+        console.log(painting.length);
+        changeActive('#rulerBtn');
+        state = 'ruler';
+    }
 });
 
 document.querySelector('#areaBtn').addEventListener('click', () => {
