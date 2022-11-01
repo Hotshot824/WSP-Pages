@@ -1,6 +1,6 @@
 <?php
 
-Upload directory
+// Upload directory
 
 $content = trim(file_get_contents("php://input"));
 

@@ -404,12 +404,6 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
     painting.backend_iou_upload();
 });
 
-document.querySelector('#iou_img').addEventListener('click', () => {
+document.querySelector('#iou_img').addEventListener('click', () => {``
     document.querySelector('#nav-home-tab').click();
 });
-
-// Test btn
-document.querySelector('#testBtn').addEventListener('click', () => {
-    let allCookies = document.cookie;
-    console.log(allCookies);
-})

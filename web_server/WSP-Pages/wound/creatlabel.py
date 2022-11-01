@@ -6,7 +6,6 @@ import cv2
 import os
 
 if __name__ == '__main__':
-        
     # Change pwd
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
         
@@ -18,7 +17,6 @@ if __name__ == '__main__':
     img = cv2.resize(img, (224, 224))  # 將大小修改成224*224
 
     # 儲存圖片
-
 
     for i in range(224) :
         for j in range(224):

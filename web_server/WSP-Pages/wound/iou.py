@@ -22,7 +22,7 @@ def iou( imga ,imgb ):
 # Change pwd
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
            
-imga = cv2.imread('./upload/original.png', 0)
+imga = cv2.imread('./upload/predict_ccl.png', 0)
 
 imgc = cv2.imread('./upload/iou_label.png', 0)
 
