@@ -410,4 +410,6 @@ document.querySelector('#iou_img').addEventListener('click', () => {
 
 // Test btn
 document.querySelector('#testBtn').addEventListener('click', () => {
+    let allCookies = document.cookie;
+    console.log(allCookies);
 })

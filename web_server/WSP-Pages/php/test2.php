@@ -24,6 +24,8 @@ define('_DBuser', $db_default['mysqli.default_user']);
 define('_DBpassword', $db_default['mysqli.default_pw']);
 define('_DBname', 'WSP');
 
+$respond = array();
+
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
     $respond['sql_connection'] = TRUE;
@@ -37,22 +39,16 @@ try {
 
 
 // sql language
-$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '" . $patientID . "' LIMIT 1;";
-$sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" . 
-" VALUE ('" . $patientID . "', '" . $password . "', '" . $salt . "');";
+$sql_search = "SELECT * FROM `patient_info` WHERE `patient_id` = 'Benson'";
 
 
 if($mysqli){
-    $result = mysqli_query($mysqli, $sql_select);
-    if(mysqli_num_rows($result) > 0){
-        $respond['exist'] = TRUE;
-    } else {
-        $respond['exist'] = FALSE;
-        $result = mysqli_query($mysqli, $sql_insert);
-    }
+    $result = mysqli_query($mysqli, $sql_search);
 }
+$result = mysqli_fetch_array($result);
 
-echo json_encode($respond);
+echo $result['patient_password'] . "\n";
+echo json_encode($respond) . "\n";
 close_mysqli($mysqli);
 
 return;

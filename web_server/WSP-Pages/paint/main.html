@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSignin">
+                            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSignIn">
                                 Sign In
                             </a>
                         </li>
@@ -259,7 +259,7 @@
             </div>
         </div>
     </div>
-    <!-- Signup Modal -->
+    <!-- Sign Up Modal -->
     <div class="modal fade" id="modalSignUp" tabindex="-1" aria-labelledby="modalSignUplLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -278,7 +278,7 @@
                             <div class="col-lg-6 form-outline mb-2">
                                 <label class="form-label mb-0" for="patientID">Patient ID</label>
                                 <input type="text" class="form-control" name="patientID"
-                                    placeholder="EDA000000" autocomplete="off" required />
+                                    placeholder="EDA000000" autocomplete="off" minlength="6" maxlength="20" required />
                             </div>
                             <div class="col-lg-6 form-outline mb-2">
                                 <label class="form-label mb-0" for="password">Invite Code</label>
@@ -294,7 +294,7 @@
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="emailAddress">Email Address </label>
                                 <input type="email" class="form-control" name="emailAddress"
-                                    placeholder="Email Address" />
+                                    placeholder="Email Address" maxlength="64" />
                                 <label class="d-inline form-label" style="font-size: 0.8rem;">
                                     Non-essential, Can be used to recover passwords.
                                 </label>
@@ -319,12 +319,12 @@
             </div>
         </div>
     </div>
-    <!-- Signin Modal -->
-    <div class="modal fade" id="modalSignin" tabindex="-1" aria-labelledby="modalSigninlLabel" aria-hidden="true">
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="modalSignIn" tabindex="-1" aria-labelledby="modalSignInlLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h5 class="modal-title w-100" id="modalSigninLabel">Sign Up</h5>
+                    <h5 class="modal-title w-100" id="modalSignInLabel">Sign In</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -333,7 +333,7 @@
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="patientID">Patient ID</label>
                                 <input type="text" class="form-control" name="patientID" placeholder="EDA000000"
-                                    autocomplete="off" required />
+                                    autocomplete="off" minlength="6" maxlength="20" required />
                             </div>
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="inviteCode">Password</label>

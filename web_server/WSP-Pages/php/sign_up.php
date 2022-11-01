@@ -26,13 +26,9 @@ define('_DBname', 'WSP');
 
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
-    $respond['sql_connection'] = TRUE;
 } catch (Exception $e){
-    $respond['sql_connection'] = FALSE;
-    $respond['sql_connection_error'] = "Error: Database connection failed!";
-
-    // for testing, don't for external use 
-    // $respond['sql_connection_error'] = $e->getMessage();
+    $respond['error_status'] = 1;
+    exit(json_encode($respond));
 }
 
 // password add salt
@@ -47,28 +43,25 @@ $invite_code = "isu2022";
 $invite_code = hash('sha256', $invite_code);
 $invite_code = hash('sha256', $invite_code . $salt);
 
-
-if($password != $invite_code){
-    $respond['invite_code'] = FALSE;
-    exit(json_encode($respond));
-} else {
-    $respond['invite_code'] = TRUE; 
-}
-
 // sql language
-$sql_select = "SELECT 1 FROM `patient_info` WHERE patient_id = '" . $patientID . "' LIMIT 1;";
+$sql_exist = "SELECT 1 FROM `patient_info` WHERE patient_id = '" . $patientID . "' LIMIT 1;";
 $sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" . 
 " VALUE ('" . $patientID . "', '" . $password . "', '" . $salt . "');";
 
-
 if($mysqli){
-    $result = mysqli_query($mysqli, $sql_select);
+    $result = mysqli_query($mysqli, $sql_exist);
     if(mysqli_num_rows($result) > 0){
-        $respond['exist'] = TRUE;
-    } else {
-        $respond['exist'] = FALSE;
-        $result = mysqli_query($mysqli, $sql_insert);
+        $respond['error_status'] = 2;
+        exit(json_encode($respond));
     }
+
+    if($password != $invite_code){
+        $respond['error_status'] = 3; 
+        exit(json_encode($respond));
+    }
+
+    $result = mysqli_query($mysqli, $sql_insert);
+    $respond['error_status'] = FALSE; 
 }
 
 echo json_encode($respond);

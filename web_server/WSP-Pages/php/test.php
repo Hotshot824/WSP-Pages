@@ -1,9 +1,12 @@
 <?php
-// $salt = "Hello";
-// $password = hash('sha256', $password . $salt);
-
-echo strlen('22222222222222222222') . "\n";
-// $invite_code = "isu2022";
-// $invite_code = hash('sha256', $invite_code);
-// $invite_code = hash('sha256', $invite_code . $salt);
+if(1){
+    echo 1;
+    if(0){
+        echo 2 . "";
+    } else {
+        echo 3;
+        return;
+    }
+    echo 4;
+}
 ?>
