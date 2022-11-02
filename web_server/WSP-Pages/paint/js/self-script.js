@@ -1,6 +1,13 @@
 import { Paint } from './paint.js';
 import { floodFill } from './bucket.js';
 
+document.onreadystatechange=function(){
+    console.log(document.readyState);
+    if(document.readyState=="complete"){
+        $(".loading").fadeOut();
+    }
+}     
+
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
 let painting = new Paint(canvas, ctx);
@@ -76,7 +83,6 @@ window.addEventListener('load', () => {
 
     $("#message").popover('show');
 
-    console.log(document.body.scrollHeight);
     painting.saveHistory("brushbtn");
     toastPosition();
 });
