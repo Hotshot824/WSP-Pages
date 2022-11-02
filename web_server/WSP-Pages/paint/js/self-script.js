@@ -1,12 +1,5 @@
 import { Paint } from './paint.js';
-import { floodFill } from './bucket.js';
-
-document.onreadystatechange=function(){
-    console.log(document.readyState);
-    if(document.readyState=="complete"){
-        $(".loading").fadeOut();
-    }
-}     
+import { floodFill } from './bucket.js';  
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');

@@ -88,3 +88,7 @@
 .tooltip {
     z-index: 999999999;
 }
+
+.img-thumbnail{
+    width: 100%;
+}
