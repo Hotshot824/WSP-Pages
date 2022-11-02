@@ -7,7 +7,7 @@ class Paint {
         this.lineJoin = "round";
         this.lineCap = "round";
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight*0.99;
+        this.canvas.height = window.innerHeight;
         this.canvas.beginHeight = window.innerHeight;
         this.isDrawing = false;
         this.lastX = 0;

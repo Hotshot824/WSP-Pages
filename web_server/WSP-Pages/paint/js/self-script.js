@@ -69,17 +69,15 @@ window.addEventListener('mousedown', () => {
 });
 
 window.addEventListener('load', () => {
-    // paint version log
-    console.log("##### version 1.0.14 #####")
+    console.log("##### version 1.0.15 #####")
 
     // painting.init()
     // painting.loaded()
 
     $("#message").popover('show');
 
-    document.querySelector('#brushBtn').click();
+    console.log(document.body.scrollHeight);
     painting.saveHistory("brushbtn");
-
     toastPosition();
 });
 
