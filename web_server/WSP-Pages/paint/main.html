@@ -74,13 +74,18 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalSignUp">
+                            <a class="btn btn-outline-success" id="signUp" data-bs-toggle="modal" data-bs-target="#modalSignUp">
                                 Sign Up
                             </a>
                         </li>
                         <li>
-                            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSignIn">
+                            <a class="btn btn-success" id="signIN" data-bs-toggle="modal" data-bs-target="#modalSignIn">
                                 Sign In
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-danger" id="logOut">
+                                Log out
                             </a>
                         </li>
                     </ul>
@@ -99,10 +104,10 @@
                 <!-- Test butten -->
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-outline-secondary" id="testBtn">
-                        <i class="bi bi-xbox"></i>
+                        1</i>
                     </button>
                     <button type="button" class="btn btn-outline-secondary" id="test2Btn">
-                        <i class="bi bi-xbox"></i>
+                        2</i>
                     </button>
                 </div>
                 <div class="btn-group" role="group" id="toolBtnGroup">
@@ -129,9 +134,8 @@
             ▲
         </button>
     </nav>
-    <p class="h5 front-areatext font-weight-bold d-inline text-success" style="user-select:none;">
-        Hello
-    </p>
+    <label class="h5 front-areatext font-weight-bold d-inline text-success" style="user-select:none;">
+    </label>
     <div class="toast-container top-0 start-0">
         <div class="toast" id="brushToast" data-bs-autohide="false">
             <div class="toast-header">

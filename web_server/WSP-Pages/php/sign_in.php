@@ -50,7 +50,10 @@ if($mysqli){
         exit(json_encode($respond));
     }
 
-    $respond['error_status'] = FALSE; 
+    session_save_path('/tmp');
+    session_start();
+    
+    $_SESSION['session_id'] = $patientID;
 }
 
 echo json_encode($respond);

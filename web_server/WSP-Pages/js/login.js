@@ -1,5 +1,50 @@
 import { sha256 } from './hash.js';
 
+function getCookie(name) {
+    let strcookie = document.cookie;
+    let arrcookie = strcookie.split(";");
+
+    for (var i = 0; i < arrcookie.length; i++){
+        let arr = arrcookie[i].split("=");
+        if (arr[0] == name){
+            return arr[1];
+        }
+    }
+}
+
+function loginStatus(statue) {
+    if (statue) {
+        document.querySelector('#signUp').classList.add("d-none");
+        document.querySelector('#signIN').classList.add("d-none");
+        document.querySelector('#logOut').classList.remove("d-none");
+    } else {
+        document.querySelector('#signUp').classList.remove("d-none");
+        document.querySelector('#signIN').classList.remove("d-none");
+        document.querySelector('#logOut').classList.add("d-none");
+    }
+}
+
+async function check_sign_up(){
+    if(getCookie['PHPSESSID'] != ""){
+        await fetch("../php/check_sign_up.php", {
+            method: "GET",
+        })
+            .then((response) => {
+                return response.text();
+            })
+            .then((response) => {
+                if(response != ""){
+                    loginStatus(true);
+                } else {
+                    loginStatus(false);
+                }
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
+    }
+}
+
 // Sign Up
 document.querySelector('#signUpForm').addEventListener('submit', async (event) => {
     let form = document.querySelector('#signUpForm');
@@ -93,6 +138,8 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
             }
 
             alert("Password, true!");
+            console.log(document.cookie);
+            check_sign_up();
 
             document.querySelector('#modalSignIn').querySelector('.btn-close').click();
             let input = document.querySelector('#modalSignIn').querySelectorAll('input');
@@ -103,3 +150,7 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
         });
     }
 })
+
+window.addEventListener('load', () => {
+    check_sign_up();
+});
