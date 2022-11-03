@@ -1,4 +1,5 @@
 import { Paint } from './paint.js';
+import {toastPosition, areatextPosition} from './style.js'
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
@@ -136,22 +137,6 @@ function getTouchCoordinate(e) {
     painting.top = painting.canvas.getBoundingClientRect().top;
     painting.lastX = parseInt(e.touches[0].clientX - painting.left)
     painting.lastY = parseInt(e.touches[0].clientY - painting.top)
-}
-
-function toastPosition() {
-    let toastContainer = document.querySelector('.toast-container')
-    toastContainer.style.transform = 'translate(' + (window.innerWidth - 310) + 'px,' + (70) + 'px)';
-}
-
-function areatextPosition(string = null) {
-    let frontAreatext = document.querySelector('.front-areatext')
-    if (string) {
-        frontAreatext.innerHTML = string;
-    }
-    
-    let text_width = frontAreatext.offsetWidth;
-    let text_height = frontAreatext.offsetHeight;
-    frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
 }
 
 window.addEventListener('mousedown', () => {
