@@ -12,7 +12,7 @@ $patientID = $text["patientID"];
 $password = $text["password"];
 $emailAddress = $text['emailAddress'];
 
-$respond = array();
+$response = array();
 
 // get default var
 $path = "/etc/php//8.1/cli/php.ini";
@@ -27,8 +27,8 @@ define('_DBname', 'WSP');
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
 } catch (Exception $e){
-    $respond['error_status'] = 1;
-    exit(json_encode($respond));
+    $response['error_status'] = "Error: Database connection error!";
+    exit(json_encode($response));
 }
 
 // password add salt
@@ -51,20 +51,19 @@ $sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" 
 if($mysqli){
     $result = mysqli_query($mysqli, $sql_exist);
     if(mysqli_num_rows($result) > 0){
-        $respond['error_status'] = 2;
-        exit(json_encode($respond));
+        $response['error_status'] = "Error: Account already existed!";
+        exit(json_encode($response));
     }
 
     if($password != $invite_code){
-        $respond['error_status'] = 3; 
-        exit(json_encode($respond));
+        $response['error_status'] = "Error: Incorrect invitation code!"; 
+        exit(json_encode($response));
     }
 
     $result = mysqli_query($mysqli, $sql_insert);
-    $respond['error_status'] = FALSE; 
 }
 
-echo json_encode($respond);
+echo json_encode($response);
 close_mysqli($mysqli);
 
 return;

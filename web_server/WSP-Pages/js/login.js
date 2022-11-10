@@ -1,48 +1,47 @@
+import { loginStatus } from '../paint/js/style.js';
 import { sha256 } from './hash.js';
 
 function getCookie(name) {
     let strcookie = document.cookie;
+    strcookie = strcookie.replace(/\s*/g, "");
     let arrcookie = strcookie.split(";");
-
-    for (var i = 0; i < arrcookie.length; i++){
+    for (var i = 0; i < arrcookie.length; i++) {
         let arr = arrcookie[i].split("=");
-        if (arr[0] == name){
+        if (arr[0] == name) {
             return arr[1];
         }
     }
 }
 
-function loginStatus(statue) {
-    if (statue) {
-        document.querySelector('#signUp').classList.add("d-none");
-        document.querySelector('#signIN').classList.add("d-none");
-        document.querySelector('#logOut').classList.remove("d-none");
-    } else {
-        document.querySelector('#signUp').classList.remove("d-none");
-        document.querySelector('#signIN').classList.remove("d-none");
-        document.querySelector('#logOut').classList.add("d-none");
-    }
+function delCookie(name) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getCookie(name);
+    if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
-async function check_sign_up(){
-    if(getCookie['PHPSESSID'] != ""){
-        await fetch("../php/check_sign_up.php", {
-            method: "GET",
-        })
-            .then((response) => {
-                return response.text();
-            })
-            .then((response) => {
-                if(response != ""){
-                    loginStatus(true);
-                } else {
-                    loginStatus(false);
-                }
-            })
-            .catch((error) => {
-                console.log(`Error: ${error}`);
-            })
+async function checkSignIn() {
+    let data = {}
+    if (getCookie('stay_in') == "on") {
+        data = {
+            "stay_in": true
+        }
     }
+    if (getCookie('PHPSESSID') != "") {
+        let response = await fetch("../php/check_sign_in.php", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+        return response;
+    }
+    return;
+}
+
+async function logOut() {
+    let response = await fetch("../php/log_out.php", {
+        method: "GET",
+    })
+    return response;
 }
 
 // Sign Up
@@ -70,18 +69,7 @@ document.querySelector('#signUpForm').addEventListener('submit', async (event) =
         await response.then((response) => {
             console.log(response);
             if (response['error_status']) {
-                switch (response['error_status']) {
-                    case 1:
-                        alert("Error: Database connection error!");
-                        break;
-                    case 2:
-                        alert("Error: Account already existed!");
-                        break;
-                    case 3:
-                        alert("Error: Incorrect invitation code!");
-                        break;
-                    default:
-                }
+                alert(response['error_status']);
                 return;
             }
 
@@ -120,26 +108,17 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
         })();
 
         await response.then((response) => {
-            console.log(response);
             if (response['error_status']) {
-                switch (response['error_status']) {
-                    case 1:
-                        alert("Error: Database connection error!");
-                        break;
-                    case 2:
-                        alert("Error: Account not existed!");
-                        break;
-                    case 3:
-                        alert("Error: Password error!");
-                        break;
-                    default:
-                }
+                alert(response['error_status']);
                 return;
             }
 
+            if (formDataObiect['stayIn']) {
+                document.cookie = "stay_in=" + formDataObiect['stayIn'];
+            }
+
             alert("Password, true!");
-            console.log(document.cookie);
-            check_sign_up();
+            loginStatus(true);
 
             document.querySelector('#modalSignIn').querySelector('.btn-close').click();
             let input = document.querySelector('#modalSignIn').querySelectorAll('input');
@@ -151,6 +130,4 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
     }
 })
 
-window.addEventListener('load', () => {
-    check_sign_up();
-});
+export { delCookie, checkSignIn, logOut }

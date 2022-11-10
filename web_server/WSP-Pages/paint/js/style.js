@@ -14,4 +14,16 @@ function areatextPosition(string = null) {
     frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
 }
 
-export {toastPosition, areatextPosition};
+function loginStatus(statue) {
+    if (statue) {
+        document.querySelector('#signUp').classList.add("d-none");
+        document.querySelector('#signIN').classList.add("d-none");
+        document.querySelector('#logOut').classList.remove("d-none");
+    } else {
+        document.querySelector('#signUp').classList.remove("d-none");
+        document.querySelector('#signIN').classList.remove("d-none");
+        document.querySelector('#logOut').classList.add("d-none");
+    }
+}
+
+export {toastPosition, areatextPosition, loginStatus};

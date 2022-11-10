@@ -1,5 +1,6 @@
 import { Paint } from './paint.js';
-import {toastPosition, areatextPosition} from './style.js'
+import { toastPosition, areatextPosition, loginStatus } from './style.js'
+import { delCookie, checkSignIn, logOut } from '../../js/login.js'
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
@@ -144,18 +145,36 @@ window.addEventListener('mousedown', () => {
 });
 
 window.addEventListener('load', () => {
-    console.log("##### version 1.0.15 #####")
+    console.log("##### version 1.0.15 #####");
 
     // painting.init()
     // painting.loaded()
 
     painting.saveHistory("brushbtn");
-
     // init
     $("#message").popover('show');
     toastPosition();
     areatextPosition("Hello");
 });
+
+// check login
+window.addEventListener('load', async () => {
+    await checkSignIn()
+        .then((response) => {
+            return response.json()
+        })
+        .then((response) => {
+            if (response['patientID']){
+                loginStatus(true);
+                return;
+            }
+            loginStatus(false);
+            return;
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
+})
 
 window.addEventListener('resize', () => {
     toastPosition();
@@ -332,7 +351,7 @@ document.querySelector('#bucketBtn').addEventListener('click', () => {
 // Area toolbar
 document.querySelector('#rulerBtn').addEventListener('click', () => {
     painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image. ");
-    if (painting.length != null){
+    if (painting.length != null) {
         console.log(painting.length);
         changeActive('#rulerBtn');
         state = 'ruler';
@@ -396,30 +415,35 @@ document.querySelector('#iouImg').addEventListener('click', () => {
     document.querySelector('#nav-home-tab').click();
 });
 
-// Iou btn
+// Log Out
+document.querySelector('#logOut').addEventListener('click', async (event) => {
+    logOut()
+        .then((result) => {
+            loginStatus(false);
+            delCookie('stay_in');
+            alert("Bye!");
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
+})
+
 document.querySelector('#testBtn').addEventListener('click', () => {
-    fetch("../php/test.php", {
-        method: "POST",
+    fetch("../php/checkSignIn.php", {
+        method: "GET",
     })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            console.log(response);
+            console.log(response['patientID']);
+        })
         .catch((error) => {
             console.log(`Error: ${error}`);
         })
 });
 
-// Iou btn
 document.querySelector('#test2Btn').addEventListener('click', () => {
     console.log(document.cookie);
-
-    fetch("../php/test2.php", {
-        method: "GET",
-    })
-        .then((response) => {
-            return response.text();
-        })
-        .then((response) => {A
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
-        })
 });
