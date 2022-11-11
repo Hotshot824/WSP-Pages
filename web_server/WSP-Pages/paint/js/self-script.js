@@ -429,7 +429,7 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
 })
 
 document.querySelector('#testBtn').addEventListener('click', () => {
-    fetch("../php/checkSignIn.php", {
+    fetch("../php/test.php", {
         method: "GET",
     })
         .then((response) => {
