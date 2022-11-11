@@ -3,8 +3,8 @@
 ## version: 0.0.2
 web_server/WSP-Pages/wound/upload
 web_server/WSP-Pages/wound/build
-web_server/WSP-Pages/wound/3527_MobilenetV2.hdf5
-web_server/WSP-Pages/wound/test_model.h5
+web_server/WSP-Pages/wound/*.hdf5
+web_server/WSP-Pages/wound/*.h5
 web_server/WSP-Pages/save
 web_server/log/php_log.txt
 db_server/data
