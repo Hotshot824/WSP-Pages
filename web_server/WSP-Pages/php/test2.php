@@ -1,6 +1,9 @@
 <?php
-session_save_path('/tmp');
-session_start();
+require __DIR__ . '/lib/remove_tmp.php';
 
-echo $_SESSION['session_id'];
+\tmpfile\random_remove_tmpfile();
+
+$response = Array();
+$response['last_time'] = "Hello";
+echo json_encode($response);
 ?>

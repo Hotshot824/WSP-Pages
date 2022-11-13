@@ -15,7 +15,7 @@ $emailAddress = $text['emailAddress'];
 $response = array();
 
 // get default var
-$path = "/etc/php//8.1/cli/php.ini";
+$path = "/etc/php/8.1/cli/php.ini";
 $db_default = parse_ini_file($path);
 
 // database link

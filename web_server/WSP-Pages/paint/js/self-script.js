@@ -1,6 +1,6 @@
 import { Paint } from './paint.js';
 import { toastPosition, areatextPosition, loginStatus } from './style.js'
-import { delCookie, checkSignIn, logOut } from '../../js/login.js'
+import { getCookie, delCookie, checkSignIn, logOut } from '../../js/login.js'
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
@@ -164,7 +164,7 @@ window.addEventListener('load', async () => {
             return response.json()
         })
         .then((response) => {
-            if (response['patientID']){
+            if (response['patientID']) {
                 loginStatus(true);
                 return;
             }
@@ -428,22 +428,36 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
         })
 })
 
-document.querySelector('#testBtn').addEventListener('click', () => {
-    fetch("../php/test.php", {
-        method: "GET",
+document.querySelector('#testBtn').addEventListener('click', async () => {
+    let session_id = getCookie('PHPSESSID');
+    let data = {
+        "session_id": session_id,
+    }
+    await fetch("../php/test.php", {
+        method: "POST",
+        body: JSON.stringify(data)
     })
         .then((response) => {
             return response.json();
         })
         .then((response) => {
             console.log(response);
-            console.log(response['patientID']);
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
         })
 });
 
-document.querySelector('#test2Btn').addEventListener('click', () => {
-    console.log(document.cookie);
+document.querySelector('#test2Btn').addEventListener('click', async () => {
+    let session_id = getCookie('PHPSESSID');
+    let data = {
+        "session_id": session_id,
+    }
+    await fetch("../php/test2.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            console.log(response);
+        })
 });

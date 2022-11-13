@@ -1,50 +1,28 @@
 <?php
 // get default var
-$path = "/etc/php//8.1/cli/php.ini";
+$path = "/etc/php/8.1/cli/php.ini";
 $db_default = parse_ini_file($path);
+$path_queue = $db_default['pqueue.path'] . "queue.json";
 
-// check ip address 
-if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-    $ip = $_SERVER['HTTP_CLIENT_IP'];
-} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-} else {
-    $ip = $_SERVER['REMOTE_ADDR'];
-}
+$content = trim(file_get_contents("php://input"));
+$text = json_decode($content, true);
+$session_id = $text["session_id"];
 
 // check queue
-$queue_path = "/tmp/queue.json";
+$JsonParser = file_get_contents($path_queue);
+$array = json_decode($JsonParser, true);
 
-$JsonParser = file_get_contents($queue_path);
-$array = json_decode($Json, true);
+$response = Array();
 
-$array = Array (
-    Array (
-        "id" => "01",
-        "name" => "Olivia Mason",
-        "designation" => "System Architect"
-    ),
-    Array (
-        "id" => "02",
-        "name" => "Jennifer Laurence",
-        "designation" => "Senior Programmer"
-    ),
-    Array (
-        "id" => "03",
-        "name" => "Medona Oliver",
-        "designation" => "Office Manager"
-    )
-);
+$array[$session_id]['last_time'] = date("Y-m-d H:i:s");
 
-foreach($array as $i){
-    echo $i["id"];
-}
+$response['last_time'] = $array[$session_id]['last_time'];
 
-// $array = Array ();
+echo json_encode($response);
 
 $json = json_encode($array);
-$bytes = file_put_contents($queue_path, $json); 
+$bytes = file_put_contents($path_queue, $json); 
 
-echo $db_default['pqueue.max_user']
+// echo $db_default['pqueue.max_user']
 
 ?>

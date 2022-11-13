@@ -15,6 +15,16 @@ This docker compose will listen for:
 * Web server php config at `web_server/config/php.ini`
 * Sql initialization script file at `db_server/init/`
 
+&nbsp;
+
+* `pqueue.probability`  
+    per time useing the predict function, there is a certain chance to clear the temporary file.
+* `pqueue.path`  
+    predict temporary file store path.
+* `pqueue.tmpfile_lifetime`  
+    lifetime for temporary file, the unit is minutes.
+* `pqueue.tmpfile_max`  
+    maximum number of temporary file in the same period.
 
 # Predict module
 The Predict mod pack is outside of this repository. \

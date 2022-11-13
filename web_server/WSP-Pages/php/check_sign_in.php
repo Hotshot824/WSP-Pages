@@ -13,8 +13,7 @@ if ($stay_in == TRUE) {
 }
 
 // if hava anyone creat session will check time out session
-ini_set("session.gc_probability", 1);
-ini_set("session.gc_divisor", 1);
+ini_set("session.gc_probability", 100);
 session_save_path('/tmp');
 session_start();
 

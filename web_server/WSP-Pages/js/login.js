@@ -130,4 +130,4 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
     }
 })
 
-export { delCookie, checkSignIn, logOut }
+export { getCookie, delCookie, checkSignIn, logOut }
