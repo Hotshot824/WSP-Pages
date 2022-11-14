@@ -18,14 +18,14 @@ This docker compose will listen for:
 &nbsp;
 
 * `php.ini`
-* `pqueue.probability`  
+* `ptmp.probability`  
     per time useing the predict function, there is a certain chance to clear the temporary file.
-* `pqueue.path`  
+* `ptmp.path`  
     predict temporary file store path.
-* `pqueue.tmpfile_lifetime`  
+* `ptmp.tmpfile_lifetime`  
     lifetime for temporary file, the unit is minutes.
-* `pqueue.tmpfile_max`  
-    maximum number of temporary file in the same period.
+* `ptmp.tmpfile_max`  
+    maximum number of temporary file store.
 
 # Predict module
 The Predict mod pack is outside of this repository. \
