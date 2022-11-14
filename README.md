@@ -17,6 +17,7 @@ This docker compose will listen for:
 
 &nbsp;
 
+* `php.ini`
 * `pqueue.probability`  
     per time useing the predict function, there is a certain chance to clear the temporary file.
 * `pqueue.path`  
