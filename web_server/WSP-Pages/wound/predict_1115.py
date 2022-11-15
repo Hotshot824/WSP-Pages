@@ -2,8 +2,6 @@ import os
 import cv2
 import numpy as np
 import time
-import argparse
-import post.edge
 
 from keras.models import load_model
 from keras.utils.generic_utils import CustomObjectScope
@@ -19,28 +17,20 @@ from utils.io.data import load_data, save_results, save_rgb_results, save_histor
 
 from PIL import Image
 from CCL_reverse import connected_component_labelling, neighbouring_labels, image_to_2d_bool_array_reverse
-from ccl import image_to_2d_bool_array 
+from ccl import image_to_2d_bool_array
 
 
-def check(path):
-    filepath = path + 'original.png'
-    imga = cv2.imread(filepath)
+def check():
+    imga = cv2.imread('upload/test/images/original.png')
     a=len(imga)
     b=len(imga[0])
     if a != 512 or b != 512:
         img = cv2.resize(imga, (512, 512))  # 將大小修改成224*224
-        cv2.imwrite(filepath, img)
+        cv2.imwrite('upload/test/images/original.png', img)
 
 if __name__ == '__main__':
-    # change pwd
+    # Change pwd
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-    # get parser
-    parser = argparse.ArgumentParser(description='Predict wound image and output result.')
-    parser.add_argument('path', type=str, default='./upload/',
-                        help='Oringnal image for predcit. (default ./upload/)')
-    args = parser.parse_args()
-    oringnal_image_path = args.path
 
     # settings
     input_dim_x = 512
@@ -48,19 +38,20 @@ if __name__ == '__main__':
     color_space = 'rgb'
     path = './upload/'
 
-    check(oringnal_image_path + "upload/")
+    #weight_file_name = 'test.h5'
+
+    check()
 
     w=['0028_SegNet.hdf5','0060_FCN_Vgg16_16.hdf5','0478_unet_model_yuanqing.hdf5','3608_MobilenetV2.hdf5']
-
-    # weight_file_name = 'test.h5'
     weight_file_name='test_model.hdf5'
 
-    data_gen = DataGen(path, split_ratio=0.0, x=input_dim_x, y=input_dim_y, color_space=color_space, in_path=oringnal_image_path + "upload/")
+    data_gen = DataGen(path, split_ratio=0.0, x=input_dim_x, y=input_dim_y, color_space=color_space)
 
     x_test, test_label_filenames_list = load_test_images(path)
 
-    # get mobilenetv2 model
-    # model = Deeplabv3(input_shape=(input_dim_x, input_dim_y, 3), classes=1)
+
+    # ### get mobilenetv2 model
+    #model = Deeplabv3(input_shape=(input_dim_x, input_dim_y, 3), classes=1)
 
     model = load_model( weight_file_name
                 , custom_objects={'recall':recall,
@@ -71,29 +62,46 @@ if __name__ == '__main__':
                                 'BilinearUpsampling':BilinearUpsampling})
 
     for image_batch, label_batch in data_gen.generate_data(batch_size=len(x_test), test=True):
+        ##print(image_batch)
         prediction = model.predict(image_batch, verbose=1)
-        save_results(prediction, 'rgb', oringnal_image_path , test_label_filenames_list)
+        save_results(prediction, 'rgb', path , test_label_filenames_list)
         break
 
-    # image post processing
-    image_path = oringnal_image_path + 'original.png'
+    ################## 圖片後處理  #################
 
-    # image to binarization
+    image_path = './upload/original.png'
+
+
+    ################## 圖片二值化  #################
+
     img = cv2.imread(image_path)  
+
     output = cv2.threshold(img, 90, 255, cv2.THRESH_BINARY)
     output = cv2.cvtColor(output[1], cv2.COLOR_BGR2GRAY)
+
+
     cv2.imwrite(image_path, output)
 
-    # image noise, hole
+
+    ################# 圖片Noise, hole處理 #################
+
     CONNECTIVITY_8 = 8
 
-    # hole
+
+    ################# 圖片hole處理 ############## 
+
+
     contours, hierarchy = cv2.findContours(output, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
     output = cv2.drawContours(output,contours,-1,(255,255,255),-1)
-    
-    # noise 
+
+
+    ################# 圖片noise處理 ##############          
+        
     output = connected_component_labelling(output, CONNECTIVITY_8)
     output = np.uint8(output)
+
+
     key, counts = np.unique(output, return_counts=True)
 
     for x in key:
@@ -102,6 +110,5 @@ if __name__ == '__main__':
         elif(key[x] != 0):
             output[output == key[x]] = 255    
 
-    cv2.imwrite(oringnal_image_path + 'predict_ccl.png',output)
     
-    post.edge.create_edge(oringnal_image_path)
+    cv2.imwrite('./upload/predict_ccl.png',output)

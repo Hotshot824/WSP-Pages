@@ -9,14 +9,14 @@ import matplotlib.pyplot as plt
 
 class DataGen:
 
-    def __init__(self, path, split_ratio, x, y, color_space='rgb'):
+    def __init__(self, path, split_ratio, x, y, in_path ,color_space='rgb'):
         self.x = x
         self.y = y
         self.path = path
         self.color_space = color_space
         self.path_train_images = path + "train/images/"
         self.path_train_labels = path + "train/labels/"
-        self.path_test_images = path + "test/images/"
+        self.path_test_images = in_path
         self.path_test_labels = path + "test/labels/"
         self.image_file_list = get_png_filename_list(self.path_train_images)
         self.label_file_list = get_png_filename_list(self.path_train_labels)

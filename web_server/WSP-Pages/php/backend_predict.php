@@ -1,44 +1,43 @@
 <?php
+
+use LDAP\Result;
+
+require __DIR__ . '/lib/image.php';
+
+$path = "/etc/php/8.1/cli/php.ini";
+$db_default = parse_ini_file($path);
+
 // Receive the RAW post data.
 $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
 
-$uploadpath   = "../wound/upload/test/images/";
-$img = $decoded['img'];
+$session_id = $decoded['session_id'];
+$tmpfile_path = $db_default['ptmp.path'];
+$tmpfile_path = $tmpfile_path . $session_id . "/";
+
+// Predict result image path
+$result_path = $tmpfile_path;
+$tmpfile_path = $tmpfile_path . "upload/";
+
+if (!file_exists($tmpfile_path)) {
+    mkdir($tmpfile_path, 0777, true);
+}
+
+$img = $decoded['oringnal_image'];
 $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
 $data = base64_decode($img);
-$file = $uploadpath  . 'original.png';
+$file = $tmpfile_path  . 'original.png';
 $success = file_put_contents($file, $data);
- 
-$command = escapeshellcmd('python ../wound/predict.py');
+
+$command = escapeshellcmd('python ../wound/predict.py ' . $result_path);
 $output = shell_exec($command);
 
-$command = escapeshellcmd('python ../wound/edge.py');
-$output = shell_exec($command);
+$response = Array();
+$response['session_id'] = $session_id;
+$response['oringnal_image'] = \image\get_image_to_base64($tmpfile_path, 'original.png');
+$response['overlay_image'] = \image\get_image_to_base64($result_path, 'overlay.png');
+$response['super_position_image'] = \image\get_image_to_base64($result_path, 'superposition.png');
 
-// area augsment
-$x = $decoded['x'];
-$y = $decoded['y'];
-$length = $decoded['length'];
-$originx = $decoded['originx'];
-$originy = $decoded['originy'];
-$after_cut_x = $decoded['after_cut_x'];
-$after_cut_y = $decoded['after_cut_y'];
-
-// $x = 5;
-// $y = 5;
-// $length = 5;
-// $originx = 5;
-// $originy = 5;
-// $after_cut_x = 5;
-// $after_cut_y = 5;
-
-
-$command = escapeshellcmd("python ../wound/backend_area_calc.py ".$x." ".$y." ".$length." ".$originx." ".$originy." ".$after_cut_x." ".$after_cut_y);
-$output = shell_exec($command);
-
-// // save image
-$command = escapeshellcmd('python ../wound/backend_save.py');
-$output = shell_exec($command);
+echo json_encode($response);
 ?>

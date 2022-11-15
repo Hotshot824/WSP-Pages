@@ -352,7 +352,6 @@ document.querySelector('#bucketBtn').addEventListener('click', () => {
 document.querySelector('#rulerBtn').addEventListener('click', () => {
     painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image. ");
     if (painting.length != null) {
-        console.log(painting.length);
         changeActive('#rulerBtn');
         state = 'ruler';
     }
@@ -394,12 +393,12 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_upload();
+        let session_id = getCookie('PHPSESSID');
+        painting.backend_upload(session_id);
     } else {
         alert('No scale, Please give scale first!');
     }
 });
-
 
 // Iou btn
 document.querySelector('#iouBtn').addEventListener('click', () => {
@@ -408,7 +407,7 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
     for (let i = 0; i < close.length; i++) {
         close[i].click();
     }
-    painting.backend_iou_upload();
+    painting.backend_iou_upload(session_id);
 });
 
 document.querySelector('#iouImg').addEventListener('click', () => {

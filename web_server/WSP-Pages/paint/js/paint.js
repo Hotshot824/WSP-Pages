@@ -7,7 +7,7 @@ class Paint {
         this.lineJoin = "round";
         this.lineCap = "round";
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight*0.99;
+        this.canvas.height = window.innerHeight * 0.99;
         this.canvas.beginHeight = window.innerHeight;
         this.isDrawing = false;
         this.lastX = 0;
@@ -91,7 +91,6 @@ class Paint {
         this.ctx.stroke();
         this.lastX = e.offsetX * this.canvas.width / this.canvas.clientWidth | 0;
         this.lastY = e.offsetY * this.canvas.height / this.canvas.clientHeight | 0;
-        //console.log("lasty=",this.lastY);
 
     }
 
@@ -109,14 +108,12 @@ class Paint {
         this.ctx.moveTo(this.lastX, this.lastY);
         this.ctx.lineTo(e.touches[0].clientX - left,
             e.touches[0].clientY - top);
-        //console.log("y=",y);
         this.ctx.lineJoin = this.lineJoin;
         this.ctx.lineCap = this.lineCap;
 
         this.ctx.stroke();
         this.lastX = e.touches[0].clientX - left;
         this.lastY = e.touches[0].clientY - top;
-        //console.log("lasty=",this.lastY);
 
     }
 
@@ -131,7 +128,6 @@ class Paint {
     }
 
     redo(str) {
-        // console.log("redo");
         if (this.step < this.historyArr.length - 1) {
             this.step++;
             let canvasImg = new Image();
@@ -150,7 +146,6 @@ class Paint {
     }
 
     undo(str) {
-        // console.log("undo");
         if (this.step > 0) {
             this.step--;
             let canvasImg = new Image();
@@ -171,7 +166,6 @@ class Paint {
 
     getScale() {
         if (this.scaleCount == 1) {
-            console.log("test")
             this.x1 = this.lastX;
             this.y1 = this.lastY;
 
@@ -179,11 +173,9 @@ class Paint {
             return false;
         }
         else {
-            console.log("test2")
             this.x2 = this.lastX;
             this.y2 = this.lastY;
-            console.log(this.x1, this.y1, this.x2, this.y2, this.length);
-            alert("輸入完畢，此2點之間的距離為" + this.length);
+            alert("Enter complete, the distance between the two point is " + this.length);
             this.ruler_deltax = Math.abs(this.x2 - this.x1);
             this.ruler_deltay = Math.abs(this.y2 - this.y1);
             this.scaleCount--;
@@ -194,7 +186,6 @@ class Paint {
 
     getScaleMobile(e) {
         if (this.scaleCount == 1) {
-            console.log("test")
             this.x1 = e.offsetX;
             this.y1 = e.offsetY;
 
@@ -202,11 +193,9 @@ class Paint {
             return false;
         }
         else {
-            console.log("test2")
             this.x2 = e.offsetX;
             this.y2 = e.offsetY;
-            console.log(this.x1, this.y1, this.x2, this.y2, this.length);
-            alert("輸入完畢，此2點之間的距離為" + this.length);
+            alert("Enter complete, the distance between the two point is " + this.length);
             this.ruler_deltax = Math.abs(this.x2 - this.x1);
             this.ruler_deltay = Math.abs(this.y2 - this.y1);
             this.scaleCount--;
@@ -240,9 +229,9 @@ class Paint {
         this.selectflag = 1;
     }
 
-	getSelectAreaMobile(e) {
+    getSelectAreaMobile(e) {
         // console.log("select");
-		e.preventDefault();
+        e.preventDefault();
         if (!this.isDrawing) return;
 
         this.ctx.strokeStyle = "black";
@@ -258,7 +247,7 @@ class Paint {
         this.cut_beginy = this.lastY;
 
         this.cut_deltax = e.touches[0].clientX - this.left - this.lastX;
-        this.cut_deltay = e.touches[0].clientY - this.top  - this.lastY;
+        this.cut_deltay = e.touches[0].clientY - this.top - this.lastY;
 
         this.ctx.strokeRect(this.lastX, this.lastY,
             this.cut_deltax, this.cut_deltay);
@@ -304,7 +293,7 @@ class Paint {
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         this.historyArr.push(this.img.src);
     }
-    
+
     bucketFloodFill(x, y, color) {
         let pixel_stack = [{ x: x, y: y }];
         let pixels = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -330,7 +319,7 @@ class Paint {
                     pixels.data[linear_cords + 2] == color.b &&
                     pixels.data[linear_cords + 3] == color.a)) {
                 linear_cords -= canvas.width * 4;
-            y--;
+                y--;
             }
             linear_cords += this.canvas.width * 4;
             y++;
@@ -432,6 +421,35 @@ class Paint {
 
     }
 
+    async backend_upload(session_id) {
+        let img = this.canvas.toDataURL('image/png');
+        let data = {
+            "session_id": session_id,
+            "oringnal_image": img
+        }
+
+        let imgpreview = "../assets/img/preview/pre_img.gif"
+        document.querySelector('#overlayImg').src = imgpreview;
+        document.querySelector('#superpositionImg').src = imgpreview;
+        document.querySelector('#areaImg').src = imgpreview;
+        document.querySelector('#originalImg').src = imgpreview;
+
+        await fetch("../php/backend_predict.php", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                console.log(response);
+                document.querySelector('#originalImg').src = response['oringnal_image'];
+                document.querySelector('#overlayImg').src = response['overlay_image'];
+                document.querySelector('#superpositionImg').src = response['super_position_image'];
+            })
+    }
+
+    /*
     async backend_upload() {
 
         let img = this.canvas.toDataURL();
@@ -476,14 +494,15 @@ class Paint {
                 console.log(`Error: ${error}`);
             })
 
-        // console.log("比例尺的x = " + data["x"]);
-        // console.log("比例尺的y = " + data["y"]);
-        // console.log("用戶輸入的長 = " + data["length"]);
-        // console.log("原圖的x = " + data["originx"]);
-        // console.log("原圖的y = " + data["originy"]);
-        // console.log("裁切後的x = " + data["after_cut_x"]);
-        // console.log("裁切後的y = " + data["after_cut_y"]);
+        // console.log("scale x = " + data["x"]);
+        // console.log("scale y = " + data["y"]);
+        // console.log("user enter lenght = " + data["length"]);
+        // console.log("oringnal image x = " + data["originx"]);
+        // console.log("oringnal image y = " + data["originy"]);
+        // console.log("after cut x = " + data["after_cut_x"]);
+        // console.log("after cut y = " + data["after_cut_y"]);
     }
+    */
 
     async backend_iou_upload() {
 
@@ -506,7 +525,6 @@ class Paint {
                 alert(response)
                 let path = "../wound/upload/"
                 document.querySelector('#iouImg').src = path + "iou_result.png?" + Math.random().toString(2);
-                console.log(response);
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);
@@ -518,7 +536,7 @@ class Paint {
 
         let img = this.canvas.toDataURL();
         let original_img;
-        
+
         let openImageInput = document.querySelector('#openImageInput');
         // to image
         if (openImageInput.files[0]) {
@@ -538,9 +556,6 @@ class Paint {
                 })
                     .then((response) => {
                         return response.text();
-                    })
-                    .then((response) => {
-                        // console.log(response);
                     })
                     .catch((error) => {
                         console.log(`Error: ${error}`);
