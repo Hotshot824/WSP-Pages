@@ -428,6 +428,16 @@ class Paint {
             "oringnal_image": img
         }
 
+        if (this.ruler_deltax != 0 || this.ruler_deltay != 0) {
+            data["x"] = this.ruler_deltax;
+            data["y"] = this.ruler_deltay;
+            data["length"] = this.length;
+            data["originx"] = this.origin_img_width;
+            data["originy"] = this.origin_img_height;
+            data["after_cut_x"] = Math.abs(this.cut_deltax);
+            data["after_cut_y"] = Math.abs(this.cut_deltay);
+        }
+
         let imgpreview = "../assets/img/preview/pre_img.gif"
         document.querySelector('#overlayImg').src = imgpreview;
         document.querySelector('#superpositionImg').src = imgpreview;
@@ -446,6 +456,9 @@ class Paint {
                 document.querySelector('#originalImg').src = response['oringnal_image'];
                 document.querySelector('#overlayImg').src = response['overlay_image'];
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
+                document.querySelector('#areaImg').src = response['area_image'];
+                document.querySelector('#areaText').innerHTML = "Area: " + response['area'] + "c㎡";
+
             })
     }
 

@@ -9,18 +9,15 @@ def pixelcount():
     imga = cv2.imread('./upload/predict_ccl.png',0)
     acount = np.where(imga == 255)
     acount = acount[0].size
-    print(acount)
     return acount 
 
 
     
-def area(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0): 
-    imga = cv2.imread('./upload/test/images/original.png')
-    label = cv2.imread('./upload/test/labels/label.png')
-    print("Test!")
-
+def area(x, y, length, originx, originy, path, after_cut_x=0, after_cut_y=0): 
+    imga = cv2.imread(path + 'original.png')
+    label = cv2.imread(path + 'label.png')
     
-    f = open("./upload/scale.txt",'w')
+    f = open(path + "scale.txt",'w')
     f.write("scale x = " + x +"\n")
     f.write("scale y = " + y +"\n")
     f.write("user enter lenght = " + length + "\n")
@@ -58,14 +55,15 @@ def area(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0):
    
     
     num=math.sqrt(x**2+y**2)  
-    #此時為比例尺，依照縮放比例調整
+    # this time is scale, adjust to scale
     num=length/num
 
-    #在圖片上添加文字
+    # add text on image.
     pixel = num
     num=pixelcount()*pixel*pixel    
     num=round(num,4)   
-    strr="area="+str(num)+"cm^2"
+    print(str(num))
+    strr="Area = "+str(num)+"cm^2"
     if len(imga[0])<224 or len(imga)<224:
         ratex,ratey,avg=1,1,1
     else:
@@ -73,19 +71,18 @@ def area(x, y, length, originx, originy, after_cut_x=0, after_cut_y=0):
         ratey= int(len(imga)/224)
         avg= int((ratex+ratey)/2)
         
-    print(avg)
     cv2.putText(imga,strr, (1*ratex,50*ratey), cv2.FONT_HERSHEY_SIMPLEX, 
-    0.7*avg,(0,0,0), 1*avg, cv2.LINE_AA)
+    0.7*avg,(0,255,0), 1*avg, cv2.LINE_AA)
 
     # save image
-    cv2.imwrite("./upload/area.png",imga)
+    cv2.imwrite(path + "area.png",imga)
     
 if __name__ == "__main__": 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    if len(sys.argv) == 8: 
+    if len(sys.argv) == 9: 
         area(x = sys.argv[1], y = sys.argv[2], length = sys.argv[3],
           originx = sys.argv[4], originy = sys.argv[5],
-          after_cut_x = sys.argv[6], after_cut_y = sys.argv[7])
-    if len(sys.argv) == 6: 
-        a(x = sys.argv[1], y = sys.argv[2], length = sys.argv[3],
-          originx = sys.argv[4], originy = sys.argv[5])
+          after_cut_x = sys.argv[6], after_cut_y = sys.argv[7], path = sys.argv[8])
+    if len(sys.argv) == 7: 
+        area(x = sys.argv[1], y = sys.argv[2], length = sys.argv[3],
+          originx = sys.argv[4], originy = sys.argv[5], path = sys.argv[6])

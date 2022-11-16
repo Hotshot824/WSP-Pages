@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import time
 import argparse
-import post.edge
+import post_processing.edge as ppe
 
 from keras.models import load_model
 from keras.utils.generic_utils import CustomObjectScope
@@ -19,8 +19,6 @@ from utils.io.data import load_data, save_results, save_rgb_results, save_histor
 
 from PIL import Image
 from CCL_reverse import connected_component_labelling, neighbouring_labels, image_to_2d_bool_array_reverse
-from ccl import image_to_2d_bool_array 
-
 
 def check(path):
     filepath = path + 'original.png'
@@ -104,4 +102,4 @@ if __name__ == '__main__':
 
     cv2.imwrite(oringnal_image_path + 'predict_ccl.png',output)
     
-    post.edge.create_edge(oringnal_image_path)
+    ppe.create_edge(oringnal_image_path)
