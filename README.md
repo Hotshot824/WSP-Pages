@@ -19,7 +19,7 @@ This docker compose will listen for:
 
 * `php.ini`
 * `ptmp.probability`  
-    per time useing the predict function, there is a certain chance to clear the temporary file.
+    per time useing the predict function, there is a certain chance to clear the temporary file.  
     if value is 100 means has 1/100 chance to clear.
 * `ptmp.path`  
     predict temporary file store path.
