@@ -7,3 +7,4 @@ web_server/WSP-Pages/wound/*.hdf5
 web_server/WSP-Pages/wound/*.h5
 web_server/WSP-Pages/save
 db_server/data
+back_up.sh
