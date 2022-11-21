@@ -11,15 +11,15 @@ $db_default = parse_ini_file($path);
 // temporary file clear function.
 \tmpfile\random_remove_tmpfile();
 
-// Receive the RAW post data.
+// receive the RAW post data.
 $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
 
-$session_id = $decoded['session_id'];
+$temp_key = $decoded['temp_key'];
 $upload_path = $db_default['ptmp.path'];
-$upload_path = $upload_path . $session_id . "/";
+$upload_path = $upload_path . $temp_key . "/";
 
-// Predict result image path
+// predict result image path
 $result_path = $upload_path;
 $upload_path = $upload_path . "upload/";
 
@@ -27,6 +27,7 @@ if (!file_exists($upload_path)) {
     mkdir($upload_path, 0777, true);
 }
 
+// decode image move to upload path
 $img = $decoded['oringnal_image'];
 $img = str_replace('data:image/png;base64,', '', $img);
 $img = str_replace(' ', '+', $img);
@@ -46,7 +47,7 @@ $originy = $decoded['originy'];
 $after_cut_x = $decoded['after_cut_x'];
 $after_cut_y = $decoded['after_cut_y'];
 
-$command = escapeshellcmd("python ../wound/backend_area_calc.py "
+$command = escapeshellcmd("python ../wound/area_calc.py "
 .$x." ".$y." ".$length." ".$originx." ".$originy." ".$after_cut_x." ".$after_cut_y." ".$result_path);
 $output = shell_exec($command);
 $area = str_replace("\n","",$output);

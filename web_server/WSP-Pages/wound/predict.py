@@ -26,7 +26,8 @@ def check(path):
     a=len(imga)
     b=len(imga[0])
     if a != 512 or b != 512:
-        img = cv2.resize(imga, (512, 512))  # 將大小修改成224*224
+        # original image resize to 512*512
+        img = cv2.resize(imga, (512, 512))  
         cv2.imwrite(filepath, img)
 
 if __name__ == '__main__':

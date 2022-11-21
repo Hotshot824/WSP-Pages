@@ -12,7 +12,7 @@ if (isset($text["stay_in"])) {
 }
 
 // if hava anyone creat session will check time out session
-ini_set("session.gc_probability", 100);
+// ini_set("session.gc_probability", 100);
 session_save_path('/tmp');
 session_start();
 

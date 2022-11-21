@@ -421,10 +421,10 @@ class Paint {
 
     }
 
-    async backend_upload(session_id) {
+    async backend_upload(temp_key) {
         let img = this.canvas.toDataURL('image/png');
         let data = {
-            "session_id": session_id,
+            "temp_key": temp_key,
             "oringnal_image": img
         }
 
@@ -452,13 +452,11 @@ class Paint {
                 return response.json();
             })
             .then((response) => {
-                console.log(response);
                 document.querySelector('#originalImg').src = response['oringnal_image'];
                 document.querySelector('#overlayImg').src = response['overlay_image'];
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
                 document.querySelector('#areaImg').src = response['area_image'];
                 document.querySelector('#areaText').innerHTML = "Area: " + response['area'] + "c㎡";
-
             })
     }
 

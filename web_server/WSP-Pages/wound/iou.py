@@ -1,5 +1,3 @@
-#! /home/wsp/.conda/envs/wsp/bin/python
-# -*- coding: utf-8 -*-
 import numpy as np
 import cv2
 

@@ -1,6 +1,6 @@
 import { Paint } from './paint.js';
 import { toastPosition, areatextPosition, loginStatus } from './style.js'
-import { getCookie, delCookie, checkSignIn, logOut } from '../../js/login.js'
+import { getCookie, delCookie, signInCheck, logOut, randomString } from '../../js/login.js'
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
@@ -159,7 +159,7 @@ window.addEventListener('load', () => {
 
 // check login
 window.addEventListener('load', async () => {
-    await checkSignIn()
+    await signInCheck()
         .then((response) => {
             return response.json()
         })
@@ -181,12 +181,13 @@ window.addEventListener('resize', () => {
     areatextPosition();
 });
 
-window.addEventListener('beforeunload', (event) => {
+function exitPaint(event) {
     // Cancel the event as stated by the standard.
     event.preventDefault();
     // Chrome requires returnValue to be set.
     event.returnValue = "Write something clever here..";
-});
+}
+window.addEventListener('beforeunload', exitPaint);
 
 const colorItem = document.querySelectorAll('.colorItem');
 for (let i = 0; i < colorItem.length; i++) {
@@ -393,8 +394,8 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        let session_id = getCookie('PHPSESSID');
-        painting.backend_upload(session_id);
+        let temp_key = randomString(20);
+        painting.backend_upload(temp_key);
     } else {
         alert('No scale, Please give scale first!');
     }
@@ -420,7 +421,8 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
         .then((result) => {
             loginStatus(false);
             delCookie('stay_in');
-            alert("Bye!");
+            window.removeEventListener("beforeunload", exitPaint);
+            location.reload();
         })
         .catch((error) => {
             console.log(`Error: ${error}`);

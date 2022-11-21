@@ -8,7 +8,7 @@ WSP is a wound analysis platform, focusing on **pressure sore** type wounds.
 # Docker
 This docker compose will listen for:
 * 80 (web service)
-* 8080 (gui for database)
+* 8080 (gui for database, phpMyAdmin.)
 * 3306 (database service)
 
 ### Configure

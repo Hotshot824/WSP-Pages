@@ -1,6 +1,16 @@
 import { loginStatus } from '../paint/js/style.js';
 import { sha256 } from './hash.js';
 
+function randomString(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 function getCookie(name) {
     let strcookie = document.cookie;
     strcookie = strcookie.replace(/\s*/g, "");
@@ -20,7 +30,7 @@ function delCookie(name) {
     if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
-async function checkSignIn() {
+async function signInCheck() {
     let data = {}
     if (getCookie('stay_in') == "on") {
         data = {
@@ -28,7 +38,7 @@ async function checkSignIn() {
         }
     }
     if (getCookie('PHPSESSID') != "") {
-        let response = await fetch("../php/check_sign_in.php", {
+        let response = await fetch("../php/sign_in_check.php", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -130,4 +140,4 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
     }
 })
 
-export { getCookie, delCookie, checkSignIn, logOut }
+export { getCookie, delCookie, signInCheck, logOut, randomString }

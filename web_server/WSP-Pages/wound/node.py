@@ -7,7 +7,6 @@
 class Node(object):
 	"""
 		Private tree node class.
-
 		Node:
 			value: the node's value
 			parent: reference to the node's parent
@@ -23,4 +22,4 @@ class Node(object):
 	def __str__(self):
 		st = "[value: " + str(self.value) + ", parent: " + str(self.parent.value) 
 		st += ", rank: " + str(self.rank) +  "]"
-		return st
+		return 
