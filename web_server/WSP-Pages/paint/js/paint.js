@@ -1,3 +1,5 @@
+import { getStayIn } from '../../js/login.js'
+
 class Paint {
     constructor(canvas, ctx) {
         this.canvas = canvas;
@@ -421,11 +423,12 @@ class Paint {
 
     }
 
-    async backend_upload(temp_key) {
+    async backend_predict(temp_key) {
         let img = this.canvas.toDataURL('image/png');
         let data = {
+            "stay_in": getStayIn(),
             "temp_key": temp_key,
-            "oringnal_image": img
+            "oringnal_image": img,
         }
 
         if (this.ruler_deltax != 0 || this.ruler_deltay != 0) {
@@ -452,6 +455,7 @@ class Paint {
                 return response.json();
             })
             .then((response) => {
+                console.log(response);
                 document.querySelector('#originalImg').src = response['oringnal_image'];
                 document.querySelector('#overlayImg').src = response['overlay_image'];
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
@@ -459,61 +463,6 @@ class Paint {
                 document.querySelector('#areaText').innerHTML = "Area: " + response['area'] + "c㎡";
             })
     }
-
-    /*
-    async backend_upload() {
-
-        let img = this.canvas.toDataURL();
-        let data = {
-            "img": img
-        }
-        
-        if (this.ruler_deltax != 0 || this.ruler_deltay != 0) {
-            data["x"] = this.ruler_deltax;
-            data["y"] = this.ruler_deltay;
-            data["length"] = this.length;
-            data["originx"] = this.origin_img_width;
-            data["originy"] = this.origin_img_height;
-            data["after_cut_x"] = Math.abs(this.cut_deltax);
-            data["after_cut_y"] = Math.abs(this.cut_deltay);
-
-        }
-
-        let imgpreview = "../assets/img/preview/pre_img.gif"
-        document.querySelector('#overlayImg').src = imgpreview;
-        document.querySelector('#superpositionImg').src = imgpreview;
-        document.querySelector('#areaImg').src = imgpreview;
-        document.querySelector('#originalImg').src = imgpreview;
-
-        await fetch("../php/backend_predict.php", {
-            method: "POST",
-            body: JSON.stringify(data)
-        })
-            .then((response) => {
-                return response.text();
-            })
-            .then((response) => {
-                alert(response)
-                let path = "../wound/upload/"
-                document.querySelector('#overlayImg').src = path + "overlay.png?" + Math.random().toString(2);
-                document.querySelector('#superpositionImg').src = path + "superposition.png?" + Math.random().toString(2);
-                document.querySelector('#areaImg').src = path + "area.png?" + Math.random().toString(2);
-                document.querySelector('#originalImg').src = path + "/test/images/original.png?" + Math.random().toString(2);
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(`Error: ${error}`);
-            })
-
-        // console.log("scale x = " + data["x"]);
-        // console.log("scale y = " + data["y"]);
-        // console.log("user enter lenght = " + data["length"]);
-        // console.log("oringnal image x = " + data["originx"]);
-        // console.log("oringnal image y = " + data["originy"]);
-        // console.log("after cut x = " + data["after_cut_x"]);
-        // console.log("after cut y = " + data["after_cut_y"]);
-    }
-    */
 
     async backend_iou_upload() {
 

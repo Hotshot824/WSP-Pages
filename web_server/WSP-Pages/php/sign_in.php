@@ -52,14 +52,11 @@ if ($mysqli) {
         exit(json_encode($response));
     }
 
-    session_save_path('/tmp');
-    if ($stayIn) {
+    if (isset($stayIn)) {
         $lifetime = 86400;
         ini_set("session.gc_maxlifetime", $lifetime);
-    } else {
-        $lifetime = 1800;
-        ini_set("session.gc_maxlifetime", $lifetime);
     }
+    session_save_path('/tmp');
     session_start();
 
     $_SESSION['patientID'] = $patientID;

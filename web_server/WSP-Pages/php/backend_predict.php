@@ -60,5 +60,17 @@ $response['area_image'] = \image\get_image_to_base64($result_path, 'area.png');
 $response['area'] = $area;
 
 
+// check login
+if (isset($decoded['stay_in'])) {
+    $lifetime = 86400;
+    ini_set("session.gc_maxlifetime", $lifetime);
+}
+session_save_path('/tmp');
+session_start();
+
+if (isset($_SESSION['patientID'])) {
+    
+}
+
 echo json_encode($response);
 ?>

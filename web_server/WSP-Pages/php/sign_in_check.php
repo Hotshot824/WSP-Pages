@@ -6,9 +6,6 @@ $text = json_decode($content, true);
 if (isset($text["stay_in"])) {
     $lifetime = 86400;
     ini_set("session.gc_maxlifetime", $lifetime);
-} else {
-    $lifetime = 1800;
-    ini_set("session.gc_maxlifetime", $lifetime);
 }
 
 // if hava anyone creat session will check time out session
