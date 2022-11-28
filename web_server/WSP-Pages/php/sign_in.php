@@ -24,7 +24,7 @@ define('_DBname', 'WSP');
 
 // sql language
 $sql_exist = "SELECT 1 FROM `patient_info` WHERE patient_id = '" . $patientID . "' LIMIT 1;";
-$sql_select = "SELECT * FROM `patient_info` WHERE `patient_id` = '" . $patientID . "'";
+$sql_select = "SELECT * FROM `patient_info` WHERE `patient_id` = '" . $patientID . "';";
 
 // check data
 $response = array();
@@ -52,14 +52,11 @@ if ($mysqli) {
         exit(json_encode($response));
     }
 
-    session_save_path('/tmp');
-    if ($stayIn) {
+    if (isset($stayIn)) {
         $lifetime = 86400;
         ini_set("session.gc_maxlifetime", $lifetime);
-    } else {
-        $lifetime = 1800;
-        ini_set("session.gc_maxlifetime", $lifetime);
     }
+    session_save_path('/tmp');
     session_start();
 
     $_SESSION['patientID'] = $patientID;

@@ -30,15 +30,22 @@ function delCookie(name) {
     if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
-async function signInCheck() {
-    let data = {}
+function getStayIn() {
     if (getCookie('stay_in') == "on") {
-        data = {
-            "stay_in": true
-        }
+        return true;
+    } 
+    return false
+}
+
+async function signInCheck() {
+    console.log(Boolean(getCookie('stay_in')));
+    console.log(Boolean('false'));
+    let data = {
+        "stay_in": getStayIn()
     }
+
     if (getCookie('PHPSESSID') != "") {
-        let response = await fetch("../php/sign_in_check.php", {
+        let response = await fetch(".hp./php/sign_in_check.p", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -123,10 +130,6 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
                 return;
             }
 
-            if (formDataObiect['stayIn']) {
-                document.cookie = "stay_in=" + formDataObiect['stayIn'];
-            }
-
             alert("Password, true!");
             loginStatus(true);
 
@@ -140,4 +143,4 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
     }
 })
 
-export { getCookie, delCookie, signInCheck, logOut, randomString }
+export { getCookie, delCookie, signInCheck, getStayIn, logOut, randomString }

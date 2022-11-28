@@ -16,7 +16,8 @@ CREATE TABLE predict_result
     `patient_id` CHAR(20) NOT NULL,
     `area` FLOAT(8) NOT NULL,
     `date` DATETIME NOT NULL,
-    `original_image` CHAR(40) NOT NULL,
-    PRIMARY KEY(`patient_id`),
+    `original_img` CHAR(40) NOT NULL,
+    `predcit_img` CHAR(40) NOT NULL,
+
     FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
 );

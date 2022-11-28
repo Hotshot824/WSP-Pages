@@ -20,37 +20,9 @@ from utils.io.data import load_data, save_results, save_rgb_results, save_histor
 from PIL import Image
 from CCL_reverse import connected_component_labelling, neighbouring_labels, image_to_2d_bool_array_reverse
 
-def modify_lightness_saturation(img):
-
-    # 圖像歸一化，且轉換為浮點型
-    fImg = img.astype(np.float32)
-    fImg = fImg / 255.0
-    
-    # 顏色空間轉換 BGR -> HLS
-    hlsImg = cv2.cvtColor(fImg, cv2.COLOR_BGR2HLS)
-    hlsCopy = np.copy(hlsImg)
-
-    lightness = 0 # lightness 調整為  "1 +/- 幾 %"
-    saturation = 300 # saturation 調整為 "1 +/- 幾 %"
- 
-    # 亮度調整
-    hlsCopy[:, :, 1] = (1 + lightness / 100.0) * hlsCopy[:, :, 1]
-    hlsCopy[:, :, 1][hlsCopy[:, :, 1] > 1] = 1  # 應該要介於 0~1，計算出來超過1 = 1
-
-    # 飽和度調整
-    hlsCopy[:, :, 2] = (1 + saturation / 100.0) * hlsCopy[:, :, 2]
-    hlsCopy[:, :, 2][hlsCopy[:, :, 2] > 1] = 1  # 應該要介於 0~1，計算出來超過1 = 1
-    
-    # 顏色空間反轉換 HLS -> BGR 
-    result_img = cv2.cvtColor(hlsCopy, cv2.COLOR_HLS2BGR)
-    result_img = ((result_img * 255).astype(np.uint8))
-
-    return result_img
-
-
 def modify_intensity(img): 
-    contrast = 100
-    brightness = 20
+    contrast = 200
+    brightness = 70
     img = img * (contrast/127 + 1) - contrast + brightness 
     # 轉換公式
     # 轉換公式參考 https://stackoverflow.com/questions/50474302/how-do-i-adjust-brightness-contrast-and-vibrance-with-opencv-python
@@ -67,7 +39,7 @@ def check(path):
     a=len(imga)
     b=len(imga[0])
     if a != 512 or b != 512:
-        #original image resize to 512*512
+        # original image resize to 512*512
         img = cv2.resize(imga, (512, 512))  
         cv2.imwrite(filepath, img)
 
@@ -75,8 +47,7 @@ def check(path):
     file_pathname = path
     for filename in os.listdir(file_pathname):
         img = cv2.imread(file_pathname+'/'+filename)        
-        #img = modify_intensity(img)
-        #img = modify_lightness_saturation(img)
+        img = modify_intensity(img)
         cv2.imwrite(file_pathname+'/'+filename, img)
 
 if __name__ == '__main__':

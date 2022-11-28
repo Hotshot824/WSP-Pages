@@ -1,10 +1,13 @@
 import { Paint } from './paint.js';
 import { toastPosition, areatextPosition, loginStatus } from './style.js'
-import { getCookie, delCookie, signInCheck, logOut, randomString } from '../../js/login.js'
+import { getCookie, delCookie, signInCheck, logOut, randomString, getStayIn } from '../../js/login.js'
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
 let painting = new Paint(canvas, ctx);
+
+// randon tmpfile path
+let temp_key = randomString(20);
 
 // mouse click status
 let state;
@@ -34,6 +37,7 @@ function rgbToHex(r, g, b) {
     return hex;
 }
 
+// bucket and frontend area calculate algorithm.
 function floodFill(x, y, color, area) {
     let pixels_num = 0
     let pixel_stack = [{ x: x, y: y }];
@@ -106,6 +110,7 @@ function floodFill(x, y, color, area) {
             linear_cords += canvas.width * 4;
         }
     }
+    
     if (area == true) {
         let perpixel = Math.pow(Math.pow((painting.x2 - painting.x1), 2) + Math.pow((painting.y2 - painting.y1), 2), 0.5);
         let pixel_scale = painting.length / perpixel;
@@ -381,29 +386,28 @@ document.querySelector('#cutBtn').addEventListener('click', () => {
     }
 });
 
-// Undo, Redo, Clear Tool 
+// undo, redo, clear toolbar 
 document.querySelector('#undo').addEventListener('click', () => painting.undo(state));
 document.querySelector('#redo').addEventListener('click', () => painting.redo(state));
 document.querySelector('#clearAll').addEventListener('click', () => painting.clearAll());
 
-// Predict btn
+// predict btn, upload original image to backend then predict.
 document.querySelector('#predictAreaBtn').addEventListener('click', () => {
     if (painting.length != 0) {
-        document.querySelector('#nav-predict-tab').click()
+        document.querySelector('#nav-predict-tab').click();
         let close = document.querySelectorAll('.btn-close');
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        let temp_key = randomString(20);
-        painting.backend_upload(temp_key);
+        painting.backend_predict(temp_key);
     } else {
         alert('No scale, Please give scale first!');
     }
 });
 
-// Iou btn
+// iou btn, upload cavans image to backend with predcit result do iou calculate.
 document.querySelector('#iouBtn').addEventListener('click', () => {
-    document.querySelector('#nav-predict-tab').click()
+    document.querySelector('#nav-predict-tab').click();
     let close = document.querySelectorAll('.btn-close');
     for (let i = 0; i < close.length; i++) {
         close[i].click();
@@ -415,11 +419,10 @@ document.querySelector('#iouImg').addEventListener('click', () => {
     document.querySelector('#nav-home-tab').click();
 });
 
-// Log Out
+// logout, clear cookie.
 document.querySelector('#logOut').addEventListener('click', async (event) => {
     logOut()
         .then((result) => {
-            loginStatus(false);
             delCookie('stay_in');
             window.removeEventListener("beforeunload", exitPaint);
             location.reload();

@@ -6,8 +6,11 @@ services:
     restart: always
     stdin_open: true
     tty: true
+    environment:
+      TZ: "Asia/Taipei"
     volumes:
       - ./web_server:/var/www/html
+      - ./db_server/data/mysql_image:/home/wsp/mysql_image/
       - ./web_server/config/php.ini:/etc/php//8.1/cli/php.ini
     ports:
       - 80:80
@@ -16,12 +19,13 @@ services:
     image: mysql:8.0-debian
     restart: always
     environment:
+      TZ: "Asia/Taipei"
       # MYSQL_ROOT_PASSWORD: test
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: WSP
     working_dir: /root/
     volumes:
-      - ./db_server/data:/var/lib/mysql
+      - ./db_server/data/mysql:/var/lib/mysql
       - ./db_server/init:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
@@ -32,6 +36,7 @@ services:
     depends_on:
       - Database
     environment:
+      TZ: "Asia/Taipei"
       PMA_HOST: Database
       PMA_PORT: 3306
     ports:

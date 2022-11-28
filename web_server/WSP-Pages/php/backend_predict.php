@@ -60,5 +60,55 @@ $response['area_image'] = \image\get_image_to_base64($result_path, 'area.png');
 $response['area'] = $area;
 
 
+// check login
+if (isset($decoded['stay_in'])) {
+    $lifetime = 86400;
+    ini_set("session.gc_maxlifetime", $lifetime);
+}
+session_save_path('/tmp');
+session_start();
+
+if (!isset($_SESSION['patientID'])) {
+    exit(json_encode($response));
+}
+
+// database link
+define('_DBhost', $db_default['mysqli.default_host']);
+define('_DBuser', $db_default['mysqli.default_user']);
+define('_DBpassword', $db_default['mysqli.default_pw']);
+define('_DBname', 'WSP');
+
+try {
+    $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
+} catch (Exception $e){
+    $response['error_status'] = "Error: Database connection error!";
+    exit(json_encode($response));
+}
+
+$origin = $upload_path . 'original.png';
+$predict = $result_path . 'predict_ccl.png';
+$store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
+$cur_date = date("Y-m-d_h-i-s", $d);
+$origin_store = $store_path . "original/" . $cur_date . ".png";
+$predict_store = $store_path . "predict/" . $cur_date . ".png";
+
+if (!file_exists($store_path)) {
+    mkdir($store_path . "original/", 0775, true);
+    mkdir($store_path . "predict/", 0775, true);
+}
+
+try {
+    $moved = rename($origin, $origin_store);
+    $moved = rename($predict, $predict_store);
+} catch (Exception $e){
+    $response['error_status'] = "Error: Database connection error!";
+    exit(json_encode($response));
+}
+
+// sql language
+$sql_insert = "INSERT INTO `predict_result`(`patient_id`, `area`, `date`, `original_img`, `predcit_img`)" .
+" VALUES ('" . $_SESSION['patientID'] . "','" . $area . "','" . $cur_date . "','" . $origin_store . "','" . $predict_store . "')";
+mysqli_query($mysqli, $sql_insert);
+
 echo json_encode($response);
 ?>
