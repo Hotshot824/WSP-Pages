@@ -11,13 +11,13 @@ CREATE TABLE patient_info
     UNIQUE (`patient_id`)
 );
 
-CREATE TABLE predict_result
+CREATE TABLE area_reco
 (
     `patient_id` CHAR(20) NOT NULL,
     `area` FLOAT(8) NOT NULL,
     `date` DATETIME NOT NULL,
-    `original_img` CHAR(40) NOT NULL,
-    `predcit_img` CHAR(40) NOT NULL,
-
+    `original_img` CHAR(80) NOT NULL,
+    `predcit_img` CHAR(80),
+    `iou_img` CHAR(80),
     FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
 );

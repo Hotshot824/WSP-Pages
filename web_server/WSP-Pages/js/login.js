@@ -38,14 +38,11 @@ function getStayIn() {
 }
 
 async function signInCheck() {
-    console.log(Boolean(getCookie('stay_in')));
-    console.log(Boolean('false'));
     let data = {
         "stay_in": getStayIn()
     }
-
     if (getCookie('PHPSESSID') != "") {
-        let response = await fetch(".hp./php/sign_in_check.p", {
+        let response = await fetch("../php/sign_in_check.php", {
             method: "POST",
             body: JSON.stringify(data)
         })

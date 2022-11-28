@@ -11,6 +11,7 @@ class Paint {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight * 0.99;
         this.canvas.beginHeight = window.innerHeight;
+        
         this.isDrawing = false;
         this.lastX = 0;
         this.lastY = 0;
@@ -40,7 +41,7 @@ class Paint {
         this.cut_deltay;
 
         this.frontUploadFlag = 0;
-        this.test;
+        this.iouFlag = false;
     }
 
     // init() {
@@ -388,7 +389,6 @@ class Paint {
     }
 
     displayImg() {
-        // console.log("displayimg");
         let newImage = new Image();
         let openImageInput = document.querySelector('#openImageInput');
         // to image
@@ -397,7 +397,6 @@ class Paint {
             var reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);
             reader.onload = function (e) {
-                this.test = reader;
                 newImage.setAttribute("src", e.target.result);
                 // openImageInput.setAttribute("type", "text");
             };
@@ -421,6 +420,7 @@ class Paint {
             this.saveHistory();
         });
 
+        this.iouFlag = false;
     }
 
     async backend_predict(temp_key) {
@@ -452,6 +452,7 @@ class Paint {
             body: JSON.stringify(data)
         })
             .then((response) => {
+                this.iouFlag = true;
                 return response.json();
             })
             .then((response) => {
@@ -465,7 +466,6 @@ class Paint {
     }
 
     async backend_iou_upload() {
-
         var img = this.canvas.toDataURL();
         var data = {
             "label": img

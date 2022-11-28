@@ -106,7 +106,7 @@ try {
 }
 
 // sql language
-$sql_insert = "INSERT INTO `predict_result`(`patient_id`, `area`, `date`, `original_img`, `predcit_img`)" .
+$sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `predcit_img`)" .
 " VALUES ('" . $_SESSION['patientID'] . "','" . $area . "','" . $cur_date . "','" . $origin_store . "','" . $predict_store . "')";
 mysqli_query($mysqli, $sql_insert);
 

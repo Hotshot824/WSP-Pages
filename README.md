@@ -43,10 +43,17 @@ web_server/WSP-Pages/wound
 4. run `docker-compose up`
 5. web service is start.
 
-currently directory will be like
+<br>
+
+## directiory structure
+
+currently directory will be like:
+- mysql: store all database data.
+- mysql_image: image storage path.
+
 ```
-|---db_server
-|
+|---db_server---data---|---mysql
+|                      |---mysql_image
 |---img
 |
 |---wbe_server

@@ -150,7 +150,8 @@ window.addEventListener('mousedown', () => {
 });
 
 window.addEventListener('load', () => {
-    console.log("##### version 1.0.15 #####");
+    console.log("#####  version 1.1.15  #####");
+    console.log("##### build iou upload #####");
 
     // painting.init()
     // painting.loaded()
@@ -407,12 +408,16 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
 
 // iou btn, upload cavans image to backend with predcit result do iou calculate.
 document.querySelector('#iouBtn').addEventListener('click', () => {
-    document.querySelector('#nav-predict-tab').click();
-    let close = document.querySelectorAll('.btn-close');
-    for (let i = 0; i < close.length; i++) {
-        close[i].click();
+    if (painting.iouFlag) {
+        document.querySelector('#nav-predict-tab').click();
+        let close = document.querySelectorAll('.btn-close');
+        for (let i = 0; i < close.length; i++) {
+            close[i].click();
+        }
+        painting.backend_iou_upload();
+    } else {
+        alert("Error Operation.");
     }
-    painting.backend_iou_upload(session_id);
 });
 
 document.querySelector('#iouImg').addEventListener('click', () => {
