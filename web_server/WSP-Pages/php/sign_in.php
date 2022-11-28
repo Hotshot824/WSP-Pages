@@ -24,7 +24,7 @@ define('_DBname', 'WSP');
 
 // sql language
 $sql_exist = "SELECT 1 FROM `patient_info` WHERE patient_id = '" . $patientID . "' LIMIT 1;";
-$sql_select = "SELECT * FROM `patient_info` WHERE `patient_id` = '" . $patientID . "'";
+$sql_select = "SELECT * FROM `patient_info` WHERE `patient_id` = '" . $patientID . "';";
 
 // check data
 $response = array();
