@@ -11,7 +11,7 @@ CREATE TABLE patient_info
     UNIQUE (`patient_id`)
 );
 
-CREATE TABLE area_reco
+CREATE TABLE area_record
 (
     `patient_id` CHAR(20) NOT NULL,
     `area` FLOAT(8) NOT NULL,

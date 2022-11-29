@@ -1,23 +1,27 @@
 <?php
 
+require __DIR__ . '/lib/image.php';
+
 // Upload directory
-
 $content = trim(file_get_contents("php://input"));
-
 $decoded = json_decode($content, true);
 
-$uploadpath   = "../wound/upload/";
-$img = $decoded['label'];
-$img = str_replace('data:image/png;base64,', '', $img);
-$img = str_replace(' ', '+', $img);
-$data = base64_decode($img);
-$file = $uploadpath  . 'iou_label.png';
-$success = file_put_contents($file, $data);
-   
-$command = escapeshellcmd('python ../wound/creatlabel.py');
-$IOU = shell_exec($command);
+$path = "/etc/php/8.1/cli/php.ini";
+$db_default = parse_ini_file($path);
 
-$command = escapeshellcmd('python ../wound/iou.py');
+$temp_key = $decoded['temp_key'];
+$upload_path = $db_default['ptmp.path'];
+$result_path = $upload_path . $temp_key . "/";
+$upload_path = $upload_path . $temp_key . "/upload/";
+
+\image\decode_images_move($decoded['label'], $result_path, 'iou_label.png');
+
+$command = escapeshellcmd('python ../wound/iou.py ' . $result_path);
 $output = shell_exec($command);	
+
+$response = Array();
+$response['iou_result'] = \image\get_image_to_base64($result_path, 'iou_result.png');
+
+echo json_encode($response);
 
 ?>

@@ -414,7 +414,7 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_iou_upload();
+        painting.backend_iou_upload(temp_key);
     } else {
         alert("Error Operation.");
     }

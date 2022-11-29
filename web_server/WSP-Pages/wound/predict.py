@@ -1,9 +1,7 @@
-import os
+import os, time, argparse
 import cv2
 import numpy as np
-import time
-import argparse
-import post_processing.edge as ppe
+import post_processing.edge as edge
 
 from keras.models import load_model
 from keras.utils.generic_utils import CustomObjectScope
@@ -15,7 +13,6 @@ from models.FCN import FCN_Vgg16_16s
 from utils.learning.metrics import dice_coef, precision, recall
 from utils.BilinearUpSampling import BilinearUpSampling2D
 from utils.io.data import load_data, save_results, save_rgb_results, save_history, load_test_images, DataGen
-
 
 from PIL import Image
 from CCL_reverse import connected_component_labelling, neighbouring_labels, image_to_2d_bool_array_reverse
@@ -152,4 +149,4 @@ if __name__ == '__main__':
 
     cv2.imwrite(oringnal_image_path + 'predict_ccl.png',output)
     
-    ppe.create_edge(oringnal_image_path)
+    edge.create_edge(oringnal_image_path)
