@@ -1,13 +1,8 @@
 import numpy as np
 import cv2
 
-import os
-
-if __name__ == '__main__':
-    # change pwd
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-    img = cv2.imread('./upload/iou_label.png', 0)
+def create_label(filepath):
+    img = cv2.imread(filepath, 0)
     # resize to 224*224
     img = cv2.resize(img, (224, 224))
 
@@ -17,4 +12,4 @@ if __name__ == '__main__':
             if img[i][j] < 255:
                 img[i][j] = 0
 
-    cv2.imwrite('./upload/iou_label.png', img)
+    cv2.imwrite(filepath, img)

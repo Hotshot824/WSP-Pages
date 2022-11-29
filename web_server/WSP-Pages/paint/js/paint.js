@@ -456,7 +456,6 @@ class Paint {
                 return response.json();
             })
             .then((response) => {
-                console.log(response);
                 document.querySelector('#originalImg').src = response['oringnal_image'];
                 document.querySelector('#overlayImg').src = response['overlay_image'];
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
@@ -465,9 +464,10 @@ class Paint {
             })
     }
 
-    async backend_iou_upload() {
+    async backend_iou_upload(temp_key) {
         var img = this.canvas.toDataURL();
         var data = {
+            "temp_key": temp_key,
             "label": img
         }
 
