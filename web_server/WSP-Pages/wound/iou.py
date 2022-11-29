@@ -1,7 +1,7 @@
 import numpy as np
 import cv2, os, argparse
 
-import post_processing.creatlabel as cl
+import post_processing.create_label as cl
 
 def iou( imga ,imgb ):
     acount,bcount,abcount=0,0,0
@@ -17,7 +17,6 @@ def iou( imga ,imgb ):
     a= acount + bcount - abcount 
     return abcount/a
 
-
 if __name__ == '__main__':
     # Change pwd
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -29,10 +28,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
     result_path = args.path
 
+    # createlabel
+    cl.create_label(result_path + 'iou_label.png')
+
     imga = cv2.imread(result_path + 'predict_ccl.png', 0)
     imgc = cv2.imread(result_path + 'iou_label.png', 0)
 
-    print(iou(imga, imgc)*100)
+    print(iou(imga, imgc) * 100)
     # print(iou(imgb,imgd)*100)                      
 
     # write text on images 

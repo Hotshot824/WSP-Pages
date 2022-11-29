@@ -462,6 +462,9 @@ class Paint {
                 document.querySelector('#areaImg').src = response['area_image'];
                 document.querySelector('#areaText').innerHTML = "Area: " + response['area'] + "c㎡";
             })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
     }
 
     async backend_iou_upload(temp_key) {
@@ -479,12 +482,10 @@ class Paint {
             body: JSON.stringify(data)
         })
             .then((response) => {
-                return response.text();
+                return response.json();
             })
             .then((response) => {
-                alert(response)
-                let path = "../wound/upload/"
-                document.querySelector('#iouImg').src = path + "iou_result.png?" + Math.random().toString(2);
+                document.querySelector('#iouImg').src = response['iou_result'];
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);

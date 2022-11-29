@@ -11,11 +11,17 @@ $db_default = parse_ini_file($path);
 
 $temp_key = $decoded['temp_key'];
 $upload_path = $db_default['ptmp.path'];
+$result_path = $upload_path . $temp_key . "/";
 $upload_path = $upload_path . $temp_key . "/upload/";
 
-\image\decode_images_move($decoded['label'], $upload_path, 'iou_label.png');
+\image\decode_images_move($decoded['label'], $result_path, 'iou_label.png');
 
-$command = escapeshellcmd('python ../wound/iou.py ' . $upload_path);
+$command = escapeshellcmd('python ../wound/iou.py ' . $result_path);
 $output = shell_exec($command);	
+
+$response = Array();
+$response['iou_result'] = \image\get_image_to_base64($result_path, 'iou_result.png');
+
+echo json_encode($response);
 
 ?>

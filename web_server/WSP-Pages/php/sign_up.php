@@ -12,7 +12,7 @@ $patientID = $text["patientID"];
 $password = $text["password"];
 $emailAddress = $text['emailAddress'];
 
-$response = array();
+$response = Array();
 
 // get default var
 $path = "/etc/php/8.1/cli/php.ini";
