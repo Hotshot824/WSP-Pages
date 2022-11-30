@@ -75,8 +75,10 @@ if (!isset($_SESSION['patientID'])) {
 $origin = $upload_path . 'original.png';
 $predict = $result_path . 'predict_ccl.png';
 $store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
+$cur_date = date("Y-m-d_h-i-s", $d);
+$_SESSION['last_predict_date'] = $cur_date;
 
-\tmpfile\store_predict_result($area, $store_path, $origin, $predict);
+\tmpfile\store_predict_result($_SESSION['patientID'], $area, $store_path, $origin, $predict, $cur_date);
 
 echo json_encode($response);
 ?>

@@ -42,6 +42,7 @@ class Paint {
 
         this.frontUploadFlag = 0;
         this.iouFlag = true;
+        this.backPredictFlag = true;
     }
 
     // init() {
@@ -422,6 +423,7 @@ class Paint {
 
         // this.iouFlag = false;
         this.iouFlag = true;
+        this.backPredictFlag = true;
     }
 
     async backend_predict(temp_key) {
@@ -471,6 +473,7 @@ class Paint {
     async backend_iou_upload(temp_key) {
         var img = this.canvas.toDataURL();
         var data = {
+            "stay_in": getStayIn(),
             "temp_key": temp_key,
             "label": img
         }
