@@ -4,6 +4,7 @@ import os
 import sys
 import math
 
+
 def pixelcount(path):
     imga = cv2.imread(path + 'predict_ccl.png', 0)
     acount = np.where(imga == 255)
@@ -36,17 +37,17 @@ def area(x, y, length, originx, originy, path, after_cut_x=0, after_cut_y=0):
     originy = int(originy)
 
     if after_cut_x == 0 or after_cut_y == 0:
-        if originx >= 512:
-            x = x*(512/originx)
-        if originy >= 512:
-            y = y*(512/originy)
+        if originx >= 224:
+            x = x*(224/originx)
+        if originy >= 224:
+            y = y*(224/originy)
     else:
         after_cut_x = int(after_cut_x)
         after_cut_y = int(after_cut_y)
-        if after_cut_x >= 512:
-            x = x*(512/after_cut_x)
-        if after_cut_y >= 512:
-            y = y*(512/after_cut_y)
+        if after_cut_x >= 224:
+            x = x*(224/after_cut_x)
+        if after_cut_y >= 224:
+            y = y*(224/after_cut_y)
 
     num = 0
     num = float(num)
@@ -59,20 +60,22 @@ def area(x, y, length, originx, originy, path, after_cut_x=0, after_cut_y=0):
     pixel = num
     num = pixelcount(path)*pixel*pixel
     num = round(num, 2)
-    print(str(num))
-    strr = "Area = "+str(num)+"cm^2"
-    if len(imga[0]) < 512 or len(imga) < 512:
+    strr = "Area = "+str(num)+"cm2."
+    if len(imga[0]) < 224 or len(imga) < 224:
         ratex, ratey, avg = 1, 1, 1
     else:
-        ratex = int(len(imga[0])/512)
-        ratey = int(len(imga)/512)
+        ratex = int(len(imga[0])/224)
+        ratey = int(len(imga)/224)
         avg = int((ratex+ratey)/2)
 
-    cv2.putText(imga, strr, (1*ratex, 50*ratey), cv2.FONT_HERSHEY_SIMPLEX,
-                1.4*avg, (0, 0, 0), 1*avg, cv2.LINE_AA)
+    cv2.putText(imga, strr, (5*ratex, 20*ratey), cv2.FONT_HERSHEY_DUPLEX,
+                0.7*avg, (0, 0, 0), 1*avg, cv2.LINE_AA)
 
     # save image
     cv2.imwrite(path + "area.png", imga)
+
+    # export to std
+    print(str(num))
 
 
 if __name__ == "__main__":

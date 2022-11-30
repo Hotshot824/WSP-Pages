@@ -63,16 +63,16 @@ def check(path):
     imga = cv2.imread(filepath)
     a=len(imga)
     b=len(imga[0])
-    if a != 512 or b != 512:
-        #original image resize to 512*512
-        img = cv2.resize(imga, (512, 512))  
+    if a != 224 or b != 224:
+        #original image resize to 224*224
+        img = cv2.resize(imga, (224, 224))  
         cv2.imwrite(filepath, img)
 
-    ################## 亮度調整和對比  #################
+    # 亮度調整和對比
     file_pathname = path
     for filename in os.listdir(file_pathname):
         img = cv2.imread(file_pathname+'/'+filename)        
-        #img = modify_intensity(img)
+        img = modify_intensity(img)
         #img = modify_lightness_saturation(img)
         cv2.imwrite(file_pathname+'/'+filename, img)
 
@@ -88,8 +88,8 @@ if __name__ == '__main__':
     oringnal_image_path = args.path
 
     # settings
-    input_dim_x = 512
-    input_dim_y = 512
+    input_dim_x = 224
+    input_dim_y = 224
     color_space = 'rgb'
     path = './upload/'
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
     w=['0028_SegNet.hdf5','0060_FCN_Vgg16_16.hdf5','0478_unet_model_yuanqing.hdf5','3608_MobilenetV2.hdf5']
 
     # weight_file_name = 'test.h5'
-    weight_file_name='test_model.hdf5'
+    weight_file_name='3747_MobilenetV2.hdf5'
 
     data_gen = DataGen(path, split_ratio=0.0, x=input_dim_x, y=input_dim_y, color_space=color_space, in_path=oringnal_image_path + "upload/")
 
