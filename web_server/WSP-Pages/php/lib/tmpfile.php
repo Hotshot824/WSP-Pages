@@ -43,8 +43,8 @@ function store_predict_result($area, $store_path, $origin, $predict) {
     }
     
     try {
-        $moved = rename($origin, $origin_store);
-        $moved = rename($predict, $predict_store);
+        $moved = copy($origin, $origin_store);
+        $moved = copy($predict, $predict_store);
     } catch (Exception $e){
         $response['error_status'] = "Error: Database connection error!";
         exit(json_encode($response));
@@ -54,6 +54,5 @@ function store_predict_result($area, $store_path, $origin, $predict) {
     $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `predcit_img`)" .
     " VALUES ('" . $_SESSION['patientID'] . "','" . $area . "','" . $cur_date . "','" . $origin_store . "','" . $predict_store . "')";
     mysqli_query($mysqli, $sql_insert);
-    
 }
 ?>

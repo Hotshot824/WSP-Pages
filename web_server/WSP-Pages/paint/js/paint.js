@@ -41,7 +41,7 @@ class Paint {
         this.cut_deltay;
 
         this.frontUploadFlag = 0;
-        this.iouFlag = false;
+        this.iouFlag = true;
     }
 
     // init() {
@@ -420,7 +420,8 @@ class Paint {
             this.saveHistory();
         });
 
-        this.iouFlag = false;
+        // this.iouFlag = false;
+        this.iouFlag = true;
     }
 
     async backend_predict(temp_key) {
