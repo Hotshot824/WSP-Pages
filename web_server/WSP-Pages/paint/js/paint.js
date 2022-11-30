@@ -485,7 +485,9 @@ class Paint {
                 return response.json();
             })
             .then((response) => {
-                document.querySelector('#iouImg').src = response['iou_result'];
+                console.log(response);
+                document.querySelector('#iouImg').src = response['iou_image'];
+                document.querySelector('#iouText').innerHTML = "IOU: " + response['iou_value'] + "%";
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);

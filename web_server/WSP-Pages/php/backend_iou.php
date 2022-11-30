@@ -17,10 +17,12 @@ $upload_path = $upload_path . $temp_key . "/upload/";
 \image\decode_images_move($decoded['label'], $result_path, 'iou_label.png');
 
 $command = escapeshellcmd('python ../wound/iou.py ' . $result_path);
-$output = shell_exec($command);	
+$output = shell_exec($command);
+$IOU = str_replace("\n", "", $output);
 
 $response = Array();
-$response['iou_result'] = \image\get_image_to_base64($result_path, 'iou_result.png');
+$response['iou_image'] = \image\get_image_to_base64($result_path, 'iou_result.png');
+$response['iou_value'] = $IOU; 
 
 echo json_encode($response);
 
