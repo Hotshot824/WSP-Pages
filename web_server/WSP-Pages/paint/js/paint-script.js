@@ -441,12 +441,28 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
         })
 })
 
+document.querySelector('#chartBtn').addEventListener('click', async () => {
+    let data = {
+        "stay_in": getStayIn()
+    }
+    await fetch("../php/get_area.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            console.log(response);
+        })
+});
+
 document.querySelector('#testBtn').addEventListener('click', async () => {
     let session_id = getCookie('PHPSESSID');
     let data = {
         "session_id": session_id,
     }
-    await fetch("../php/test.php", {
+    await fetch("../php/get_area.php", {
         method: "POST",
         body: JSON.stringify(data)
     })
@@ -463,7 +479,7 @@ document.querySelector('#test2Btn').addEventListener('click', async () => {
     let data = {
         "session_id": session_id,
     }
-    await fetch("../php/test2.php", {
+    await fetch("../php/test.php", {
         method: "POST",
         body: JSON.stringify(data)
     })
