@@ -41,7 +41,7 @@ class Paint {
         this.cut_deltay;
 
         this.frontUploadFlag = 0;
-        this.iouFlag = true;
+        this.iouFlag = false;
         this.backPredictFlag = true;
     }
 
@@ -393,14 +393,15 @@ class Paint {
         let newImage = new Image();
         let openImageInput = document.querySelector('#openImageInput');
         // to image
-        if (openImageInput.files && openImageInput.files[0]) {
-
+        if (openImageInput.files[0]) {
+            console.log(openImageInput.files);
             var reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);
             reader.onload = function (e) {
                 newImage.setAttribute("src", e.target.result);
                 // openImageInput.setAttribute("type", "text");
             };
+            openImageInput.value = '';
         }
 
         // draw image on canvas
@@ -421,8 +422,7 @@ class Paint {
             this.saveHistory();
         });
 
-        // this.iouFlag = false;
-        this.iouFlag = true;
+        this.iouFlag = false;
         this.backPredictFlag = true;
     }
 

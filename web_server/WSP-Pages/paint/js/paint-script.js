@@ -441,7 +441,43 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
         })
 })
 
+function drawing_chart(array) {
+    let areaChart = document.querySelector('#areaChart');
+    let date = [];
+    let area = [];
+    for (let i = 0; i < array.length; i++) {
+        date.push(array[i]['date'])
+        area.push(array[i]['area'])
+    }
+    let data = [{
+        x: date,
+        y: area,
+        type: "line"
+    }];
+    let layout = {
+        autosize: true,
+        // width: 500,
+        // height: 500,
+        title: {
+            text: "Woundarea for Daily",
+            font: {
+                family: 'Merriweather Sans',
+                size: '5rem'
+            },
+            xref: 'paper',
+            x: 0.50,
+        },
+        yaxis: { fixedrange: true },
+        xaxis: { fixedrange: true }
+    };
+    let config = {
+        // 'displayModeBar': false,
+        displaylogo: false,
+    }
+    Plotly.newPlot(areaChart, data, layout, config);
+}
 document.querySelector('#chartBtn').addEventListener('click', async () => {
+    document.querySelector('#nav-predict-tab').click();
     let data = {
         "stay_in": getStayIn()
     }
@@ -453,40 +489,41 @@ document.querySelector('#chartBtn').addEventListener('click', async () => {
             return response.json();
         })
         .then((response) => {
-            console.log(response);
+            drawing_chart(response);
         })
+    window.location.href = '#chart';
 });
 
-document.querySelector('#testBtn').addEventListener('click', async () => {
-    let session_id = getCookie('PHPSESSID');
-    let data = {
-        "session_id": session_id,
-    }
-    await fetch("../php/get_area.php", {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            console.log(response);
-        })
-});
+// document.querySelector('#testBtn').addEventListener('click', async () => {
+//     let session_id = getCookie('PHPSESSID');
+//     let data = {
+//         "session_id": session_id,
+//     }
+//     await fetch("../php/get_area.php", {
+//         method: "POST",
+//         body: JSON.stringify(data)
+//     })
+//         .then((response) => {
+//             return response.json();
+//         })
+//         .then((response) => {
+//             console.log(response);
+//         })
+// });
 
-document.querySelector('#test2Btn').addEventListener('click', async () => {
-    let session_id = getCookie('PHPSESSID');
-    let data = {
-        "session_id": session_id,
-    }
-    await fetch("../php/test.php", {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            console.log(response);
-        })
-});
+// document.querySelector('#test2Btn').addEventListener('click', async () => {
+//     let session_id = getCookie('PHPSESSID');
+//     let data = {
+//         "session_id": session_id,
+//     }
+//     await fetch("../php/test.php", {
+//         method: "POST",
+//         body: JSON.stringify(data)
+//     })
+//         .then((response) => {
+//             return response.json();
+//         })
+//         .then((response) => {
+//             console.log(response);
+//         })
+// });
