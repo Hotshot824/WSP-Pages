@@ -1,13 +1,14 @@
 import { Paint } from './paint.js';
-import { toastPosition, areatextPosition, loginStatus } from './style.js'
-import { getCookie, delCookie, signInCheck, logOut, randomString, getStayIn } from '../../js/login.js'
+import * as style from './style.js';
+import * as chart from './chart.js';
+import * as login from '../../js/login.js';
 
 let canvas = document.querySelector('#canvas');
 let ctx = canvas.getContext('2d');
 let painting = new Paint(canvas, ctx);
 
 // randon tmpfile path
-let temp_key = randomString(20);
+let temp_key = login.randomString(20);
 
 // mouse click status
 let state;
@@ -117,8 +118,8 @@ function floodFill(x, y, color, area) {
         let str = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2) + "c㎡"
         alert(str);
         // document.querySelector('.front-areatext').innerHTML = str;
-        areatextPosition(str);
-        toastPosition();
+        style.areatextPosition(str);
+        style.toastPosition();
     }
     pixels_num = 0;
     ctx.putImageData(pixels, 0, 0);
@@ -159,23 +160,23 @@ window.addEventListener('load', () => {
     painting.saveHistory("brushbtn");
     // init
     $("#message").popover('show');
-    toastPosition();
-    areatextPosition("Hello");
+    style.toastPosition();
+    style.areatextPosition("Hello");
 });
 
 // check login
 window.addEventListener('load', async () => {
-    await signInCheck()
+    await login.signInCheck()
         .then((response) => {
             return response.json()
         })
         .then((response) => {
             if (response['patientID']) {
-                loginStatus(true);
+                style.loginStatus(true);
                 document.querySelector('#chartBtn').classList.remove("d-none");
                 return;
             }
-            loginStatus(false);
+            style.loginStatus(false);
             document.querySelector('#chartBtn').classList.add("d-none");
             return;
         })
@@ -185,8 +186,8 @@ window.addEventListener('load', async () => {
 })
 
 window.addEventListener('resize', () => {
-    toastPosition();
-    areatextPosition();
+    style.toastPosition();
+    style.areatextPosition();
 });
 
 function exitPaint(event) {
@@ -432,9 +433,9 @@ document.querySelector('#iouImg').addEventListener('click', () => {
 
 // logout, clear cookie.
 document.querySelector('#logOut').addEventListener('click', async (event) => {
-    logOut()
+    login.logOut()
         .then((result) => {
-            delCookie('stay_in');
+            login.delCookie('stay_in');
             window.removeEventListener("beforeunload", exitPaint);
             location.reload();
         })
@@ -443,62 +444,9 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
         })
 })
 
-function drawing_chart(array, id) {
-    let areaChart = document.querySelector('#areaChart');
-    let date = [];
-    let area = [];
-    for (let i = 0; i < array.length; i++) {
-        date.push(array[i]['date'])
-        area.push(array[i]['area'])
-    }
-    let data = [{
-        x: date,
-        y: area,
-        mode: 'lines+markers',
-        name: 'Area',
-        line: {
-            shape: 'linear',
-            color: '#ff7f0e',
-            width: 1.5,
-        },
-        type: 'scatter'
-    }];
-    let layout = {
-        autosize: true,
-        plot_bgcolor: "#FFF",
-        title: {
-            text: "Woundarea Daily for " + id,
-            font: {
-                family: 'Merriweather Sans',
-                size: '5rem'
-            },
-            xref: 'paper',
-            x: 0.50,
-        },
-        yaxis: { fixedrange: true },
-        xaxis: { fixedrange: true }
-    };
-    let config = {
-        // 'displayModeBar': false,
-        displaylogo: false,
-    }
-    Plotly.newPlot(areaChart, data, layout, config);
-}
 document.querySelector('#chartBtn').addEventListener('click', async () => {
     document.querySelector('#nav-predict-tab').click();
-    let data = {
-        "stay_in": getStayIn()
-    }
-    await fetch("../php/get_area.php", {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            drawing_chart(response['data'], response['id']);
-        })
+    await chart.start_chart();
     window.location.href = '#chart';
 });
 
