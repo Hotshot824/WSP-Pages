@@ -129,6 +129,7 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
 
             alert("Password, true!");
             loginStatus(true);
+            document.querySelector('#chartBtn').classList.remove("d-none");
 
             document.querySelector('#modalSignIn').querySelector('.btn-close').click();
             let input = document.querySelector('#modalSignIn').querySelectorAll('input');

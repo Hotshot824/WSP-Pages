@@ -2,6 +2,6 @@
 WD=$(dirname $(readlink -f $0));
 cTime=$(date +"%d_%m_%y");
 cd ${WD};
-tar zcvf '../WSP_'${cTime}'.tar.gz' '../WSP';
+sudo tar zcvf '../WSP_'${cTime}'.tar.gz' '../WSP';
 scp '../WSP_'${cTime}'.tar.gz' user@140.127.196.150:~/WSP-file/;
 rm -rf '../WSP_'${cTime}'.tar.gz';

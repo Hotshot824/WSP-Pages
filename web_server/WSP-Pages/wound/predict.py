@@ -46,8 +46,8 @@ def modify_lightness_saturation(img):
 
 
 def modify_intensity(img): 
-    contrast = 100
-    brightness = 20
+    contrast = 200
+    brightness = 70
     img = img * (contrast/127 + 1) - contrast + brightness 
     # 轉換公式
     # 轉換公式參考 https://stackoverflow.com/questions/50474302/how-do-i-adjust-brightness-contrast-and-vibrance-with-opencv-python
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     # image to binarization
     img = cv2.imread(image_path)  
-    output = cv2.threshold(img, 90, 255, cv2.THRESH_BINARY)
+    output = cv2.threshold(img, 40, 255, cv2.THRESH_BINARY)
     output = cv2.cvtColor(output[1], cv2.COLOR_BGR2GRAY)
     cv2.imwrite(image_path, output)
 

@@ -42,6 +42,7 @@ class Paint {
 
         this.frontUploadFlag = 0;
         this.iouFlag = false;
+        this.backPredictFlag = true;
     }
 
     // init() {
@@ -392,14 +393,15 @@ class Paint {
         let newImage = new Image();
         let openImageInput = document.querySelector('#openImageInput');
         // to image
-        if (openImageInput.files && openImageInput.files[0]) {
-
+        if (openImageInput.files[0]) {
+            console.log(openImageInput.files);
             var reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);
             reader.onload = function (e) {
                 newImage.setAttribute("src", e.target.result);
                 // openImageInput.setAttribute("type", "text");
             };
+            openImageInput.value = '';
         }
 
         // draw image on canvas
@@ -421,6 +423,7 @@ class Paint {
         });
 
         this.iouFlag = false;
+        this.backPredictFlag = true;
     }
 
     async backend_predict(temp_key) {
@@ -470,6 +473,7 @@ class Paint {
     async backend_iou_upload(temp_key) {
         var img = this.canvas.toDataURL();
         var data = {
+            "stay_in": getStayIn(),
             "temp_key": temp_key,
             "label": img
         }
