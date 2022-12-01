@@ -13,11 +13,12 @@ This docker compose will listen for:
 
 ### Configure
 * Web server php config at `web_server/config/php.ini`
-* Sql initialization script file at `db_server/init/`
+* SQL initialization script file at `db_server/init/`  
+   * about how to create SQL table, user.
 
-&nbsp;
-
-* `php.ini`
+In `php.ini` attributes:  
+* `mysqli.default_host`, `mysqli.default_user`, `mysqli.default_pw`  
+    default DB config.
 * `ptmp.probability`  
     per time useing the predict function, there is a certain chance to clear the temporary file.  
     if value is 100 means has 1/100 chance to clear.

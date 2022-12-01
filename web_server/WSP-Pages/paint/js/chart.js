@@ -1,10 +1,13 @@
 import * as login from '../../js/login.js';
 
-async function start_chart() {
+var chartData;
+var index;
+
+async function startChart() {
     let data = {
         "stay_in": login.getStayIn()
     }
-    await fetch("../php/get_area.php", {
+    await fetch("../php/get_history.php", {
         method: "POST",
         body: JSON.stringify(data)
     })
@@ -12,13 +15,14 @@ async function start_chart() {
             return response.json();
         })
         .then((response) => {
+            chartData = response['data'];
             if (response['id']) {
-                drawing_chart(response['data'], response['id']);
+                drawingChart(response['data'], response['id']);
             }
         })
 }
 
-function drawing_chart(array, id) {
+function drawingChart(array, id) {
     let areaChart = document.querySelector('#areaChart');
     let date = [];
     let area = [];
@@ -30,13 +34,12 @@ function drawing_chart(array, id) {
         x: date,
         y: area,
         mode: 'lines+markers',
-        name: 'Area',
         line: {
             shape: 'linear',
             color: '#ff7f0e',
             width: 1.5,
         },
-        type: 'scatter'
+        name: 'Scatter'
     }];
     let layout = {
         autosize: true,
@@ -54,10 +57,37 @@ function drawing_chart(array, id) {
         xaxis: { fixedrange: true }
     };
     let config = {
-        // 'displayModeBar': false,
-        displaylogo: false,
+        'displayModeBar': false,
     }
     Plotly.newPlot(areaChart, data, layout, config);
+
+    areaChart.on('plotly_click', function(data){
+        let pts = '';
+        for(let i=0; i < data.points.length; i++){
+            index = data.points[i].pointIndex;
+        }
+        showHistoryPredict(index);
+    });
 }
 
-export { drawing_chart, start_chart };
+async function showHistoryPredict(index) {
+    document.querySelector('#modalHistoryResLabel').innerHTML = 'History for ' + chartData[index]['date'];
+    let data = {
+        "orignal": chartData[index]['original_img'],
+        "predict": chartData[index]['predict_img'],
+    }
+    await fetch("../php/get_history_image.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            document.querySelector('#historyOriginal').src = response['original_img'];
+            document.querySelector('#historyPredict').src = response['predict_img'];
+            $('#modalHistoryRes').modal('show');
+        })
+}
+
+export { drawingChart, startChart };

@@ -173,11 +173,10 @@ window.addEventListener('load', async () => {
         .then((response) => {
             if (response['patientID']) {
                 style.loginStatus(true);
-                document.querySelector('#chartBtn').classList.remove("d-none");
                 return;
             }
             style.loginStatus(false);
-            document.querySelector('#chartBtn').classList.add("d-none");
+            style.chartStatus(false);
             return;
         })
         .catch((error) => {
@@ -188,6 +187,7 @@ window.addEventListener('load', async () => {
 window.addEventListener('resize', () => {
     style.toastPosition();
     style.areatextPosition();
+    chart.startChart();
 });
 
 function exitPaint(event) {
@@ -446,7 +446,7 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
 
 document.querySelector('#chartBtn').addEventListener('click', async () => {
     document.querySelector('#nav-predict-tab').click();
-    await chart.start_chart();
+    await chart.startChart();
     window.location.href = '#chart';
 });
 

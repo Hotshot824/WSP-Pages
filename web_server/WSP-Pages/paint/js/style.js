@@ -14,8 +14,8 @@ function areatextPosition(string = null) {
     frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
 }
 
-function loginStatus(statue) {
-    if (statue) {
+function loginStatus(status) {
+    if (status) {
         document.querySelector('#signUp').classList.add("d-none");
         document.querySelector('#signIN').classList.add("d-none");
         document.querySelector('#logOut').classList.remove("d-none");
@@ -26,4 +26,14 @@ function loginStatus(statue) {
     }
 }
 
-export {toastPosition, areatextPosition, loginStatus};
+function chartStatus(status) {
+    if (status) {
+        document.querySelector('#chart').classList.remove("d-none");
+        document.querySelector('#chartBtn').classList.remove("d-none");
+    } else {
+        document.querySelector('#chart').classList.add("d-none");
+        document.querySelector('#chartBtn').classList.add("d-none");
+    }
+}
+
+export {toastPosition, areatextPosition, loginStatus, chartStatus};

@@ -50,7 +50,7 @@ function store_predict_result($patientID, $area, $store_path, $origin, $predict,
     }
 
     // sql language
-    $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `predcit_img`)" .
+    $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `predict_img`)" .
     " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . $origin_store . "','" . $predict_store . "')";
     mysqli_query($mysqli, $sql_insert);
 }

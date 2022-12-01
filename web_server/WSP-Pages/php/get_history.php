@@ -26,7 +26,7 @@ session_save_path('/tmp');
 session_start();
 
 $response = Array();
-$sql_select = "SELECT `date`, `area`, `original_img` FROM `area_record` WHERE `patient_id` = '" . $_SESSION['patientID'] . "' ORDER BY `date`;";
+$sql_select = "SELECT `date`, `area`, `original_img`, `predict_img` FROM `area_record` WHERE `patient_id` = '" . $_SESSION['patientID'] . "' ORDER BY `date`;";
 
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
