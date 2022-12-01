@@ -172,9 +172,11 @@ window.addEventListener('load', async () => {
         .then((response) => {
             if (response['patientID']) {
                 loginStatus(true);
+                document.querySelector('#chartBtn').classList.remove("d-none");
                 return;
             }
             loginStatus(false);
+            document.querySelector('#chartBtn').classList.add("d-none");
             return;
         })
         .catch((error) => {
@@ -441,7 +443,7 @@ document.querySelector('#logOut').addEventListener('click', async (event) => {
         })
 })
 
-function drawing_chart(array) {
+function drawing_chart(array, id) {
     let areaChart = document.querySelector('#areaChart');
     let date = [];
     let area = [];
@@ -452,14 +454,20 @@ function drawing_chart(array) {
     let data = [{
         x: date,
         y: area,
-        type: "line"
+        mode: 'lines+markers',
+        name: 'Area',
+        line: {
+            shape: 'linear',
+            color: '#ff7f0e',
+            width: 1.5,
+        },
+        type: 'scatter'
     }];
     let layout = {
         autosize: true,
-        // width: 500,
-        // height: 500,
+        plot_bgcolor: "#FFF",
         title: {
-            text: "Woundarea for Daily",
+            text: "Woundarea Daily for " + id,
             font: {
                 family: 'Merriweather Sans',
                 size: '5rem'
@@ -489,7 +497,7 @@ document.querySelector('#chartBtn').addEventListener('click', async () => {
             return response.json();
         })
         .then((response) => {
-            drawing_chart(response);
+            drawing_chart(response['data'], response['id']);
         })
     window.location.href = '#chart';
 });

@@ -25,6 +25,7 @@ if (isset($decoded['stay_in'])) {
 session_save_path('/tmp');
 session_start();
 
+$response = Array();
 $sql_select = "SELECT `date`, `area`, `original_img` FROM `area_record` WHERE `patient_id` = '" . $_SESSION['patientID'] . "' ORDER BY `date`;";
 
 try {
@@ -37,6 +38,8 @@ try {
 if($mysqli){
     $result = mysqli_query($mysqli, $sql_select);
     $row = resultToArray($result);
-    echo json_encode($row);
+    $response['data'] = $row;
+    $response['id'] = $_SESSION['patientID'];
+    echo json_encode($response);
 }
 ?>
