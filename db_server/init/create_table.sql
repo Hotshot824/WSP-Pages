@@ -19,5 +19,7 @@ CREATE TABLE area_record
     `original_img` CHAR(80) NOT NULL,
     `predict_img` CHAR(80),
     `iou_img` CHAR(80),
+    `comment` VARCHAR(64),
+    `disable` BOOLEAN,
     FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
 );

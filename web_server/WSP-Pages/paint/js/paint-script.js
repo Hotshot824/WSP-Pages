@@ -151,8 +151,8 @@ window.addEventListener('mousedown', () => {
 });
 
 window.addEventListener('load', () => {
-    console.log("#####  version 1.1.15  #####");
-    console.log("##### build iou upload #####");
+    console.log("#####  version 1.1.16  #####");
+    console.log("#####   chart drawing  #####");
 
     // painting.init()
     // painting.loaded()
@@ -449,6 +449,8 @@ document.querySelector('#chartBtn').addEventListener('click', async () => {
     await chart.startChart();
     window.location.href = '#chart';
 });
+
+document.querySelector('#historyRemove').addEventListener('click', chart.removeHistory);
 
 // document.querySelector('#testBtn').addEventListener('click', async () => {
 //     let session_id = getCookie('PHPSESSID');

@@ -1,4 +1,4 @@
-import { loginStatus } from '../paint/js/style.js';
+import * as style from '../paint/js/style.js';
 import { sha256 } from './hash.js';
 
 function randomString(length) {
@@ -128,8 +128,8 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
             }
 
             alert("Password, true!");
-            loginStatus(true);
-            document.querySelector('#chartBtn').classList.remove("d-none");
+            style.loginStatus(true);
+            style.chartStatus(true);
 
             document.querySelector('#modalSignIn').querySelector('.btn-close').click();
             let input = document.querySelector('#modalSignIn').querySelectorAll('input');

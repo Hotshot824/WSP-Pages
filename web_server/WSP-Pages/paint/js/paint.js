@@ -394,14 +394,12 @@ class Paint {
         let openImageInput = document.querySelector('#openImageInput');
         // to image
         if (openImageInput.files[0]) {
-            console.log(openImageInput.files);
             var reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);
             reader.onload = function (e) {
                 newImage.setAttribute("src", e.target.result);
-                // openImageInput.setAttribute("type", "text");
+                openImageInput.setAttribute("type", "text");
             };
-            openImageInput.value = '';
         }
 
         // draw image on canvas
@@ -418,7 +416,7 @@ class Paint {
             this.setCanvas(height2);
             this.ctx.drawImage(newImage, 0, 0, width2, height2);
 
-            // openImageInput.setAttribute("type", "file");
+            openImageInput.setAttribute("type", "file");
             this.saveHistory();
         });
 
