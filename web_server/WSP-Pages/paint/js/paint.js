@@ -1,6 +1,6 @@
 import { getStayIn } from '../../js/login.js'
 
-class Paint {
+class Paint {    
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
@@ -11,7 +11,7 @@ class Paint {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight * 0.99;
         this.canvas.beginHeight = window.innerHeight;
-        
+
         this.isDrawing = false;
         this.lastX = 0;
         this.lastY = 0;
@@ -487,9 +487,9 @@ class Paint {
                 return response.json();
             })
             .then((response) => {
-                console.log(response);
                 document.querySelector('#iouImg').src = response['iou_image'];
                 document.querySelector('#iouText').innerHTML = "IOU: " + response['iou_value'] + "%";
+                this.iouFlag = false;
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);

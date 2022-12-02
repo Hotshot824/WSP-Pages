@@ -35,9 +35,6 @@ $data = base64_decode($img);
 $file = $upload_path  . 'original.png';
 $success = file_put_contents($file, $data);
 
-$command = escapeshellcmd('python ../wound/predict.py ' . $result_path);
-$output = shell_exec($command);
-
 // area augsment
 $x = $decoded['x'];
 $y = $decoded['y'];
@@ -47,18 +44,22 @@ $originy = $decoded['originy'];
 $after_cut_x = $decoded['after_cut_x'];
 $after_cut_y = $decoded['after_cut_y'];
 
+// executed predict
+$command = escapeshellcmd('python ../wound/predict.py ' . $result_path);
+$output = shell_exec($command);
+
 $command = escapeshellcmd("python ../wound/area_calc.py "
 .$x." ".$y." ".$length." ".$originx." ".$originy." ".$after_cut_x." ".$after_cut_y." ".$result_path);
 $output = shell_exec($command);
 $area = str_replace("\n","",$output);
 
+// response images
 $response = Array();
 $response['oringnal_image'] = \image\get_image_to_base64($upload_path, 'original.png');
 $response['overlay_image'] = \image\get_image_to_base64($result_path, 'overlay.png');
 $response['super_position_image'] = \image\get_image_to_base64($result_path, 'superposition.png');
 $response['area_image'] = \image\get_image_to_base64($result_path, 'area.png');
 $response['area'] = $area;
-
 
 // check login
 if (isset($decoded['stay_in'])) {

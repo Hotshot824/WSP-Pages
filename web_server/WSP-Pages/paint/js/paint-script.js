@@ -450,7 +450,21 @@ document.querySelector('#chartBtn').addEventListener('click', async () => {
     window.location.href = '#chart';
 });
 
-document.querySelector('#historyRemove').addEventListener('click', chart.removeHistory);
+document.querySelector('#historyRemove').addEventListener('click', () => {
+    if (confirm('Are you sure to delete this data?')) {
+        chart.removeHistory();
+    }
+});
+
+document.querySelector('#historyComment').addEventListener('click', (event) => {
+    if (document.querySelector('#historyCommentText').value == "") {
+        console.log(document.querySelector('#historyCommentText').value);
+        alert("Comment cannot be empty!");
+        event.stopPropagation();
+    } else {
+        chart.sotreComment();
+    }
+});
 
 // document.querySelector('#testBtn').addEventListener('click', async () => {
 //     let session_id = getCookie('PHPSESSID');
