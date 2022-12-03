@@ -1,7 +1,0 @@
-scale x = 97
-scale y = 37
-user enter lenght = 5
-original image x = 224
-original image y = 224
-after cut x = 0
-after cut y = 0

@@ -13,7 +13,7 @@ def pixelcount(path):
 
 
 def area(x, y, length, originx, originy, path, after_cut_x=0, after_cut_y=0):
-    imga = cv2.imread(path + 'upload/original.png')
+    imga = cv2.imread(path + 'resize_original.png')
     # label = cv2.imread(path + 'original.png')
 
     f = open(path + "scale.txt", 'w')
