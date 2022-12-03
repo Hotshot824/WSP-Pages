@@ -48,11 +48,10 @@ def check(path):
     imga = cv2.imread(filepath)
     a=len(imga)
     b=len(imga[0])
-    if a != 224 or b != 224:
-        #original image resize to 224*224
-        img = cv2.resize(imga, (224, 224))  
-        cv2.imwrite(filepath, img)
-        cv2.imwrite(path + 'resize_original.png', img)
+    #original image resize to 224*224
+    img = cv2.resize(imga, (224, 224))  
+    cv2.imwrite(filepath, img)
+    cv2.imwrite(path + 'resize_original.png', img)
 
     # 亮度調整和對比
     file_pathname = path + 'upload/'

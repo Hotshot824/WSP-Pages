@@ -4,9 +4,10 @@ import os
  
 def create_edge(path):
     # superposition.png
+    
     img_predict = cv2.imread(path + 'predict_ccl.png')
-    img_origin = cv2.imread(path + 'resize_original.png')
-    output = cv2.addWeighted(img_origin, 0.9, img_predict, 1,0)
+    img_original = cv2.imread(path + 'resize_original.png')
+    output = cv2.addWeighted(img_original, 0.9, img_predict, 1,0)
     cv2.imwrite(path + 'superposition.png',output)
     
     # edge.png
@@ -15,5 +16,5 @@ def create_edge(path):
     cv2.imwrite(path + 'edge.png',img_edge)
 
     # overlay.png
-    output = cv2.addWeighted(img_origin, 0.9, img_edge, 1,0)
+    output = cv2.addWeighted(img_original, 0.9, img_edge, 1,0)
     cv2.imwrite(path + 'overlay.png',output)
