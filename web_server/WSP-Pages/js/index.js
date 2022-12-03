@@ -30,35 +30,36 @@ function checkFilesize(file) {
     return true;
 }
 
-document.querySelector('#submitBtn').addEventListener("click", (event) =>{
+async function sendFeedback(message) {
+    let data = {
+        "message": message,
+    }
+    console.log(data);
+    await fetch("../php/feedback.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            if (alert(response['status'])) {}
+            else window.location.assign("#page-top");
+            document.querySelector('#message').value = "";
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
+}
+document.querySelector('#submitBtn').addEventListener("click", (event) => {
     event.preventDefault();
     let message = document.querySelector('#message').value;
 
-    if (message.length >= 10) {
-        alert("Text is limited to 500 characters!");
+    if (message.length >= 256) {
+        alert("Text is limited to 256 characters!");
+    } if (message.length <= 10) {
+        alert('Text Minimum is 10 characters!')
     } else {
-        (() => {
-            let data = {
-                "message": message
-            }
-            
-            fetch('php/message.php', {
-                method: "POST",
-                body: JSON.stringify(data)
-            })
-                .then((response) => {
-                    return response.text();
-                })
-                // .then((response) => {
-                //     console.log(response);
-                // })
-                .catch((error) => {
-                    console.log(`Error: ${error}`);
-                })
-    
-        })();
-        window.setTimeout(window.alert("thanks for your feeback!"), 1000);
-        window.location.assign("#page-top");
-        document.querySelector('#message').value = "";
+        sendFeedback(message)
     }
 });
