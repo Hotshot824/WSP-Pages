@@ -17,7 +17,10 @@ CREATE TABLE area_record
     `area` FLOAT(8) NOT NULL,
     `date` DATETIME NOT NULL,
     `original_img` CHAR(80) NOT NULL,
+    `unresize_original_img` CHAR(80) NOT NULL,
     `predict_img` CHAR(80),
     `iou_img` CHAR(80),
+    `comment` VARCHAR(64),
+    `disable` BOOLEAN,
     FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
 );

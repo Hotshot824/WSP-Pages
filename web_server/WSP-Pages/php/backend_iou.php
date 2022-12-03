@@ -42,7 +42,7 @@ $cur_date = $_SESSION['last_predict_date'];
 $predict = $result_path . 'predict_ccl.png';
 $store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
 $iou_store_path = $store_path . "iou/";
-$iou = $result_path . 'iou_result.png';
+$iou = $result_path . 'iou_label.png';
 
 \tmpfile\store_iou_result($_SESSION['patientID'], $iou_store_path, $iou, $cur_date);
 

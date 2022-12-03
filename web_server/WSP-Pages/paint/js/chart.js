@@ -73,9 +73,14 @@ function drawingChart(array, id) {
 async function showHistoryPredict(index) {
     document.querySelector('#modalHistoryResLabel').innerHTML = 'History for ' + chartData[index]['date'];
     let data = {
+        "stay_in": login.getStayIn(),
         "orignal": chartData[index]['original_img'],
         "predict": chartData[index]['predict_img'],
     }
+    $('#modalHistoryRes').modal('show');
+    let imgpreview = "../assets/img/preview/pre_img.gif"
+    document.querySelector('#historyOriginal').src = imgpreview;
+    document.querySelector('#historyPredict').src = imgpreview;
     await fetch("../php/get_history_image.php", {
         method: "POST",
         body: JSON.stringify(data)
@@ -86,8 +91,52 @@ async function showHistoryPredict(index) {
         .then((response) => {
             document.querySelector('#historyOriginal').src = response['original_img'];
             document.querySelector('#historyPredict').src = response['predict_img'];
-            $('#modalHistoryRes').modal('show');
+            document.querySelector('#historyCommentText').value = chartData[index]['comment'];
+            document.querySelector('#historyArea').innerHTML = "Area: " +  chartData[index]['area'] + 'c㎡';
         })
 }
 
-export { drawingChart, startChart };
+async function removeHistory() {
+    let data = {
+        "original": chartData[index]['original_img'],
+    }
+    await fetch("../php/history_disable.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            if (response['status']) {
+                alert(response['status']);
+            }
+            document.querySelector('#modalHistoryRes').querySelector('.btn-close').click();
+            startChart();
+        })
+}
+
+async function sotreComment() {
+    let comment = document.querySelector('#historyCommentText').value;
+    let data = {
+        "original": chartData[index]['original_img'],
+        "comment": comment, 
+    }
+    await fetch("../php/history_comment.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            if(response['status']) {
+                alert(response['status'])
+            }
+            document.querySelector('#modalHistoryRes').querySelector('.btn-close').click();
+            startChart();
+        })
+}
+
+
+export { drawingChart, startChart, removeHistory, sotreComment };

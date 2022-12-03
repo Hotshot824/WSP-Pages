@@ -25,9 +25,13 @@ function random_remove_tmpfile() {
     $output = shell_exec($command);
 }
 
-function store_predict_result($patientID, $area, $store_path, $origin, $predict, $cur_date) {
+function store_predict_result($patientID, $area, $store_path, $result_path, $cur_date) {
+    $unresize_origin = $result_path . 'unresize_original.png';
+    $origin = $result_path . 'resize_original.png';
+    $predict = $result_path . 'predict_ccl.png';
     $origin_store = $store_path . "original/" . $cur_date . ".png";
     $predict_store = $store_path . "predict/" . $cur_date . ".png";
+    $unresize_origin_store = $store_path . "unresize_original/" . $cur_date . ".png";
 
     try {
         $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
@@ -39,10 +43,12 @@ function store_predict_result($patientID, $area, $store_path, $origin, $predict,
     if (!file_exists($store_path)) {
         mkdir($store_path . "original/", 0775, true);
         mkdir($store_path . "predict/", 0775, true);
+        mkdir($store_path . "unresize_original/", 0775, true);
     }
     
     try {
         $copy = copy($origin, $origin_store);
+        $copy = copy($unresize_origin, $unresize_origin_store);
         $copy = copy($predict, $predict_store);
     } catch (Exception $e){
         $response['error_status'] = "Error: Database connection error!";
@@ -50,8 +56,8 @@ function store_predict_result($patientID, $area, $store_path, $origin, $predict,
     }
 
     // sql language
-    $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `predict_img`)" .
-    " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . $origin_store . "','" . $predict_store . "')";
+    $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `unresize_original_img` ,`predict_img`)" .
+    " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . $origin_store . "','" . $unresize_origin_store . "','" . $predict_store . "')";
     mysqli_query($mysqli, $sql_insert);
 }
 

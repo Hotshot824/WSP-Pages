@@ -151,8 +151,8 @@ window.addEventListener('mousedown', () => {
 });
 
 window.addEventListener('load', () => {
-    console.log("#####  version 1.1.15  #####");
-    console.log("##### build iou upload #####");
+    console.log("#####  version 1.1.16  #####");
+    console.log("#####   chart drawing  #####");
 
     // painting.init()
     // painting.loaded()
@@ -448,6 +448,22 @@ document.querySelector('#chartBtn').addEventListener('click', async () => {
     document.querySelector('#nav-predict-tab').click();
     await chart.startChart();
     window.location.href = '#chart';
+});
+
+document.querySelector('#historyRemove').addEventListener('click', () => {
+    if (confirm('Are you sure to delete this data?')) {
+        chart.removeHistory();
+    }
+});
+
+document.querySelector('#historyComment').addEventListener('click', (event) => {
+    if (document.querySelector('#historyCommentText').value == "") {
+        console.log(document.querySelector('#historyCommentText').value);
+        alert("Comment cannot be empty!");
+        event.stopPropagation();
+    } else {
+        chart.sotreComment();
+    }
 });
 
 // document.querySelector('#testBtn').addEventListener('click', async () => {

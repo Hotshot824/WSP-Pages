@@ -17,6 +17,9 @@ function resultToArray($result) {
     return $rows;
 }
 
+$content = trim(file_get_contents("php://input"));
+$decoded = json_decode($content, true);
+
 // check login
 if (isset($decoded['stay_in'])) {
     $lifetime = 86400;
@@ -26,7 +29,10 @@ session_save_path('/tmp');
 session_start();
 
 $response = Array();
-$sql_select = "SELECT `date`, `area`, `original_img`, `predict_img` FROM `area_record` WHERE `patient_id` = '" . $_SESSION['patientID'] . "' ORDER BY `date`;";
+$sql_select = "SELECT `date`, `area`, `original_img`, `predict_img`, `comment` " .
+"FROM `area_record` " .
+"WHERE `patient_id` = '" . $_SESSION['patientID'] . "' AND `disable` IS NULL ".
+"ORDER BY `date`;";
 
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);

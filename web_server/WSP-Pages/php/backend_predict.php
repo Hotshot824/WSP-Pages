@@ -35,6 +35,12 @@ $data = base64_decode($img);
 $file = $upload_path  . 'original.png';
 $success = file_put_contents($file, $data);
 
+copy($file, $result_path . "unresize_original.png");
+
+// executed predict
+$command = escapeshellcmd('python ../wound/resize_image.py ' . $result_path);
+$output = shell_exec($command);
+
 $command = escapeshellcmd('python ../wound/predict.py ' . $result_path);
 $output = shell_exec($command);
 
@@ -52,13 +58,13 @@ $command = escapeshellcmd("python ../wound/area_calc.py "
 $output = shell_exec($command);
 $area = str_replace("\n","",$output);
 
+// response images
 $response = Array();
-$response['oringnal_image'] = \image\get_image_to_base64($upload_path, 'original.png');
+$response['oringnal_image'] = \image\get_image_to_base64($result_path, 'resize_original.png');
 $response['overlay_image'] = \image\get_image_to_base64($result_path, 'overlay.png');
 $response['super_position_image'] = \image\get_image_to_base64($result_path, 'superposition.png');
 $response['area_image'] = \image\get_image_to_base64($result_path, 'area.png');
 $response['area'] = $area;
-
 
 // check login
 if (isset($decoded['stay_in'])) {
@@ -72,13 +78,11 @@ if (!isset($_SESSION['patientID'])) {
     exit(json_encode($response));
 }
 
-$origin = $upload_path . 'original.png';
-$predict = $result_path . 'predict_ccl.png';
 $store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
 $cur_date = date("Y-m-d_H-i-s", $d);
 $_SESSION['last_predict_date'] = $cur_date;
 
-\tmpfile\store_predict_result($_SESSION['patientID'], $area, $store_path, $origin, $predict, $cur_date);
+\tmpfile\store_predict_result($_SESSION['patientID'], $area, $store_path, $result_path, $cur_date);
 
 echo json_encode($response);
 ?>
