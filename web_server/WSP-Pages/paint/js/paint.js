@@ -375,7 +375,6 @@ class Paint {
     }
 
     saveHistory(str) {
-        // console.log(str);
         this.step++;
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         let img = new Image();

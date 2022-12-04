@@ -152,7 +152,7 @@ window.addEventListener('mousedown', () => {
 
 window.addEventListener('load', () => {
     console.log("#####  version 1.1.16  #####");
-    console.log("#####   chart drawing  #####");
+    console.log("#####  fix undo empty  #####");
 
     // painting.init()
     // painting.loaded()
@@ -242,8 +242,10 @@ painting.canvas.addEventListener('mousemove', (e) => {
 painting.canvas.addEventListener('mouseout', () => painting.isDrawing = false);
 
 painting.canvas.addEventListener('mouseup', () => {
-    painting.isDrawing = false;
-    painting.saveHistory();
+    if (!state == null) {
+        painting.isDrawing = false;
+        painting.saveHistory();
+    }
 });
 
 
