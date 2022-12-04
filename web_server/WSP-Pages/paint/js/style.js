@@ -1,6 +1,6 @@
 function toastPosition() {
     let toastContainer = document.querySelector('.toast-container')
-    toastContainer.style.transform = 'translate(' + (window.innerWidth - 310) + 'px,' + (70) + 'px)';
+    toastContainer.style.transform = 'translate(' + (window.innerWidth - 160) + 'px,' + (70) + 'px)';
 }
 
 function areatextPosition(string = null) {
