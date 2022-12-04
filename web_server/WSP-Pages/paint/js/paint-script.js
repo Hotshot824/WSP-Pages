@@ -187,6 +187,10 @@ for (let i = 0; i < colorItem.length; i++) {
     });
 }
 
+document.querySelector('#nav-predict-tab').addEventListener('click', () => {
+    state = null;
+});
+
 // Mouse event
 painting.canvas.addEventListener('mousedown', (e) => {
     getCoordinate(e)
@@ -242,7 +246,7 @@ painting.canvas.addEventListener('mousemove', (e) => {
 painting.canvas.addEventListener('mouseout', () => painting.isDrawing = false);
 
 painting.canvas.addEventListener('mouseup', () => {
-    if (!state == null) {
+    if (state) {
         painting.isDrawing = false;
         painting.saveHistory();
     }
