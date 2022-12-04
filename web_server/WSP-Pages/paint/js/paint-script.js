@@ -164,91 +164,11 @@ window.addEventListener('load', () => {
     style.areatextPosition("Hello");
 });
 
-// check login
-window.addEventListener('load', async () => {
-    await login.signInCheck()
-        .then((response) => {
-            return response.json()
-        })
-        .then((response) => {
-            if (response['patientID']) {
-                style.loginStatus(true);
-                return;
-            }
-            style.loginStatus(false);
-            style.chartStatus(false);
-            return;
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
-        })
-})
-
-document.querySelector('#signUpForm').addEventListener('submit', async (event) => {
-    let form = document.querySelector('#signUpForm');
-    await login.signUp(event, form)
-        .then((response) => {
-            return response.json()
-        })
-        .then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
-                return;
-            }
-            alert("Account created successfully!")
-            document.querySelector('#modalSignUp').querySelector('.btn-close').click();
-            let input = document.querySelector('#modalSignUp').querySelectorAll('input');
-            for (let i = 0; i < input.length; i++) {
-                input[i].value = null;
-            }
-            document.querySelector('#modalSignUp').querySelector('.form-check-input').checked = false;
-            document.querySelector('#signIN').click();
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
-        })
-})
-
-document.querySelector('#signInForm').addEventListener('submit', async (event) => {
-    let form = document.querySelector('#signInForm');
-    await login.signIn(event, form)
-        .then((response) => {
-            return response.json()
-        })
-        .then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
-                return;
-            }
-
-            alert("Password, true!");
-            style.loginStatus(true);
-            style.chartStatus(true);
-
-            document.querySelector('#modalSignIn').querySelector('.btn-close').click();
-            let input = document.querySelector('#modalSignIn').querySelectorAll('input');
-            for (let i = 0; i < input.length; i++) {
-                input[i].value = null;
-            }
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
-        })
-})
-
 window.addEventListener('resize', () => {
     style.toastPosition();
     style.areatextPosition();
     chart.startChart();
 });
-
-function exitPaint(event) {
-    // Cancel the event as stated by the standard.
-    event.preventDefault();
-    // Chrome requires returnValue to be set.
-    event.returnValue = "Write something clever here..";
-}
-window.addEventListener('beforeunload', exitPaint);
 
 const colorItem = document.querySelectorAll('.colorItem');
 for (let i = 0; i < colorItem.length; i++) {
@@ -482,19 +402,6 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
 document.querySelector('#iouImg').addEventListener('click', () => {
     document.querySelector('#nav-home-tab').click();
 });
-
-// logout, clear cookie.
-document.querySelector('#logOut').addEventListener('click', async (event) => {
-    login.logOut()
-        .then((result) => {
-            login.delCookie('stay_in');
-            window.removeEventListener("beforeunload", exitPaint);
-            location.reload();
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
-        })
-})
 
 document.querySelector('#chartBtn').addEventListener('click', async () => {
     document.querySelector('#nav-predict-tab').click();

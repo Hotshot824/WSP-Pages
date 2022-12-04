@@ -23,11 +23,9 @@ function getCookie(name) {
     }
 }
 
-function delCookie(name) {
-    var exp = new Date();
-    exp.setTime(exp.getTime() - 1);
-    var cval = getCookie(name);
-    if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+function delGlobalCookie(name)
+{
+   document.cookie = name+"=;path=/;expires="+(new Date(0)).toGMTString();
 }
 
 function getStayIn() {
@@ -42,7 +40,7 @@ async function signInCheck() {
         "stay_in": getStayIn()
     }
     if (getCookie('PHPSESSID') != "") {
-        let response = await fetch("../php/sign_in_check.php", {
+        let response = await fetch("/php/sign_in_check.php", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -52,7 +50,8 @@ async function signInCheck() {
 }
 
 async function logOut() {
-    let response = await fetch("../php/log_out.php", {
+    delGlobalCookie('stay_in');
+    let response = await fetch("/php/log_out.php", {
         method: "GET",
     })
     return response;
@@ -66,7 +65,7 @@ async function signUp(event, form) {
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
-        return await fetch("../php/sign_up.php", {
+        return await fetch("/php/sign_up.php", {
             method: "POST",
             body: JSON.stringify(formDataObiect)
         })
@@ -81,11 +80,14 @@ async function signIn(event, form) {
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
-        return await fetch("../php/sign_in.php", {
+        if (formDataObiect['stayIn'] == 'on'){
+            document.cookie = "stay_in=on;path=/;";
+        }
+        return await fetch("/php/sign_in.php", {
             method: "POST",
             body: JSON.stringify(formDataObiect)
         })
     }
 }
 
-export { getCookie, delCookie, signUp, signIn, signInCheck, getStayIn, logOut, randomString }
+export { getCookie, delGlobalCookie, signUp, signIn, signInCheck, getStayIn, logOut, randomString }

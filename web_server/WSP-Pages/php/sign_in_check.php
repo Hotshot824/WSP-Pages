@@ -1,9 +1,9 @@
 <?php
 
 $content = trim(file_get_contents("php://input"));
-$text = json_decode($content, true);
+$decode = json_decode($content, true);
 
-if (isset($text["stay_in"])) {
+if (isset($decode["stay_in"])) {
     $lifetime = 86400;
     ini_set("session.gc_maxlifetime", $lifetime);
 }
@@ -17,6 +17,8 @@ session_start();
 $response = Array();
 if (isset($_SESSION['patientID'])) {
     $response['patientID'] = $_SESSION['patientID'];
+} else {
+    $response['patientID'] = FALSE;
 }
 
 echo json_encode($response);
