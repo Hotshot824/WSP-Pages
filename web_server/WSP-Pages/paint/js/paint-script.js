@@ -184,6 +184,58 @@ window.addEventListener('load', async () => {
         })
 })
 
+document.querySelector('#signUpForm').addEventListener('submit', async (event) => {
+    let form = document.querySelector('#signUpForm');
+    await login.signUp(event, form)
+        .then((response) => {
+            return response.json()
+        })
+        .then((response) => {
+            if (response['error_status']) {
+                alert(response['error_status']);
+                return;
+            }
+            alert("Account created successfully!")
+            document.querySelector('#modalSignUp').querySelector('.btn-close').click();
+            let input = document.querySelector('#modalSignUp').querySelectorAll('input');
+            for (let i = 0; i < input.length; i++) {
+                input[i].value = null;
+            }
+            document.querySelector('#modalSignUp').querySelector('.form-check-input').checked = false;
+            document.querySelector('#signIN').click();
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
+})
+
+document.querySelector('#signInForm').addEventListener('submit', async (event) => {
+    let form = document.querySelector('#signInForm');
+    await login.signIn(event, form)
+        .then((response) => {
+            return response.json()
+        })
+        .then((response) => {
+            if (response['error_status']) {
+                alert(response['error_status']);
+                return;
+            }
+
+            alert("Password, true!");
+            style.loginStatus(true);
+            style.chartStatus(true);
+
+            document.querySelector('#modalSignIn').querySelector('.btn-close').click();
+            let input = document.querySelector('#modalSignIn').querySelectorAll('input');
+            for (let i = 0; i < input.length; i++) {
+                input[i].value = null;
+            }
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
+})
+
 window.addEventListener('resize', () => {
     style.toastPosition();
     style.areatextPosition();

@@ -27,7 +27,7 @@ nav .btn {
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-.cursor-p{
+.cursor-p {
     cursor: pointer;
 }
 
@@ -121,4 +121,14 @@ nav .btn {
 
 .btn-img:hover .btn-img-overlay {
     background: rgba(0, 0, 0, 0.7);
+}
+
+.nav-item .btn {
+    width: 5rem;
+}
+
+.modal {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", 
+    "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", 
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

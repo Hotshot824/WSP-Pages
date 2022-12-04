@@ -59,86 +59,33 @@ async function logOut() {
 }
 
 // Sign Up
-document.querySelector('#signUpForm').addEventListener('submit', async (event) => {
-    let form = document.querySelector('#signUpForm');
+async function signUp(event, form) {
     let formValid = form.checkValidity();
     if (formValid) {
         event.preventDefault();
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
-        let response = (async () => {
-            return await fetch("../php/sign_up.php", {
-                method: "POST",
-                body: JSON.stringify(formDataObiect)
-            })
-                .then((response) => {
-                    return response.json();
-                })
-                .catch((error) => {
-                    console.log(`Error: ${error}`);
-                })
-        })();
-
-        await response.then((response) => {
-            console.log(response);
-            if (response['error_status']) {
-                alert(response['error_status']);
-                return;
-            }
-
-            alert("Account created successfully!")
-            document.querySelector('#modalSignUp').querySelector('.btn-close').click();
-            let input = document.querySelector('#modalSignUp').querySelectorAll('input');
-            for (let i = 0; i < input.length; i++) {
-                input[i].value = null;
-            }
-            document.querySelector('#modalSignUp').querySelector('.form-check-input').checked = false;
-
-        });
+        return await fetch("../php/sign_up.php", {
+            method: "POST",
+            body: JSON.stringify(formDataObiect)
+        })
     }
-})
+}
 
 // Sign In
-document.querySelector('#signInForm').addEventListener('submit', async (event) => {
-    let form = document.querySelector('#signInForm');
+async function signIn(event, form) {
     let formValid = form.checkValidity();
     if (formValid) {
         event.preventDefault();
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
-        let response = (async () => {
-            return await fetch("../php/sign_in.php", {
-                method: "POST",
-                body: JSON.stringify(formDataObiect)
-            })
-                .then((response) => {
-                    return response.json();
-                })
-                .catch((error) => {
-                    console.log(`Error: ${error}`);
-                })
-        })();
-
-        await response.then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
-                return;
-            }
-
-            alert("Password, true!");
-            style.loginStatus(true);
-            style.chartStatus(true);
-
-            document.querySelector('#modalSignIn').querySelector('.btn-close').click();
-            let input = document.querySelector('#modalSignIn').querySelectorAll('input');
-            for (let i = 0; i < input.length; i++) {
-                input[i].value = null;
-            }
-
-        });
+        return await fetch("../php/sign_in.php", {
+            method: "POST",
+            body: JSON.stringify(formDataObiect)
+        })
     }
-})
+}
 
-export { getCookie, delCookie, signInCheck, getStayIn, logOut, randomString }
+export { getCookie, delCookie, signUp, signIn, signInCheck, getStayIn, logOut, randomString }
