@@ -79,7 +79,7 @@ if (!isset($_SESSION['patientID'])) {
 }
 
 $store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
-$cur_date = date("Y-m-d_H-i-s", $d);
+$cur_date = date("Y-m-d_H-i-s");
 $_SESSION['last_predict_date'] = $cur_date;
 
 \tmpfile\store_predict_result($_SESSION['patientID'], $area, $store_path, $result_path, $cur_date);

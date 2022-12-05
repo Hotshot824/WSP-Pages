@@ -375,7 +375,6 @@ class Paint {
     }
 
     saveHistory(str) {
-        // console.log(str);
         this.step++;
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         let img = new Image();
@@ -528,6 +527,21 @@ class Paint {
             };
         }
     }
+}
+
+// Check image type
+function checkFiletype(file) {
+    if (file.type.match('image/jpg|image/jpeg|image/png')) {
+        return false;
+    }
+    return true;
+}
+// Check image size
+function checkFilesize(file) {
+    if (file.size < 5242880) {
+        return false;
+    }
+    return true;
 }
 
 export { Paint };

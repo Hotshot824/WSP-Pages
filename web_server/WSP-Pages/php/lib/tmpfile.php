@@ -35,7 +35,7 @@ function store_predict_result($patientID, $area, $store_path, $result_path, $cur
 
     try {
         $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
-    } catch (Exception $e){
+    } catch (\Exception $e){
         $response['error_status'] = "Error: Database connection error!";
         exit(json_encode($response));
     }
@@ -47,10 +47,10 @@ function store_predict_result($patientID, $area, $store_path, $result_path, $cur
     }
     
     try {
-        $copy = copy($origin, $origin_store);
-        $copy = copy($unresize_origin, $unresize_origin_store);
-        $copy = copy($predict, $predict_store);
-    } catch (Exception $e){
+        copy($origin, $origin_store);
+        copy($unresize_origin, $unresize_origin_store);
+        copy($predict, $predict_store);
+    } catch (\Exception $e){
         $response['error_status'] = "Error: Database connection error!";
         exit(json_encode($response));
     }
@@ -58,7 +58,12 @@ function store_predict_result($patientID, $area, $store_path, $result_path, $cur
     // sql language
     $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `unresize_original_img` ,`predict_img`)" .
     " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . $origin_store . "','" . $unresize_origin_store . "','" . $predict_store . "')";
-    mysqli_query($mysqli, $sql_insert);
+    try {
+        mysqli_query($mysqli, $sql_insert);
+    } catch (\Exception $e){
+        $response['error_status'] = "Error: Database error!";
+        exit(json_encode($response));
+    }
 }
 
 function store_iou_result($patientID, $store_path, $iou, $cur_date) {
@@ -71,14 +76,14 @@ function store_iou_result($patientID, $store_path, $iou, $cur_date) {
 
     try {
         $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
-    } catch (Exception $e){
+    } catch (\Exception $e){
         $response['error_status'] = "Error: Database connection error!";
         exit(json_encode($response));
     }
 
     try {
-        $copy = copy($iou, $store_path);
-    } catch (Exception $e){
+        copy($iou, $store_path);
+    } catch (\Exception $e){
         $response['error_status'] = "Error: Database connection error!";
         exit(json_encode($response));
     }

@@ -51,7 +51,7 @@
 }
 
 .dropdown-menu .btn {
-    width: 5rem;
+    width: 6rem;
     padding: 0rem 0.5rem 0rem 0.5rem;
     border-width: 0.1rem;
     font-size: 0.9rem;
@@ -63,7 +63,7 @@
 }
 
 .toast {
-    --bs-toast-max-width: 18rem;
+    --bs-toast-max-width: 9.5rem;
 }
 
 .toast-container {

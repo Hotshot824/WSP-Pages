@@ -45,6 +45,10 @@
                         <i class="bi bi-files"></i>
                     </button>
                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item d-lg-none" href="/">Home</a></li>
+                        <li class="d-lg-none">
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item" id="openImageBtn">Open Image</a></li>
                         <input type="file" id="openImageInput" class="d-none"
                             accept="image/gif,image/jpeg,image/jpg,image/png">
@@ -81,7 +85,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="btn btn-success" id="signIN" data-bs-toggle="modal" data-bs-target="#modalSignIn">
+                            <a class="btn btn-success" id="signIn" data-bs-toggle="modal" data-bs-target="#modalSignIn">
                                 Sign In
                             </a>
                         </li>
@@ -93,35 +97,27 @@
                     </ul>
                 </div>
                 <div class="btn-group" role="group">
-                    <span class="d-inline-block float-end" tabindex="0" data-bs-toggle="popover"
-                        data-bs-trigger="focus hover" data-bs-html="true"
-                        data-bs-content="If the scale is set, then you can start automatic or manual calculation area.E">
-                        <button type="button" class="btn btn-outline-secondary" id="rulerBtn">
-                            <i class="bi bi-rulers"></i>
-                        </button>
-                    </span>
-                </div>
-            </div>
-            <div>
-                <!-- <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-secondary" id="testBtn">
-                        1</i>
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary" id="test2Btn">
-                        2</i>
-                    </button>
-                </div> -->
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-success" id="chartBtn">
+                    <button type="button" class="btn btn-outline-success d-none" id="chartBtn" tabindex="0"
+                        data-bs-toggle="popover" data-bs-trigger="focus hover" data-bs-html="true"
+                        data-bs-content="User history data drawing a wound tracechart.">
                         <i class="bi bi-bar-chart-fill"></i>
                     </button>
                 </div>
+            </div>
+            <div>
                 <div class="btn-group" role="group" id="toolBtnGroup">
-                    <button type="button" class="btn btn-outline-primary" id="brushTool">
-                        <i class="bi bi-brush-fill"></i>
+                    <button type="button" class="btn btn-outline-secondary border-end-0" id="rulerBtn" tabindex="0"
+                        data-bs-toggle="popover" data-bs-trigger="focus hover" data-bs-html="true"
+                        data-bs-content="If the scale is set, then you can start automatic or manual calculation area.">
+                        <i class="bi bi-rulers"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-primary" id="areaTool">
+                    <button type="button" class="btn btn-outline-secondary" tabindex="0" data-bs-toggle="popover"
+                        data-bs-trigger="hover focus"
+                        data-bs-content="Click on a filled color block to calculate the area.">
                         <i class="bi bi-badge-ar-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary border-start-0" id="brushTool">
+                        <i class="bi bi-tools"></i>
                     </button>
                 </div>
                 <div class="btn-group" role="group">
@@ -145,12 +141,16 @@
     <div class="toast-container top-0 start-0">
         <div class="toast" id="brushToast" data-bs-autohide="false">
             <div class="toast-header">
-                <strong class="me-auto"><i class="bi bi-brush-fill"></i>Brush Toolbar</strong>
-                <small>Size and Color</small>
+                <strong class="me-auto"><i class="bi bi-tools"></i> Toolbar</strong>
+                <small></small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                <div class="toast-row">
+                <div class="toast-row pb-3">
+                    <input type="range" id="stroke" class="form-range" min="3" max="15" step="0.5" value="5"
+                        style="width: 7.8rem;">
+                </div>
+                <div class="toast-row pb-3">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-outline-secondary" id="brushBtn">
                             <i class="bi bi-brush-fill"></i>
@@ -164,6 +164,8 @@
                             <i class="bi bi-paint-bucket"></i>
                         </button>
                     </div>
+                </div>
+                <div class="toast-row pb-3">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-outline-secondary" id="undo">
                             <i class="bi bi-arrow-counterclockwise"></i></button>
@@ -176,41 +178,23 @@
                     </div>
                 </div>
                 <div class="toast-row">
-                    <div class="py-2 fw-bold">
-                        Size:
-                        <input class="penPath" id="stroke" type="number" min="1" max="30" value="5"
-                            style='width:3rem; height: 1.5rem;'>
-                        Px
-                    </div>
-                    <div style="display: flex;">
-                        <span class="py-2 fw-bold" id="colorAfter">Color:</span>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary" id="areaBtn" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover focus"
+                            data-bs-title="Click on a filled color block to calculate the area.">
+                            <i class="bi bi-badge-ar-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="selectBtn" data-bs-toggle="tooltip"
+                            data-bs-trigger="hover focus"
+                            data-bs-title="Circle the area to be cut and click the cut button.">
+                            <i class="bi bi-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" id="cutBtn">
+                            <i class="bi bi-scissors"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="toast" id="areaToast" data-bs-autohide="false">
-            <div class="toast-header">
-                <strong class="me-auto"><i class="bi bi-badge-ar-fill"></i>Area Toolbar</strong>
-                <small>Scale and Area</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body toast-body-sm">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-secondary" id="areaBtn" data-bs-toggle="tooltip"
-                        data-bs-trigger="hover focus"
-                        data-bs-title="Click on a filled color block to calculate the area.">
-                        <i class="bi bi-badge-ar-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary" id="selectBtn" data-bs-toggle="tooltip"
-                        data-bs-trigger="hover focus"
-                        data-bs-title="Circle the area to be cut and click the cut button.">
-                        <i class="bi bi-square"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary" id="cutBtn">
-                        <i class="bi bi-scissors"></i>
-                    </button>
-                </div>
-                <div class="py-2 fw-bold">
+                <div class="ps-1 pt-2 fw-bold border-top-5 border-dark">
                     Scale:
                     <span id="scaleText" style="color: red;">None</span>
                 </div>
@@ -293,16 +277,10 @@
                                 <input type="password" class="form-control" name="password" placeholder="Required"
                                     autocomplete="off" required />
                             </div>
-                            <!-- <div class="col-lg-6 form-outline mb-2">
-                                <label class="form-label mb-0" for="PatientName">Patient Name</label>
-                                <input type="text" class="form-control" name="patientName"
-                                    placeholder="Patient Name" autocomplete="off" />
-                                <label class="d-inline form-label" style="font-size: 0.8rem;">Non-essential.</label>
-                            </div> -->
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="emailAddress">Email Address </label>
                                 <input type="email" class="form-control" name="emailAddress" placeholder="Email Address"
-                                    maxlength="64" />
+                                    maxlength="64" autocomplete="off" />
                                 <label class="d-inline form-label" style="font-size: 0.8rem;">
                                     Non-essential, Can be used to recover passwords.
                                 </label>
@@ -397,7 +375,7 @@
                         <div class="col-lg-6 col-sm-6 text-center form-group">
                             <p class="text-dark m-1 pt-1">Comment</p>
                             <textarea class="form-control" id="historyCommentText" rows="3"></textarea>
-                          </div>
+                        </div>
                     </div>
                     <div class="d-flex py-1 justify-content-center">
                         <button type="submit" class="btn btn-success btn-block d-flex mx-2" id="historyComment">
@@ -421,7 +399,7 @@
     <script type="module" src="./js/paint-jquery.js"></script>
     <!-- Self JS -->
     <script type="module" src="./js/paint-script.js"></script>
-    <script type="module" src="../js/login.js"></script>
+    <script type="module" src="./js/paint-login.js"></script>
 </body>
 
 </html>
