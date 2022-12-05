@@ -14,6 +14,10 @@ let temp_key = login.randomString(20);
 let state;
 let toolbarBtnlist = ['#brushBtn', '#eraserBtn', '#bucketBtn', '#rulerBtn', '#areaBtn', '#selectBtn'];
 
+function isNumeric(val) {
+    return /^-?\d+$/.test(val);
+}
+
 function hexToRgba(hex, opacity) {
     return {
         r: parseInt("0x" + hex.slice(1, 3)),
@@ -129,7 +133,7 @@ function changeActive(idName) {
     for (let i in toolbarBtnlist) {
         document.querySelector(toolbarBtnlist[i]).classList.remove('active');
     }
-    if (idName != NaN) {
+    if (idName != null) {
         document.querySelector(idName).classList.add('active');
     }
 };
@@ -170,22 +174,23 @@ window.addEventListener('resize', () => {
     chart.startChart();
 });
 
-const colorItem = document.querySelectorAll('.colorItem');
-for (let i = 0; i < colorItem.length; i++) {
-    colorItem[i].addEventListener('click', (e) => {
-        let rgb = rgbToValue(e.target.style.backgroundColor);
-        let hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
-        painting.color = hex;
-        colorItem.forEach((item) => {
-            const check = item;
-            check.textContent = '';
-            if (e.target.className === 'colorItem') {
-                e.target.textContent = '✓';
-            }
-        })
+// toolbar color selection area
+// const colorItem = document.querySelectorAll('.colorItem');
+// for (let i = 0; i < colorItem.length; i++) {
+//     colorItem[i].addEventListener('click', (e) => {
+//         let rgb = rgbToValue(e.target.style.backgroundColor);
+//         let hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
+//         painting.color = hex;
+//         colorItem.forEach((item) => {
+//             const check = item;
+//             check.textContent = '';
+//             if (e.target.className === 'colorItem') {
+//                 e.target.textContent = '✓';
+//             }
+//         })
 
-    });
-}
+//     });
+// }
 
 document.querySelector('#nav-predict-tab').addEventListener('click', () => {
     state = null;
@@ -205,7 +210,8 @@ painting.canvas.addEventListener('mousedown', (e) => {
         case 'ruler':
             if (painting.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
-                document.querySelector('#brushBtn').click()
+                state = null;
+                changeActive(null);
 
                 // scale ready animate
                 document.querySelector('#rulerBtn').classList.add("btn-danger");
@@ -283,6 +289,8 @@ painting.canvas.addEventListener('touchstart', (e) => {
 });
 
 painting.canvas.addEventListener('touchmove', (e) => {
+    painting.changeStroke();
+
     if (e.targetTouches.length == 1) {
         switch (state) {
             case 'brush':
@@ -310,12 +318,10 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
     openImageInput.click();
     document.querySelector('#nav-home-tab').click()
 });
-
 openImageInput.addEventListener('change', () => {
     painting.frontUploadFlag = 1;
     painting.displayImg();
-    document.querySelector('#brushBtn').click();
-    document.querySelector('.front-areatext').innerHTML = '';
+    // document.querySelector('.front-areatext').innerHTML = '';
 });
 
 
@@ -323,6 +329,7 @@ openImageInput.addEventListener('change', () => {
 document.querySelector('#brushBtn').addEventListener('click', () => {
     changeActive('#brushBtn');
     state = 'brush';
+    painting.color = '#FFFFFF'
 });
 
 document.querySelector('#eraserBtn').addEventListener('click', () => {
@@ -334,12 +341,18 @@ document.querySelector('#eraserBtn').addEventListener('click', () => {
 document.querySelector('#bucketBtn').addEventListener('click', () => {
     changeActive('#bucketBtn');
     state = 'bucket';
+    painting.color = '#FFFFFF'
 });
 
 // Area toolbar
 document.querySelector('#rulerBtn').addEventListener('click', () => {
-    painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image. ");
-    if (painting.length != null) {
+    painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image.");
+    console.log(+painting.length);
+    if (!isNumeric(painting.length)) {
+        alert('Input has to a number!')
+    } else if (painting.length == null) {
+        alert('Please input a number!');
+    } else {
         changeActive('#rulerBtn');
         state = 'ruler';
     }
@@ -376,7 +389,7 @@ document.querySelector('#clearAll').addEventListener('click', () => painting.cle
 
 // predict btn, upload original image to backend then predict.
 document.querySelector('#predictAreaBtn').addEventListener('click', () => {
-    if (painting.length == 0) {
+    if (painting.length == null) {
         alert('No scale, Please give scale first!');
     } else if (painting.backPredictFlag != true) {
         alert('This is same images!');
@@ -388,6 +401,9 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         }
         painting.backend_predict(temp_key);
         painting.backPredictFlag = false;
+
+        // clean old iou image
+        document.querySelector('#iouImg').src = "../assets/img/preview/pre_bg.jpg";
     }
 });
 
