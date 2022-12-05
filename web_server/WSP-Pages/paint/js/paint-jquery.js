@@ -66,7 +66,7 @@ function toolbar_hide() {
         if (toolBtnGroup.classList.contains('active')) {
             $("#toolBtnGroup").removeClass('active');
             $("#toolBtnGroup").animate({ width: 'toggle' }, "slow");
-            $('#rulerBtn').show(500);
+            // $('#rulerBtn').show(500);
         } else {
         }
     } else {
@@ -74,7 +74,7 @@ function toolbar_hide() {
         } else {
             $("#toolBtnGroup").addClass('active');
             $("#toolBtnGroup").animate({ width: 'toggle' }, "slow");
-            $('#rulerBtn').hide(500);
+            // $('#rulerBtn').hide(500);
         }
     }
 };
