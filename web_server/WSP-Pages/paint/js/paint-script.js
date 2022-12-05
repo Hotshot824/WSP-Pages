@@ -349,7 +349,6 @@ document.querySelector('#bucketBtn').addEventListener('click', () => {
 // Area toolbar
 document.querySelector('#rulerBtn').addEventListener('click', () => {
     painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image.");
-    console.log(+painting.length);
     if (!isNumeric(painting.length)) {
         alert('Input has to a number!')
     } else if (painting.length == null) {

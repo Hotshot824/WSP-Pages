@@ -42,12 +42,14 @@
                         <a class="nav-link d-none" id="loginText"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-success mx-0 mb-3 mt-2 d-lg-none" id="signUp" data-bs-toggle="modal" data-bs-target="#modalSignUp">
+                        <a class="btn btn-outline-success mx-0 mb-3 mt-2 d-lg-none" id="signUp" data-bs-toggle="modal"
+                            data-bs-target="#modalSignUp">
                             Sign Up
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-success mx-0 d-lg-none" id="signIn" data-bs-toggle="modal" data-bs-target="#modalSignIn">
+                        <a class="btn btn-success mx-0 d-lg-none" id="signIn" data-bs-toggle="modal"
+                            data-bs-target="#modalSignIn">
                             Sign In
                         </a>
                     </li>
@@ -58,10 +60,12 @@
                     </li>
                 </ul>
             </div>
-            <a class="nav-base btn btn-outline-success d-none d-lg-block" id="signUp" data-bs-toggle="modal" data-bs-target="#modalSignUp">
+            <a class="nav-base btn btn-outline-success d-none d-lg-block" id="signUp" data-bs-toggle="modal"
+                data-bs-target="#modalSignUp">
                 Sign Up
             </a>
-            <a class="nav-base btn btn-success d-none d-lg-block" id="signIn" data-bs-toggle="modal" data-bs-target="#modalSignIn">
+            <a class="nav-base btn btn-success d-none d-lg-block" id="signIn" data-bs-toggle="modal"
+                data-bs-target="#modalSignIn">
                 Sign In
             </a>
             <a class="nav-base btn btn-danger d-none" id="logOut">
@@ -120,18 +124,19 @@
                     <form class="d-none" id="contactForm" action="./php/message.php">
                         <div class="align-items-center justify-content-center text-center">
                             <div class="form-floating mb-3">
-                                <select class="form-control" name="type">
-                                    <option selected>Choose...</option>
-                                    <option>Auto Predict</option>
-                                    <option>Drawing</option>
-                                    <option>Bug Report</option>
-                                    <option>Other</option>
+                                <select class="form-control" name="type" required>
+                                    <option value="">Choose...</option>
+                                    <option value="predict">Auto Predict</option>
+                                    <option value="paint">Paint</option>
+                                    <option value="chart">Chart Drawing</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="other">Other</option>
                                 </select>
                                 <label for="type">Product or Feature</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" type="text" name="message"
-                                    placeholder="Enter your message here..." style="height: 10rem" required></textarea>
+                                <textarea class="form-control" id="message" type="text" name="message" maxlength="256"
+                                    minlength="10" style="height: 10rem" required></textarea>
                                 <label for="message">Description of your idea or suggestion.</label>
                             </div>
                             <button class="btn btn-primary btn-xl" id="submitBtn" type="submit">
@@ -141,7 +146,8 @@
                     </form>
                 </div>
             </div>
-            <div id="feedbackSignIn" class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+            <div id="feedbackSignIn"
+                class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
                 <div class="col-lg-8 align-self-baseline">
                     <a class="btn btn-success btn-xl" id="signIn" data-bs-toggle="modal" data-bs-target="#modalSignIn">
                         Sign In
@@ -186,7 +192,7 @@
                             <div class="col-lg-12 form-outline mb-2">
                                 <label class="form-label mb-0" for="emailAddress">Email Address </label>
                                 <input type="email" class="form-control" name="emailAddress" placeholder="Email Address"
-                                    maxlength="64" autocomplete="off"/>
+                                    maxlength="64" autocomplete="off" />
                                 <label class="d-inline form-label" style="font-size: 0.8rem;">
                                     Non-essential, Can be used to recover passwords.
                                 </label>

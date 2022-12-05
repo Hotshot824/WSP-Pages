@@ -1,4 +1,5 @@
 import { getStayIn } from '../../js/login.js'
+import * as chart from './chart.js'
 
 class Paint {    
     constructor(canvas, ctx) {
@@ -461,6 +462,7 @@ class Paint {
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
                 document.querySelector('#areaImg').src = response['area_image'];
                 document.querySelector('#areaText').innerHTML = "Area: " + response['area'] + "c㎡";
+                chart.startChart();
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);

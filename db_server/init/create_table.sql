@@ -24,3 +24,12 @@ CREATE TABLE area_record
     `disable` BOOLEAN,
     FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
 );
+
+CREATE TABLE feedback
+(
+    `patient_id` CHAR(20) NOT NULL,
+    `date` DATETIME NOT NULL,
+    `type` CHAR(12) NOT NULL,
+    `message` VARCHAR(256),
+    FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
+);
