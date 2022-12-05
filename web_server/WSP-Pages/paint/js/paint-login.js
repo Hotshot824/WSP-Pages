@@ -22,6 +22,7 @@ async function checkLogin() {
                 patientID = response['patientID'];
                 style.loginStatus(true);
                 style.chartStatus(true);
+                style.areatextPosition('Hello ' + patientID + '!');
                 return;
             }
             style.loginStatus(false);

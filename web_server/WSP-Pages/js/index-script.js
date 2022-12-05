@@ -29,6 +29,8 @@ async function checkLogin() {
         .then((response) => {
             if (response['patientID']) {
                 patientID = response['patientID'];
+                document.querySelector('#loginText').innerHTML = patientID;
+                document.querySelector('#loginText').classList.remove('d-none');
                 style.loginStatus(true);
                 return;
             }

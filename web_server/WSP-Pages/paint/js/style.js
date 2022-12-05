@@ -11,7 +11,8 @@ function areatextPosition(string = null) {
     
     let text_width = frontAreatext.offsetWidth;
     let text_height = frontAreatext.offsetHeight;
-    frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
+    // frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
+    frontAreatext.style.transform = 'translate(0.5rem,' + (window.innerHeight - (text_height + 10)) + 'px)';
 }
 
 function loginStatus(status) {

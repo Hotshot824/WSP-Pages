@@ -227,7 +227,8 @@ painting.canvas.addEventListener('mousedown', (e) => {
                 painting.frontendAreaUpload()
             }
 
-            document.querySelector('#brushBtn').click()
+            state = null;
+            changeActive(null);
             break;
         case 'select':
             painting.isDrawing = true;
@@ -280,7 +281,8 @@ painting.canvas.addEventListener('touchstart', (e) => {
                 painting.frontendAreaUpload()
             }
 
-            document.querySelector('#brushBtn').click()
+            state = null;
+            changeActive(null);
             break;
         case 'select':
             painting.isDrawing = true;
