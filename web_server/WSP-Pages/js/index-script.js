@@ -140,15 +140,4 @@ async function sendFeedback(event) {
             })
     }
 }
-document.querySelector('#submitBtn').addEventListener("click", (event) => {
-    sendFeedback(event);
-
-    let message = document.querySelector('#message').value;
-    // if (message.length >= 256) {
-    //     alert("Text is limited to 256 characters!");
-    // } else if (message.length <= 10) {
-    //     alert('Text Minimum is 10 characters!')
-    // } else {
-    //     sendFeedback();
-    // }
-});
+document.querySelector('#submitBtn').addEventListener("click", (e) => sendFeedback(e));

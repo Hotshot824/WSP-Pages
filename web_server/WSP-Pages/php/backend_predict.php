@@ -1,7 +1,5 @@
 <?php
-
 use LDAP\Result;
-
 require __DIR__ . '/lib/image.php';
 require __DIR__ . '/lib/tmpfile.php';
 

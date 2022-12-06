@@ -4,11 +4,11 @@ import * as chart from './chart.js';
 import * as login from '../../js/login.js';
 
 let canvas = document.querySelector('#canvas');
-let ctx = canvas.getContext('2d');
+let ctx = canvas.getContext('2d', {willReadFrequently: true});
 let painting = new Paint(canvas, ctx);
 
 // randon tmpfile path
-let temp_key = login.randomString(20);
+painting.temp_key = login.getCookie('PHPSESSID') + login.randomString(2);
 
 // mouse click status
 let state;
@@ -242,12 +242,11 @@ painting.canvas.addEventListener('mouseup', () => {
 });
 
 window.addEventListener("mousewheel", (e) => {
-    if(e.ctrlKey)
-    {
+    if (e.ctrlKey) {
         e.preventDefault();
         painting.scroll_big_small(e);
     }
-},{passive: false});
+}, { passive: false });
 
 // Touch event
 painting.canvas.addEventListener('touchstart', (e) => {
@@ -265,9 +264,7 @@ painting.canvas.addEventListener('touchstart', (e) => {
             floodFill(painting.lastX, painting.lastY, 255, false);
 
             // upload image for frontend area compute
-            if (painting.frontUploadFlag != 0) {
-                painting.frontendAreaUpload()
-            }
+            painting.frontendAreaUpload()
 
             state = null;
             changeActive(null);
@@ -388,7 +385,7 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_predict(temp_key);
+        painting.backend_predict();
         painting.backPredictFlag = false;
 
         // clean old iou image
@@ -404,7 +401,7 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_iou_upload(temp_key);
+        painting.backend_iou_upload();
     } else {
         alert("Error Operation.");
     }
@@ -437,5 +434,5 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
 });
 
 document.querySelector('#testBtn').addEventListener('click', () => {
-    console.log(painting.original_img)
-})
+    console.log(painting.temp_key);
+});

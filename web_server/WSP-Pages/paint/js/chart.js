@@ -15,7 +15,6 @@ async function startChart() {
             return response.json();
         })
         .then((response) => {
-            console.log(response['data']);
             chartData = response['data'];
             if (response['id']) {
                 drawingChart(response['data'], response['id']);

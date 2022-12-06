@@ -9,6 +9,15 @@ define('_DBuser', $db_default['mysqli.default_user']);
 define('_DBpassword', $db_default['mysqli.default_pw']);
 define('_DBname', 'WSP');
 
+function move_file($img, $upload_path, $filename) {
+    // decode image move to upload path
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    $data = base64_decode($img);
+    $file = $upload_path . $filename;
+    $success = file_put_contents($file, $data);
+}
+
 function random_remove_tmpfile() {
     $path = "/etc/php/8.1/cli/php.ini";
     $db_default = parse_ini_file($path);

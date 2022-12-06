@@ -61,7 +61,9 @@ class Paint {
     }
 
     setFlag() {
-        this.original_img = [];
+        this.temp_key;
+        this.original_img;
+        this.original_label;
         this.frontUploadFlag = 0;
         this.iouFlag = false;
         this.backPredictFlag = true;
@@ -466,11 +468,11 @@ class Paint {
         this.backPredictFlag = true;
     }
 
-    async backend_predict(temp_key) {
+    async backend_predict() {
         let img = this.canvas.toDataURL('image/png');
         let data = {
             "stay_in": getStayIn(),
-            "temp_key": temp_key,
+            "temp_key": this.temp_key,
             "oringnal_image": img,
         }
 
@@ -511,11 +513,11 @@ class Paint {
             })
     }
 
-    async backend_iou_upload(temp_key) {
+    async backend_iou_upload() {
         var img = this.canvas.toDataURL();
         var data = {
             "stay_in": getStayIn(),
-            "temp_key": temp_key,
+            "temp_key": this.temp_key,
             "label": img
         }
 
@@ -539,39 +541,40 @@ class Paint {
             })
     }
 
-    frontendAreaUpload() {
-        this.frontUploadFlag = 0;
-        console.log(this.original_img)
-        // let label_img = this.canvas.toDataURL();
-        // let original_img;
-
-        // let openImageInput = document.querySelector('#openImageInput');
+    async frontendAreaUpload() {
         // to image
-        // if (openImageInput.files[0]) {
-
-        //     var reader = new FileReader();
-        //     reader.readAsDataURL(openImageInput.files[0]);
-        //     reader.onload = function (e) {
-        //         original_img = reader.result
-        //         let data = {
-        //             "stay_in": getStayIn(),
-        //             "label_img": label_img,
-        //             "original_img": original_img
-        //         }
-        //         console.log(data);
-
-        //         fetch("../php/frontendArea.php", {
-        //             method: "POST",
-        //             body: JSON.stringify(data)
-        //         })
-        //             .then((response) => {
-        //                 return response.text();
-        //             })
-        //             .catch((error) => {
-        //                 console.log(`Error: ${error}`);
-        //             })
-        //     };
+        // if (!this.frontUploadFlag) {
+        //     return;
+        // } else {
+        //     this.frontUploadFlag = false;
         // }
+
+        if (this.canvas.toDataURL() == this.original_label) {
+            return;
+        } else {
+            this.original_label = this.canvas.toDataURL();
+        }
+
+        let data = {
+            "temp_key": this.temp_key,
+            "stay_in": getStayIn(),
+            "original_img": this.original_img,
+            "label_img": this.original_label,
+        }
+        console.log(data);
+        await fetch("../php/frontend_area.php", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
     }
 }
 
