@@ -174,24 +174,6 @@ window.addEventListener('resize', () => {
     chart.startChart();
 });
 
-// toolbar color selection area
-// const colorItem = document.querySelectorAll('.colorItem');
-// for (let i = 0; i < colorItem.length; i++) {
-//     colorItem[i].addEventListener('click', (e) => {
-//         let rgb = rgbToValue(e.target.style.backgroundColor);
-//         let hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
-//         painting.color = hex;
-//         colorItem.forEach((item) => {
-//             const check = item;
-//             check.textContent = '';
-//             if (e.target.className === 'colorItem') {
-//                 e.target.textContent = '✓';
-//             }
-//         })
-
-//     });
-// }
-
 document.querySelector('#nav-predict-tab').addEventListener('click', () => {
     state = null;
 });
@@ -259,7 +241,13 @@ painting.canvas.addEventListener('mouseup', () => {
     }
 });
 
-
+window.addEventListener("mousewheel", (e) => {
+    if(e.ctrlKey)
+    {
+        e.preventDefault();
+        painting.scroll_big_small(e);
+    }
+},{passive: false});
 
 // Touch event
 painting.canvas.addEventListener('touchstart', (e) => {
@@ -448,36 +436,6 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
     }
 });
 
-// document.querySelector('#testBtn').addEventListener('click', async () => {
-//     let session_id = getCookie('PHPSESSID');
-//     let data = {
-//         "session_id": session_id,
-//     }
-//     await fetch("../php/get_area.php", {
-//         method: "POST",
-//         body: JSON.stringify(data)
-//     })
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((response) => {
-//             console.log(response);
-//         })
-// });
-
-// document.querySelector('#test2Btn').addEventListener('click', async () => {
-//     let session_id = getCookie('PHPSESSID');
-//     let data = {
-//         "session_id": session_id,
-//     }
-//     await fetch("../php/test.php", {
-//         method: "POST",
-//         body: JSON.stringify(data)
-//     })
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((response) => {
-//             console.log(response);
-//         })
-// });
+document.querySelector('#testBtn').addEventListener('click', () => {
+    console.log(painting.original_img)
+})
