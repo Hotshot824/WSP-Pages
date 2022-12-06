@@ -33,5 +33,9 @@ session_start();
 $response = Array();
 $response['upload_path'] = $upload_path;
 
+$sql_update = "UPDATE `area_record` " .
+"SET `iou_img` = '" . $store_path . "' " .
+"WHERE `patient_id` = '" . $patientID . "' AND `original_img` LIKE '%" . $cur_date . "%';";
+
 echo json_encode($response);
 ?>

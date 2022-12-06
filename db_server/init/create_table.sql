@@ -11,7 +11,16 @@ CREATE TABLE patient_info
     UNIQUE (`patient_id`)
 );
 
-CREATE TABLE area_record
+CREATE TABLE frontend_area
+(
+    `patient_id` CHAR(20) NOT NULL,
+    `date` DATETIME NOT NULL,
+    `original_img` CHAR(12) NOT NULL,
+    `label_img` CHAR(80) NOT NULL,
+    FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
+);
+
+CREATE TABLE backend_area
 (
     `patient_id` CHAR(20) NOT NULL,
     `area` FLOAT(8) NOT NULL,

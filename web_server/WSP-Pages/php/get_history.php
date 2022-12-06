@@ -30,7 +30,7 @@ session_start();
 
 $response = Array();
 $sql_select = "SELECT `date`, `area`, `original_img`, `predict_img`, `comment` " .
-"FROM `area_record` " .
+"FROM `backend_area` " .
 "WHERE `patient_id` = '" . $_SESSION['patientID'] . "' AND `disable` IS NULL ".
 "ORDER BY `date`;";
 

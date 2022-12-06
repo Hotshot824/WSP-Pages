@@ -34,6 +34,19 @@ function random_remove_tmpfile() {
     $output = shell_exec($command);
 }
 
+function store_result($patientID, $area, $store_path, $result_path) {
+    try {
+        $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
+    } catch (\Exception $e){
+        $response['error_status'] = "Error: Database connection error!";
+        exit(json_encode($response));
+    }
+
+    if (!file_exists($store_path)) {
+        mkdir($store_path . "original/", 0775, true);
+    }
+}
+
 function store_predict_result($patientID, $area, $store_path, $result_path, $cur_date) {
     $unresize_origin = $result_path . 'unresize_original.png';
     $origin = $result_path . 'resize_original.png';
@@ -65,8 +78,9 @@ function store_predict_result($patientID, $area, $store_path, $result_path, $cur
     }
 
     // sql language
-    $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `unresize_original_img` ,`predict_img`)" .
-    " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . $origin_store . "','" . $unresize_origin_store . "','" . $predict_store . "')";
+    $sql_insert = "INSERT INTO `backend_area`(`patient_id`, `area`, `date`, `original_img`, `unresize_original_img` ,`predict_img`)" .
+    " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . 
+    $origin_store . "','" . $unresize_origin_store . "','" . $predict_store . "')";
     try {
         mysqli_query($mysqli, $sql_insert);
     } catch (\Exception $e){
@@ -97,8 +111,8 @@ function store_iou_result($patientID, $store_path, $iou, $cur_date) {
         exit(json_encode($response));
     }
 
-    // $sql_update = "UPDATE `area_record`" .
-    $sql_update = "UPDATE `area_record` " .
+    // sql update
+    $sql_update = "UPDATE `backend_area` " .
     "SET `iou_img` = '" . $store_path . "' " .
     "WHERE `patient_id` = '" . $patientID . "' AND `original_img` LIKE '%" . $cur_date . "%';";
     mysqli_query($mysqli, $sql_update);

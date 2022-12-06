@@ -20,6 +20,9 @@ async function startChart() {
                 drawingChart(response['data'], response['id']);
             }
         })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
 }
 
 function drawingChart(array, id) {
@@ -94,6 +97,9 @@ async function showHistoryPredict(index) {
             document.querySelector('#historyCommentText').value = chartData[index]['comment'];
             document.querySelector('#historyArea').innerHTML = "Area: " +  chartData[index]['area'] + 'c㎡';
         })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
+        })
 }
 
 async function removeHistory() {
@@ -135,6 +141,9 @@ async function sotreComment() {
             }
             document.querySelector('#modalHistoryRes').querySelector('.btn-close').click();
             startChart();
+        })
+        .catch((error) => {
+            console.log(`Error: ${error}`);
         })
 }
 
