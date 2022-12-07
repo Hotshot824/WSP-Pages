@@ -3,7 +3,9 @@ import * as style from './style.js';
 import * as chart from './chart.js';
 import * as login from '../../js/login.js';
 
-let paint = new Paint();
+let canvas = document.querySelector('#canvas');
+let ctx = canvas.getContext('2d', { willReadFrequently: true });
+let paint = new Paint(canvas, ctx);
 
 // randon tmpfile path
 paint.temp_key = login.getCookie('PHPSESSID') + login.randomString(2);
@@ -147,8 +149,10 @@ paint.canvas.addEventListener('mousemove', (e) => {
 paint.canvas.addEventListener('mouseout', () => paint.isDrawing = false);
 
 paint.canvas.addEventListener('mouseup', () => {
-    paint.saveHistory();
-    paint.isDrawing = false;
+    if (state) {
+        paint.saveHistory();
+        paint.isDrawing = false;
+    }
 });
 
 window.addEventListener("mousewheel", (e) => {
@@ -200,10 +204,11 @@ paint.canvas.addEventListener('touchmove', (e) => {
     }
 });
 
-
 paint.canvas.addEventListener('touchend', () => {
-    paint.isDrawing = false;
-    paint.saveHistory("touchend");
+    if (state) {
+        paint.isDrawing = false;
+        paint.saveHistory("touchend");
+    }
 });
 
 // Save Image
@@ -343,6 +348,6 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
     }
 });
 
-document.querySelector('#testBtn').addEventListener('click', () => {
-    console.log(paint.temp_key);
-});
+// document.querySelector('#testBtn').addEventListener('click', () => {
+//     console.log(paint.temp_key);
+// });

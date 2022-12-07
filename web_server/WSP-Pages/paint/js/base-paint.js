@@ -1,8 +1,8 @@
 class BasePaint {
 
-    constructor() {
-        this.canvas = document.querySelector('#canvas');
-        this.ctx = canvas.getContext('2d', { willReadFrequently: true });
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight * 0.99;
         this.canvas.beginHeight = window.innerHeight;
@@ -171,14 +171,11 @@ class BasePaint {
     }
 
     saveHistory(str) {
-        console.log(str)
-        console.log(this.step)
         this.step++;
         if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
         let img = new Image();
         img = this.canvas.toDataURL();
         this.historyArr.push(img);
-        console.log(this.historyArr)
     }
 
     saveImage() {
