@@ -23,14 +23,22 @@ try {
     exit(json_encode($response));
 }
 
-$sql_update = "UPDATE `backend_area`" .
+$update_backend = "UPDATE `backend_area`" .
+"SET `disable` = true " .
+"WHERE `original_img` = '" . $reomve . "';";
+
+$update_frontend = "UPDATE `frontend_area`" .
 "SET `disable` = true " .
 "WHERE `original_img` = '" . $reomve . "';";
 
 if($mysqli){
-    $result = mysqli_query($mysqli, $sql_update);
-    $response['status'] = "Successfully deleted!";
+    $result = mysqli_query($mysqli, $update_backend);
 }
 
+if($mysqli){
+    $result = mysqli_query($mysqli, $update_frontend);
+}
+
+$response['status'] = "Successfully deleted!";
 echo json_encode($response);
 ?>

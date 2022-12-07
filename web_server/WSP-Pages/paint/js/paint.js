@@ -66,7 +66,7 @@ class Paint {
         this.original_label;
         this.frontUploadFlag = 0;
         this.iouFlag = false;
-        this.backPredictFlag = true;
+        this.backPredictFlag = false;
     }
 
     setCanvas(temp_height) {
@@ -514,11 +514,16 @@ class Paint {
     }
 
     async backend_iou_upload() {
-        var img = this.canvas.toDataURL();
+        if (this.canvas.toDataURL() == this.original_label) {
+            return;
+        } else {
+            this.original_img = this.canvas.toDataURL();
+        }
+
         var data = {
             "stay_in": getStayIn(),
             "temp_key": this.temp_key,
-            "label": img
+            "label": this.original_img
         }
 
         let imgpreview = "../assets/img/preview/pre_img.gif"

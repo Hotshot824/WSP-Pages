@@ -381,7 +381,7 @@ document.querySelector('#clearAll').addEventListener('click', () => painting.cle
 
 // predict btn, upload original image to backend then predict.
 document.querySelector('#predictAreaBtn').addEventListener('click', () => {
-    if (painting.length == null) {
+    if (painting.length == 0) {
         alert('No scale, Please give scale first!');
     } else if (painting.backPredictFlag != true) {
         alert('This is same images!');

@@ -24,15 +24,23 @@ $original = $decoded['original'];
 
 $response = Array();
 
-$sql_update = "UPDATE `backend_area` " .
+$update_backend = "UPDATE `backend_area` " .
+"SET `comment` = '" . $comment . "' " .
+"WHERE `original_img` = '" . $original . "';";
+
+$update_frontend = "UPDATE `frontend_area` " .
 "SET `comment` = '" . $comment . "' " .
 "WHERE `original_img` = '" . $original . "';";
 
 if($mysqli){
-    $result = mysqli_query($mysqli, $sql_update);
-    $response['status'] = "Successfully comment!";
+    $result = mysqli_query($mysqli, $update_backend);
 }
 
+if($mysqli){
+    $result = mysqli_query($mysqli, $update_frontend);
+}
+
+$response['status'] = "Successfully comment!";
 echo json_encode($response);
 
 ?>
