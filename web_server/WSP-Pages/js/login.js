@@ -23,15 +23,14 @@ function getCookie(name) {
     }
 }
 
-function delGlobalCookie(name)
-{
-   document.cookie = name+"=;path=/;expires="+(new Date(0)).toGMTString();
+function delGlobalCookie(name) {
+    document.cookie = name + "=;path=/;expires=" + (new Date(0)).toGMTString();
 }
 
 function getStayIn() {
     if (getCookie('stay_in') == "on") {
         return true;
-    } 
+    }
     return false
 }
 
@@ -80,7 +79,7 @@ async function signIn(event, form) {
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
-        if (formDataObiect['stayIn'] == 'on'){
+        if (formDataObiect['stayIn'] == 'on') {
             document.cookie = "stay_in=on;path=/;";
         }
         return await fetch("/php/sign_in.php", {

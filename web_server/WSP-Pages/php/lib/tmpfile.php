@@ -1,5 +1,7 @@
 <?php
 namespace tmpfile;
+
+require __DIR__ . '/string.php';
 $path = "/etc/php/8.1/cli/php.ini";
 $db_default = parse_ini_file($path);
 
@@ -8,6 +10,28 @@ define('_DBhost', $db_default['mysqli.default_host']);
 define('_DBuser', $db_default['mysqli.default_user']);
 define('_DBpassword', $db_default['mysqli.default_pw']);
 define('_DBname', 'WSP');
+
+function move_file($img, $upload_path, $filename) {
+    // decode image move to upload path
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    $data = base64_decode($img);
+    $file = $upload_path . $filename;
+    $success = file_put_contents($file, $data);
+}
+
+function stoage_file($upload_path, $store_path) {
+    if (!file_exists(\string\getPath($store_path))) {
+        mkdir(\string\getPath($store_path), 0775, true);
+    }
+
+    try {
+        copy($upload_path, $store_path);
+    } catch (\Exception $e){
+        $response['error_status'] = "Error: Storage file error!";
+        exit(json_encode($response));
+    }
+}
 
 function random_remove_tmpfile() {
     $path = "/etc/php/8.1/cli/php.ini";
@@ -23,6 +47,19 @@ function random_remove_tmpfile() {
 
     $command = "find " . $path . "* -maxdepth 1 -name '*' -mmin +" . $lifetime . " -type d | xargs rm -rf";
     $output = shell_exec($command);
+}
+
+function store_result($patientID, $area, $store_path, $result_path) {
+    try {
+        $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
+    } catch (\Exception $e){
+        $response['error_status'] = "Error: Database connection error!";
+        exit(json_encode($response));
+    }
+
+    if (!file_exists($store_path)) {
+        mkdir($store_path . "original/", 0775, true);
+    }
 }
 
 function store_predict_result($patientID, $area, $store_path, $result_path, $cur_date) {
@@ -56,8 +93,9 @@ function store_predict_result($patientID, $area, $store_path, $result_path, $cur
     }
 
     // sql language
-    $sql_insert = "INSERT INTO `area_record`(`patient_id`, `area`, `date`, `original_img`, `unresize_original_img` ,`predict_img`)" .
-    " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . $origin_store . "','" . $unresize_origin_store . "','" . $predict_store . "')";
+    $sql_insert = "INSERT INTO `backend_area`(`patient_id`, `area`, `date`, `original_img`, `unresize_original_img` ,`predict_img`)" .
+    " VALUES ('" . $patientID . "','" . $area . "', '" . $cur_date . "','" . 
+    $origin_store . "','" . $unresize_origin_store . "','" . $predict_store . "')";
     try {
         mysqli_query($mysqli, $sql_insert);
     } catch (\Exception $e){
@@ -88,8 +126,8 @@ function store_iou_result($patientID, $store_path, $iou, $cur_date) {
         exit(json_encode($response));
     }
 
-    // $sql_update = "UPDATE `area_record`" .
-    $sql_update = "UPDATE `area_record` " .
+    // sql update
+    $sql_update = "UPDATE `backend_area` " .
     "SET `iou_img` = '" . $store_path . "' " .
     "WHERE `patient_id` = '" . $patientID . "' AND `original_img` LIKE '%" . $cur_date . "%';";
     mysqli_query($mysqli, $sql_update);

@@ -4,11 +4,11 @@ import * as chart from './chart.js';
 import * as login from '../../js/login.js';
 
 let canvas = document.querySelector('#canvas');
-let ctx = canvas.getContext('2d');
+let ctx = canvas.getContext('2d', {willReadFrequently: true});
 let painting = new Paint(canvas, ctx);
 
 // randon tmpfile path
-let temp_key = login.randomString(20);
+painting.temp_key = login.getCookie('PHPSESSID') + login.randomString(2);
 
 // mouse click status
 let state;
@@ -119,14 +119,20 @@ function floodFill(x, y, color, area) {
     if (area == true) {
         let perpixel = Math.pow(Math.pow((painting.x2 - painting.x1), 2) + Math.pow((painting.y2 - painting.y1), 2), 0.5);
         let pixel_scale = painting.length / perpixel;
-        let str = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2) + "c㎡"
+        let area = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2)
+        let str = area + "c㎡"
         alert(str);
         // document.querySelector('.front-areatext').innerHTML = str;
         style.areatextPosition(str);
         style.toastPosition();
+
+        pixels_num = 0;
+        ctx.putImageData(pixels, 0, 0);
+        return area;
+    } else {
+        pixels_num = 0;
+        ctx.putImageData(pixels, 0, 0);
     }
-    pixels_num = 0;
-    ctx.putImageData(pixels, 0, 0);
 }
 
 function changeActive(idName) {
@@ -174,24 +180,6 @@ window.addEventListener('resize', () => {
     chart.startChart();
 });
 
-// toolbar color selection area
-// const colorItem = document.querySelectorAll('.colorItem');
-// for (let i = 0; i < colorItem.length; i++) {
-//     colorItem[i].addEventListener('click', (e) => {
-//         let rgb = rgbToValue(e.target.style.backgroundColor);
-//         let hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
-//         painting.color = hex;
-//         colorItem.forEach((item) => {
-//             const check = item;
-//             check.textContent = '';
-//             if (e.target.className === 'colorItem') {
-//                 e.target.textContent = '✓';
-//             }
-//         })
-
-//     });
-// }
-
 document.querySelector('#nav-predict-tab').addEventListener('click', () => {
     state = null;
 });
@@ -219,12 +207,12 @@ painting.canvas.addEventListener('mousedown', (e) => {
             };
             break;
         case 'area':
-            floodFill(painting.lastX, painting.lastY, 250, true);
+            let area = floodFill(painting.lastX, painting.lastY, 250, true);
             floodFill(painting.lastX, painting.lastY, 255, false);
 
             // upload image for frontend area compute
             if (painting.frontUploadFlag != 0) {
-                painting.frontendAreaUpload()
+                painting.frontendAreaUpload(area)
             }
 
             state = null;
@@ -259,7 +247,12 @@ painting.canvas.addEventListener('mouseup', () => {
     }
 });
 
-
+window.addEventListener("mousewheel", (e) => {
+    if (e.ctrlKey) {
+        e.preventDefault();
+        painting.scroll_big_small(e);
+    }
+}, { passive: false });
 
 // Touch event
 painting.canvas.addEventListener('touchstart', (e) => {
@@ -277,9 +270,7 @@ painting.canvas.addEventListener('touchstart', (e) => {
             floodFill(painting.lastX, painting.lastY, 255, false);
 
             // upload image for frontend area compute
-            if (painting.frontUploadFlag != 0) {
-                painting.frontendAreaUpload()
-            }
+            painting.frontendAreaUpload()
 
             state = null;
             changeActive(null);
@@ -349,7 +340,6 @@ document.querySelector('#bucketBtn').addEventListener('click', () => {
 // Area toolbar
 document.querySelector('#rulerBtn').addEventListener('click', () => {
     painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image.");
-    console.log(+painting.length);
     if (!isNumeric(painting.length)) {
         alert('Input has to a number!')
     } else if (painting.length == null) {
@@ -391,7 +381,7 @@ document.querySelector('#clearAll').addEventListener('click', () => painting.cle
 
 // predict btn, upload original image to backend then predict.
 document.querySelector('#predictAreaBtn').addEventListener('click', () => {
-    if (painting.length == null) {
+    if (painting.length == 0) {
         alert('No scale, Please give scale first!');
     } else if (painting.backPredictFlag != true) {
         alert('This is same images!');
@@ -401,7 +391,7 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_predict(temp_key);
+        painting.backend_predict();
         painting.backPredictFlag = false;
 
         // clean old iou image
@@ -417,7 +407,7 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_iou_upload(temp_key);
+        painting.backend_iou_upload();
     } else {
         alert("Error Operation.");
     }
@@ -449,36 +439,6 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
     }
 });
 
-// document.querySelector('#testBtn').addEventListener('click', async () => {
-//     let session_id = getCookie('PHPSESSID');
-//     let data = {
-//         "session_id": session_id,
-//     }
-//     await fetch("../php/get_area.php", {
-//         method: "POST",
-//         body: JSON.stringify(data)
-//     })
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((response) => {
-//             console.log(response);
-//         })
-// });
-
-// document.querySelector('#test2Btn').addEventListener('click', async () => {
-//     let session_id = getCookie('PHPSESSID');
-//     let data = {
-//         "session_id": session_id,
-//     }
-//     await fetch("../php/test.php", {
-//         method: "POST",
-//         body: JSON.stringify(data)
-//     })
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((response) => {
-//             console.log(response);
-//         })
-// });
+document.querySelector('#testBtn').addEventListener('click', () => {
+    console.log(painting.temp_key);
+});

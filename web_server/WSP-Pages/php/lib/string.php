@@ -9,4 +9,14 @@ function generate_random_string($length = 6) {
     }
     return $randomString;
 }
+
+function getPath ($path) {
+    $path = preg_replace("/[\w-]+\.png/i","",$path); 
+    return $path;
+}
+
+function getFilename ($path) {
+    $path = explode("/", $path);
+    return $path[count($path) - 1];
+}
 ?>

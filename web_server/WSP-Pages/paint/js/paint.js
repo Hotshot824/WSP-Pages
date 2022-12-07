@@ -1,6 +1,7 @@
 import { getStayIn } from '../../js/login.js'
+import * as chart from './chart.js'
 
-class Paint {    
+class Paint {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
@@ -12,6 +13,20 @@ class Paint {
         this.canvas.height = window.innerHeight * 0.99;
         this.canvas.beginHeight = window.innerHeight;
 
+        this.setDrawingVar();
+        this.setBaseScale();
+        this.setCutScale();
+
+        this.scal = 1;
+        this.midx = window.innerWidth / 2;
+        this.midy = window.innerHeight / 2;
+        this.transOrigin = 0;
+        this.forMarginLeft = 0;
+
+        this.setFlag();
+    }
+
+    setDrawingVar() {
         this.isDrawing = false;
         this.lastX = 0;
         this.lastY = 0;
@@ -21,7 +36,9 @@ class Paint {
         this.left = 0;
         this.top = 0;
         this.length = 0;
+    }
 
+    setBaseScale() {
         this.scaleCount = 1;
         this.x1 = 0;
         this.y1 = 0;
@@ -31,7 +48,9 @@ class Paint {
         this.ruler_deltay = 0;
         this.origin_img_width = 0;
         this.origin_img_height = 0;
+    }
 
+    setCutScale() {
         this.selectflag = 0;
         this.perpixel = 0;
         this.img = new Image();
@@ -39,21 +58,16 @@ class Paint {
         this.cut_beginy;
         this.cut_deltax;
         this.cut_deltay;
-
-        this.frontUploadFlag = 0;
-        this.iouFlag = false;
-        this.backPredictFlag = true;
     }
 
-    // init() {
-    //     this.canvas.width = window.innerWidth;
-    //     this.canvas.height = window.innerHeight;
-    // }
-
-    // loaded() {
-    //     this.ctx.fillStyle = '#E8E8E8';
-    //     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // }
+    setFlag() {
+        this.temp_key;
+        this.original_img;
+        this.original_label;
+        this.frontUploadFlag = 0;
+        this.iouFlag = false;
+        this.backPredictFlag = false;
+    }
 
     setCanvas(temp_height) {
         if (temp_height < this.canvas.beginHeight) {
@@ -79,9 +93,7 @@ class Paint {
 
         if (!this.isDrawing) return;
 
-
         this.ctx.strokeStyle = this.color;
-
 
         this.ctx.lineWidth = this.lineWidth;
         this.ctx.beginPath();
@@ -119,6 +131,40 @@ class Paint {
         this.lastX = e.touches[0].clientX - left;
         this.lastY = e.touches[0].clientY - top;
 
+    }
+
+    scroll_big_small(e) {
+        this.transOrigin = 0 + "px " + this.midy * this.scal + "px";
+        this.forMarginLeft = window.innerWidth / 2 - (this.canvas.width * this.scal) / 2;
+        if (this.forMarginLeft < 0) {
+            this.forMarginLeft = "auto";
+        }
+        else {
+            this.forMarginLeft = this.forMarginLeft + "px";
+        }
+
+        if (e.wheelDelta > 0 && e.ctrlKey) {
+            this.canvas.style.position = "absolute";
+            this.canvas.style.display = "block";
+            this.canvas.style.marginLeft = this.forMarginLeft;
+
+            this.scal = (parseFloat(this.scal) + 0.01).toFixed(2);
+            this.canvas.style.transform = 'scale(' + this.scal + ')';
+            this.canvas.style.transformOrigin = this.transOrigin;
+
+        }
+        else if (e.wheelDelta < 0 && e.ctrlKey) {
+
+            this.canvas.style.position = "absolute";
+            this.canvas.style.display = "block";
+            this.canvas.style.marginLeft = this.forMarginLeft;
+
+            this.scal = (parseFloat(this.scal) - 0.01).toFixed(2);
+            this.canvas.style.transform = 'scale(' + this.scal + ')';
+            this.canvas.style.transformOrigin = this.transOrigin;
+
+        }
+        return false;
     }
 
     changeStroke() {
@@ -185,7 +231,6 @@ class Paint {
             this.scaleCount--;
             return true;
         }
-
     }
 
     getScaleMobile(e) {
@@ -205,7 +250,6 @@ class Paint {
             this.scaleCount--;
             return true;
         }
-
     }
 
     getSelectArea(e) {
@@ -393,16 +437,17 @@ class Paint {
         let openImageInput = document.querySelector('#openImageInput');
         // to image
         if (openImageInput.files[0]) {
-            var reader = new FileReader();
+            let reader = new FileReader();
             reader.readAsDataURL(openImageInput.files[0]);
-            reader.onload = function (e) {
-                newImage.setAttribute("src", e.target.result);
+            reader.onload = (e) => {
+                newImage.setAttribute("src", reader.result);
+                this.original_img = reader.result;
                 openImageInput.setAttribute("type", "text");
             };
         }
 
         // draw image on canvas
-        newImage.addEventListener('load', e => {
+        newImage.addEventListener('load', (event) => {
             let width2 = newImage.width;
             let height2 = newImage.height;
 
@@ -423,11 +468,11 @@ class Paint {
         this.backPredictFlag = true;
     }
 
-    async backend_predict(temp_key) {
+    async backend_predict() {
         let img = this.canvas.toDataURL('image/png');
         let data = {
             "stay_in": getStayIn(),
-            "temp_key": temp_key,
+            "temp_key": this.temp_key,
             "oringnal_image": img,
         }
 
@@ -461,18 +506,24 @@ class Paint {
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
                 document.querySelector('#areaImg').src = response['area_image'];
                 document.querySelector('#areaText').innerHTML = "Area: " + response['area'] + "c㎡";
+                chart.startChart();
             })
             .catch((error) => {
                 console.log(`Error: ${error}`);
             })
     }
 
-    async backend_iou_upload(temp_key) {
-        var img = this.canvas.toDataURL();
+    async backend_iou_upload() {
+        if (this.canvas.toDataURL() == this.original_label) {
+            return;
+        } else {
+            this.original_img = this.canvas.toDataURL();
+        }
+
         var data = {
             "stay_in": getStayIn(),
-            "temp_key": temp_key,
-            "label": img
+            "temp_key": this.temp_key,
+            "label": this.original_img
         }
 
         let imgpreview = "../assets/img/preview/pre_img.gif"
@@ -495,37 +546,40 @@ class Paint {
             })
     }
 
-    frontendAreaUpload() {
-        this.frontUploadFlag = 0;
-
-        let img = this.canvas.toDataURL();
-        let original_img;
-
-        let openImageInput = document.querySelector('#openImageInput');
+    async frontendAreaUpload(area) {
         // to image
-        if (openImageInput.files[0]) {
+        // if (!this.frontUploadFlag) {
+        //     return;
+        // } else {
+        //     this.frontUploadFlag = false;
+        // }
 
-            var reader = new FileReader();
-            reader.readAsDataURL(openImageInput.files[0]);
-            reader.onload = function (e) {
-                original_img = reader.result
-                let data = {
-                    "img": img,
-                    "original_img": original_img
-                }
-
-                fetch("../php/frontendArea.php", {
-                    method: "POST",
-                    body: JSON.stringify(data)
-                })
-                    .then((response) => {
-                        return response.text();
-                    })
-                    .catch((error) => {
-                        console.log(`Error: ${error}`);
-                    })
-            };
+        if (this.canvas.toDataURL() == this.original_label) {
+            return;
+        } else {
+            this.original_label = this.canvas.toDataURL();
         }
+
+        let data = {
+            'temp_key': this.temp_key,
+            'stay_in': getStayIn(),
+            'area': area,
+            'original_img': this.original_img,
+            'label_img': this.original_label,
+        }
+        await fetch('../php/frontend_area.php', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
     }
 }
 

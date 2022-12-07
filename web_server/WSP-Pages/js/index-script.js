@@ -114,36 +114,30 @@ for (let i = 0; i < logOut.length; i++) {
     logOut[i].addEventListener('click', logOutFuc)
 }
 
-async function sendFeedback(message) {
-    let data = {
-        "message": message,
+async function sendFeedback(event) {
+    let form = document.querySelector('#contactForm');
+    let formValid = form.checkValidity();
+    if (formValid) {
+        event.preventDefault();
+        let formData = new FormData(form);
+        let formDataObiect = Object.fromEntries(formData.entries());
+        formDataObiect['stay_in'] = login.getStayIn();
+        console.log(formDataObiect);
+        await fetch("/php/feedback.php", {
+            method: "POST",
+            body: JSON.stringify(formDataObiect)
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                if (alert(response['status'])) { }
+                else window.location.assign("#page-top");
+                document.querySelector('#message').value = "";
+            })
+            .catch((error) => {
+                console.log(`Error: ${error}`);
+            })
     }
-    console.log(data);
-    await fetch("/php/feedback.php", {
-        method: "POST",
-        body: JSON.stringify(data)
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            if (alert(response['status'])) { }
-            else window.location.assign("#page-top");
-            document.querySelector('#message').value = "";
-        })
-        .catch((error) => {
-            console.log(`Error: ${error}`);
-        })
 }
-document.querySelector('#submitBtn').addEventListener("click", (event) => {
-    event.preventDefault();
-    let message = document.querySelector('#message').value;
-
-    if (message.length >= 256) {
-        alert("Text is limited to 256 characters!");
-    } if (message.length <= 10) {
-        alert('Text Minimum is 10 characters!')
-    } else {
-        sendFeedback(message)
-    }
-});
+document.querySelector('#submitBtn').addEventListener("click", (e) => sendFeedback(e));
