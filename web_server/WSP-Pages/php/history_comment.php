@@ -24,7 +24,7 @@ $original = $decoded['original'];
 
 $response = Array();
 
-$sql_update = "UPDATE `area_record` " .
+$sql_update = "UPDATE `backend_area` " .
 "SET `comment` = '" . $comment . "' " .
 "WHERE `original_img` = '" . $original . "';";
 

@@ -76,7 +76,7 @@ if (!isset($_SESSION['patientID'])) {
     exit(json_encode($response));
 }
 
-$store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
+$store_path = $db_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/";
 $cur_date = date("Y-m-d_H-i-s");
 $_SESSION['last_predict_date'] = $cur_date;
 

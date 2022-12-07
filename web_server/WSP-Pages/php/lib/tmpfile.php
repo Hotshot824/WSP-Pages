@@ -1,5 +1,7 @@
 <?php
 namespace tmpfile;
+
+require __DIR__ . '/string.php';
 $path = "/etc/php/8.1/cli/php.ini";
 $db_default = parse_ini_file($path);
 
@@ -16,6 +18,19 @@ function move_file($img, $upload_path, $filename) {
     $data = base64_decode($img);
     $file = $upload_path . $filename;
     $success = file_put_contents($file, $data);
+}
+
+function stoage_file($upload_path, $store_path) {
+    if (!file_exists(\string\getPath($store_path))) {
+        mkdir(\string\getPath($store_path), 0775, true);
+    }
+
+    try {
+        copy($upload_path, $store_path);
+    } catch (\Exception $e){
+        $response['error_status'] = "Error: Storage file error!";
+        exit(json_encode($response));
+    }
 }
 
 function random_remove_tmpfile() {

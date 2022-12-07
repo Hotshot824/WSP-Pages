@@ -23,7 +23,7 @@ try {
     exit(json_encode($response));
 }
 
-$sql_update = "UPDATE `area_record`" .
+$sql_update = "UPDATE `backend_area`" .
 "SET `disable` = true " .
 "WHERE `original_img` = '" . $reomve . "';";
 

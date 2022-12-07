@@ -541,7 +541,7 @@ class Paint {
             })
     }
 
-    async frontendAreaUpload() {
+    async frontendAreaUpload(area) {
         // to image
         // if (!this.frontUploadFlag) {
         //     return;
@@ -556,14 +556,14 @@ class Paint {
         }
 
         let data = {
-            "temp_key": this.temp_key,
-            "stay_in": getStayIn(),
-            "original_img": this.original_img,
-            "label_img": this.original_label,
+            'temp_key': this.temp_key,
+            'stay_in': getStayIn(),
+            'area': area,
+            'original_img': this.original_img,
+            'label_img': this.original_label,
         }
-        console.log(data);
-        await fetch("../php/frontend_area.php", {
-            method: "POST",
+        await fetch('../php/frontend_area.php', {
+            method: 'POST',
             body: JSON.stringify(data)
         })
             .then((response) => {

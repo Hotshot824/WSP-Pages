@@ -14,9 +14,12 @@ CREATE TABLE patient_info
 CREATE TABLE frontend_area
 (
     `patient_id` CHAR(20) NOT NULL,
+    `area` FLOAT(8) NOT NULL,
     `date` DATETIME NOT NULL,
-    `original_img` CHAR(12) NOT NULL,
+    `original_img` CHAR(80) NOT NULL,
     `label_img` CHAR(80) NOT NULL,
+    `comment` VARCHAR(64),
+    `disable` BOOLEAN,
     FOREIGN KEY(`patient_id`) REFERENCES patient_info(`patient_id`)
 );
 

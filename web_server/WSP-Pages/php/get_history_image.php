@@ -7,13 +7,12 @@ $decoded = json_decode($content, true);
 
 $response = Array();
 
-$response['original_img'] = \image\get_image_to_base64(\string\getPath($decoded['orignal']), 
-\string\getFilename($decoded['orignal']));
-$response['predict_img'] = \image\get_image_to_base64(\string\getPath($decoded['predict']), 
-\string\getFilename($decoded['predict']));
-
-$response['tt'] = \string\getPath($decoded['orignal']);
-$response['qq'] = \string\getPath($decoded['predict']);
+if ($decoded['orignal']) {
+    $response['original_img'] = \image\get_image_to_base64(\string\getPath($decoded['orignal']), \string\getFilename($decoded['orignal']));
+}
+if ($decoded['predict']) {
+    $response['predict_img'] = \image\get_image_to_base64(\string\getPath($decoded['predict']), \string\getFilename($decoded['predict']));
+}
 
 echo json_encode($response);
 ?>

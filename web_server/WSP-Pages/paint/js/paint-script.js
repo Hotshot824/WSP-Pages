@@ -119,14 +119,20 @@ function floodFill(x, y, color, area) {
     if (area == true) {
         let perpixel = Math.pow(Math.pow((painting.x2 - painting.x1), 2) + Math.pow((painting.y2 - painting.y1), 2), 0.5);
         let pixel_scale = painting.length / perpixel;
-        let str = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2) + "c㎡"
+        let area = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2)
+        let str = area + "c㎡"
         alert(str);
         // document.querySelector('.front-areatext').innerHTML = str;
         style.areatextPosition(str);
         style.toastPosition();
+
+        pixels_num = 0;
+        ctx.putImageData(pixels, 0, 0);
+        return area;
+    } else {
+        pixels_num = 0;
+        ctx.putImageData(pixels, 0, 0);
     }
-    pixels_num = 0;
-    ctx.putImageData(pixels, 0, 0);
 }
 
 function changeActive(idName) {
@@ -201,12 +207,12 @@ painting.canvas.addEventListener('mousedown', (e) => {
             };
             break;
         case 'area':
-            floodFill(painting.lastX, painting.lastY, 250, true);
+            let area = floodFill(painting.lastX, painting.lastY, 250, true);
             floodFill(painting.lastX, painting.lastY, 255, false);
 
             // upload image for frontend area compute
             if (painting.frontUploadFlag != 0) {
-                painting.frontendAreaUpload()
+                painting.frontendAreaUpload(area)
             }
 
             state = null;

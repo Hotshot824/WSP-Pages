@@ -10,6 +10,7 @@ $db_default = parse_ini_file($path);
 // Receive the RAW post data.
 $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
+$response = Array();
 
 $temp_key = $decoded['temp_key'];
 $upload_path = $db_default['ptmp.path'];
@@ -30,12 +31,35 @@ if (isset($decoded['stay_in'])) {
 session_save_path('/tmp');
 session_start();
 
-$response = Array();
-$response['upload_path'] = $upload_path;
+if (!isset($_SESSION['patientID'])) {
+    exit(json_encode($response));
+}
 
-$sql_update = "UPDATE `area_record` " .
-"SET `iou_img` = '" . $store_path . "' " .
-"WHERE `patient_id` = '" . $patientID . "' AND `original_img` LIKE '%" . $cur_date . "%';";
+$cur_date = date("Y-m-d_H-i-s");
+$area = $decoded['area'];
+$store_path = $db_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/";
+$stroe_original = $store_path . "frontend/original/" . $cur_date . ".png";
+$stroe_label = $store_path . "frontend/label/" . $cur_date . ".png";
+
+$sql_insert = "INSERT INTO `frontend_area`(`patient_id`, `area`, `date`, `original_img`, `label_img`)".
+" VALUES ('".$_SESSION['patientID']."','". $area ."','".$cur_date."','".$stroe_original."','".$stroe_label."')";
+
+\tmpfile\stoage_file($upload_path . 'f_original.png', $stroe_original);
+\tmpfile\stoage_file($upload_path . 'f_label.png', $stroe_label);
+
+try {
+    $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
+} catch (Exception $e) {
+    $response['error_status'] = "Error: Database connection error!";
+    exit(json_encode($response));
+}
+
+try {
+    $result = mysqli_query($mysqli, $sql_insert);
+} catch (Exception $e){
+    $response['error_status'] = "Error: Database insert error!";
+    exit(json_encode($response));
+}
 
 echo json_encode($response);
 ?>

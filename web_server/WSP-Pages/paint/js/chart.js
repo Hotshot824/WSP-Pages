@@ -64,9 +64,9 @@ function drawingChart(array, id) {
     }
     Plotly.newPlot(areaChart, data, layout, config);
 
-    areaChart.on('plotly_click', function(data){
+    areaChart.on('plotly_click', function (data) {
         let pts = '';
-        for(let i=0; i < data.points.length; i++){
+        for (let i = 0; i < data.points.length; i++) {
             index = data.points[i].pointIndex;
         }
         showHistoryPredict(index);
@@ -78,12 +78,13 @@ async function showHistoryPredict(index) {
     let data = {
         "stay_in": login.getStayIn(),
         "orignal": chartData[index]['original_img'],
-        "predict": chartData[index]['predict_img'],
+        "predict": (chartData[index]['predict_img']) ? chartData[index]['predict_img'] : false,
     }
     $('#modalHistoryRes').modal('show');
     let imgpreview = "../assets/img/preview/pre_img.gif"
     document.querySelector('#historyOriginal').src = imgpreview;
     document.querySelector('#historyPredict').src = imgpreview;
+    console.log(data);
     await fetch("../php/get_history_image.php", {
         method: "POST",
         body: JSON.stringify(data)
@@ -92,10 +93,16 @@ async function showHistoryPredict(index) {
             return response.json();
         })
         .then((response) => {
+            console.log(response);
             document.querySelector('#historyOriginal').src = response['original_img'];
-            document.querySelector('#historyPredict').src = response['predict_img'];
+            if (response['predict_img']) {
+                document.querySelector('#historyPredictImg').classList.remove('d-none');
+                document.querySelector('#historyPredict').src = response['predict_img'];
+            } else {
+                document.querySelector('#historyPredictImg').classList.add('d-none');
+            }
             document.querySelector('#historyCommentText').value = chartData[index]['comment'];
-            document.querySelector('#historyArea').innerHTML = "Area: " +  chartData[index]['area'] + 'c㎡';
+            document.querySelector('#historyArea').innerHTML = "Area: " + chartData[index]['area'] + 'c㎡';
         })
         .catch((error) => {
             console.log(`Error: ${error}`);
@@ -126,7 +133,7 @@ async function sotreComment() {
     let comment = document.querySelector('#historyCommentText').value;
     let data = {
         "original": chartData[index]['original_img'],
-        "comment": comment, 
+        "comment": comment,
     }
     await fetch("../php/history_comment.php", {
         method: "POST",
@@ -136,7 +143,7 @@ async function sotreComment() {
             return response.json();
         })
         .then((response) => {
-            if(response['status']) {
+            if (response['status']) {
                 alert(response['status'])
             }
             document.querySelector('#modalHistoryRes').querySelector('.btn-close').click();
