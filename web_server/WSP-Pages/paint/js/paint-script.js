@@ -3,12 +3,10 @@ import * as style from './style.js';
 import * as chart from './chart.js';
 import * as login from '../../js/login.js';
 
-let canvas = document.querySelector('#canvas');
-let ctx = canvas.getContext('2d', {willReadFrequently: true});
-let painting = new Paint(canvas, ctx);
+let paint = new Paint();
 
 // randon tmpfile path
-painting.temp_key = login.getCookie('PHPSESSID') + login.randomString(2);
+paint.temp_key = login.getCookie('PHPSESSID') + login.randomString(2);
 
 // mouse click status
 let state;
@@ -42,99 +40,6 @@ function rgbToHex(r, g, b) {
     return hex;
 }
 
-// bucket and frontend area calculate algorithm.
-function floodFill(x, y, color, area) {
-    let pixels_num = 0
-    let pixel_stack = [{ x: x, y: y }];
-    let pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let linear_cords = (y * canvas.width + x) * 4;
-    let original_color = {
-        r: pixels.data[linear_cords],
-        g: pixels.data[linear_cords + 1],
-        b: pixels.data[linear_cords + 2],
-        a: pixels.data[linear_cords + 3]
-    };
-
-    while (pixel_stack.length > 0) {
-        let new_pixel = pixel_stack.shift();
-        let x = new_pixel.x;
-        let y = new_pixel.y;
-
-        // console.log(x + ", " + y);
-
-        linear_cords = (y * canvas.width + x) * 4;
-        while (y >= 0 &&
-            (pixels.data[linear_cords] == original_color.r &&
-                pixels.data[linear_cords + 1] == original_color.g &&
-                pixels.data[linear_cords + 2] == original_color.b &&
-                pixels.data[linear_cords + 3] == original_color.a)) {
-            linear_cords -= canvas.width * 4;
-            y--;
-        }
-        linear_cords += canvas.width * 4;
-        y++;
-
-        let reached_left = false;
-        let reached_right = false;
-        while (y++ < canvas.height &&
-            (pixels.data[linear_cords] == original_color.r &&
-                pixels.data[linear_cords + 1] == original_color.g &&
-                pixels.data[linear_cords + 2] == original_color.b &&
-                pixels.data[linear_cords + 3] == original_color.a)) {
-            pixels.data[linear_cords + 3] = color;
-            pixels_num++;
-
-            if (x > 0) {
-                if (pixels.data[linear_cords - 4] == original_color.r &&
-                    pixels.data[linear_cords - 4 + 1] == original_color.g &&
-                    pixels.data[linear_cords - 4 + 2] == original_color.b &&
-                    pixels.data[linear_cords - 4 + 3] == original_color.a) {
-                    if (!reached_left) {
-                        pixel_stack.push({ x: x - 1, y: y });
-                        reached_left = true;
-                    }
-                } else if (reached_left) {
-                    reached_left = false;
-                }
-            }
-
-            if (x < canvas.width - 1) {
-                if (pixels.data[linear_cords + 4] == original_color.r &&
-                    pixels.data[linear_cords + 4 + 1] == original_color.g &&
-                    pixels.data[linear_cords + 4 + 2] == original_color.b &&
-                    pixels.data[linear_cords + 4 + 3] == original_color.a) {
-                    if (!reached_right) {
-                        pixel_stack.push({ x: x + 1, y: y });
-                        reached_right = true;
-                    }
-                } else if (reached_right) {
-                    reached_right = false;
-                }
-            }
-
-            linear_cords += canvas.width * 4;
-        }
-    }
-
-    if (area == true) {
-        let perpixel = Math.pow(Math.pow((painting.x2 - painting.x1), 2) + Math.pow((painting.y2 - painting.y1), 2), 0.5);
-        let pixel_scale = painting.length / perpixel;
-        let area = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2)
-        let str = area + "c㎡"
-        alert(str);
-        // document.querySelector('.front-areatext').innerHTML = str;
-        style.areatextPosition(str);
-        style.toastPosition();
-
-        pixels_num = 0;
-        ctx.putImageData(pixels, 0, 0);
-        return area;
-    } else {
-        pixels_num = 0;
-        ctx.putImageData(pixels, 0, 0);
-    }
-}
-
 function changeActive(idName) {
     for (let i in toolbarBtnlist) {
         document.querySelector(toolbarBtnlist[i]).classList.remove('active');
@@ -145,15 +50,15 @@ function changeActive(idName) {
 };
 
 function getCoordinate(e) {
-    painting.lastX = e.offsetX * painting.canvas.width / painting.canvas.clientWidth | 0;
-    painting.lastY = e.offsetY * painting.canvas.height / painting.canvas.clientHeight | 0;
+    paint.lastX = e.offsetX * paint.canvas.width / paint.canvas.clientWidth | 0;
+    paint.lastY = e.offsetY * paint.canvas.height / paint.canvas.clientHeight | 0;
 }
 
 function getTouchCoordinate(e) {
-    painting.left = painting.canvas.getBoundingClientRect().left;
-    painting.top = painting.canvas.getBoundingClientRect().top;
-    painting.lastX = parseInt(e.touches[0].clientX - painting.left)
-    painting.lastY = parseInt(e.touches[0].clientY - painting.top)
+    paint.left = paint.canvas.getBoundingClientRect().left;
+    paint.top = paint.canvas.getBoundingClientRect().top;
+    paint.lastX = parseInt(e.touches[0].clientX - paint.left)
+    paint.lastY = parseInt(e.touches[0].clientY - paint.top)
 }
 
 window.addEventListener('mousedown', () => {
@@ -164,10 +69,10 @@ window.addEventListener('load', () => {
     console.log("#####  version 1.1.16  #####");
     console.log("#####  fix undo empty  #####");
 
-    // painting.init()
-    // painting.loaded()
+    // paint.init()
+    // paint.loaded()
 
-    painting.saveHistory("brushbtn");
+    paint.saveHistory("brushbtn");
     // init
     $("#message").popover('show');
     style.toastPosition();
@@ -185,18 +90,18 @@ document.querySelector('#nav-predict-tab').addEventListener('click', () => {
 });
 
 // Mouse event
-painting.canvas.addEventListener('mousedown', (e) => {
+paint.canvas.addEventListener('mousedown', (e) => {
     getCoordinate(e)
     switch (state) {
         case 'brush':
-            painting.isDrawing = true;
+            paint.isDrawing = true;
             break;
         case 'bucket':
-            painting.bucketFloodFill(painting.lastX, painting.lastY, hexToRgba(painting.color, 255));
+            paint.bucketFloodFill(paint.lastX, paint.lastY, hexToRgba(paint.color, 255));
             document.querySelector('#brushBtn').click();
             break;
         case 'ruler':
-            if (painting.getScale(e) == true) {
+            if (paint.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
                 state = null;
                 changeActive(null);
@@ -207,103 +112,104 @@ painting.canvas.addEventListener('mousedown', (e) => {
             };
             break;
         case 'area':
-            let area = floodFill(painting.lastX, painting.lastY, 250, true);
-            floodFill(painting.lastX, painting.lastY, 255, false);
+            let area = paint.floodFill(paint.lastX, paint.lastY, 250, true);
+            paint.floodFill(paint.lastX, paint.lastY, 255, false);
 
+            let str = area + "c㎡"
+            alert(str);
+            style.areatextPosition(str);
             // upload image for frontend area compute
-            if (painting.frontUploadFlag != 0) {
-                painting.frontendAreaUpload(area)
-            }
+            paint.frontendAreaUpload(area)
 
             state = null;
             changeActive(null);
             break;
         case 'select':
-            painting.isDrawing = true;
+            paint.isDrawing = true;
             break;
     }
 });
 
-painting.canvas.addEventListener('mousemove', (e) => {
-    // painting.changeColor();
-    painting.changeStroke();
+paint.canvas.addEventListener('mousemove', (e) => {
+    // paint.changeColor();
+    paint.changeStroke();
 
     switch (state) {
         case 'brush':
-            painting.startDrawing(e);
+            paint.startDrawing(e);
             break;
         case 'select':
-            painting.getSelectArea(e);
+            paint.getSelectArea(e);
             break;
     }
 });
 
-painting.canvas.addEventListener('mouseout', () => painting.isDrawing = false);
+paint.canvas.addEventListener('mouseout', () => paint.isDrawing = false);
 
-painting.canvas.addEventListener('mouseup', () => {
+paint.canvas.addEventListener('mouseup', () => {
     if (state) {
-        painting.isDrawing = false;
-        painting.saveHistory();
+        paint.isDrawing = false;
+        paint.saveHistory(state);
     }
 });
 
 window.addEventListener("mousewheel", (e) => {
     if (e.ctrlKey) {
         e.preventDefault();
-        painting.scroll_big_small(e);
+        paint.scroll_big_small(e);
     }
 }, { passive: false });
 
 // Touch event
-painting.canvas.addEventListener('touchstart', (e) => {
+paint.canvas.addEventListener('touchstart', (e) => {
     getTouchCoordinate(e)
     switch (state) {
         case 'brush':
-            painting.isDrawing = true;
+            paint.isDrawing = true;
             break;
         case 'bucket':
-            painting.bucketFloodFill(painting.lastX, painting.lastY, hexToRgba(painting.color, 255));
+            paint.bucketFloodFill(paint.lastX, paint.lastY, hexToRgba(paint.color, 255));
             document.querySelector('#brushBtn').click();
             break;
         case 'area':
-            floodFill(painting.lastX, painting.lastY, 250, true);
-            floodFill(painting.lastX, painting.lastY, 255, false);
+            floodFill(paint.lastX, paint.lastY, 250, true);
+            floodFill(paint.lastX, paint.lastY, 255, false);
 
             // upload image for frontend area compute
-            painting.frontendAreaUpload()
+            paint.frontendAreaUpload()
 
             state = null;
             changeActive(null);
             break;
         case 'select':
-            painting.isDrawing = true;
+            paint.isDrawing = true;
             break;
     }
 });
 
-painting.canvas.addEventListener('touchmove', (e) => {
-    painting.changeStroke();
+paint.canvas.addEventListener('touchmove', (e) => {
+    paint.changeStroke();
 
     if (e.targetTouches.length == 1) {
         switch (state) {
             case 'brush':
-                painting.touchStartDrawing(e, painting.left, painting.top);
+                paint.touchStartDrawing(e, paint.left, paint.top);
                 break;
             case 'select':
-                painting.getSelectAreaMobile(e);
+                paint.getSelectAreaMobile(e);
                 break;
         }
     }
 });
 
 
-painting.canvas.addEventListener('touchend', () => {
-    painting.isDrawing = false;
-    painting.saveHistory("touchend");
+paint.canvas.addEventListener('touchend', () => {
+    paint.isDrawing = false;
+    paint.saveHistory("touchend");
 });
 
 // Save Image
-document.querySelector('#saveImageBtn').addEventListener('click', () => painting.saveImage());
+document.querySelector('#saveImageBtn').addEventListener('click', () => paint.saveImage());
 
 // Open Image
 let openImageInput = document.querySelector('#openImageInput');
@@ -312,8 +218,8 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
     document.querySelector('#nav-home-tab').click()
 });
 openImageInput.addEventListener('change', () => {
-    painting.frontUploadFlag = 1;
-    painting.displayImg();
+    paint.frontUploadFlag = 1;
+    paint.displayImg();
     // document.querySelector('.front-areatext').innerHTML = '';
 });
 
@@ -322,27 +228,27 @@ openImageInput.addEventListener('change', () => {
 document.querySelector('#brushBtn').addEventListener('click', () => {
     changeActive('#brushBtn');
     state = 'brush';
-    painting.color = '#FFFFFF'
+    paint.color = '#FFFFFF'
 });
 
 document.querySelector('#eraserBtn').addEventListener('click', () => {
     changeActive('#eraserBtn');
     state = 'brush';
-    painting.color = '#e8e8e8'
+    paint.color = '#e8e8e8'
 });
 
 document.querySelector('#bucketBtn').addEventListener('click', () => {
     changeActive('#bucketBtn');
     state = 'bucket';
-    painting.color = '#FFFFFF'
+    paint.color = '#FFFFFF'
 });
 
 // Area toolbar
 document.querySelector('#rulerBtn').addEventListener('click', () => {
-    painting.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image.");
-    if (!isNumeric(painting.length)) {
+    paint.length = window.prompt("Enter real lenght(c㎡) for to scale calculate the area\nthan choose two point in the uploda image.");
+    if (!isNumeric(paint.length)) {
         alert('Input has to a number!')
-    } else if (painting.length == null) {
+    } else if (paint.length == null) {
         alert('Please input a number!');
     } else {
         changeActive('#rulerBtn');
@@ -351,7 +257,7 @@ document.querySelector('#rulerBtn').addEventListener('click', () => {
 });
 
 document.querySelector('#areaBtn').addEventListener('click', () => {
-    if (painting.length != 0) {
+    if (paint.length != 0) {
         changeActive('#areaBtn');
         alert('Click wound compute area!')
         state = 'area';
@@ -362,28 +268,28 @@ document.querySelector('#areaBtn').addEventListener('click', () => {
 
 document.querySelector('#selectBtn').addEventListener('click', () => {
     changeActive('#selectBtn');
-    painting.img.src = painting.canvas.toDataURL();
+    paint.img.src = paint.canvas.toDataURL();
     state = 'select';
 });
 
 document.querySelector('#cutBtn').addEventListener('click', () => {
-    if (painting.selectflag == 1) {
-        painting.cutSelectArea();
-        painting.selectflag = 0;
-        painting.backPredictFlag = true;
+    if (paint.selectflag == 1) {
+        paint.cutSelectArea();
+        paint.selectflag = 0;
+        paint.backPredictFlag = true;
     }
 });
 
 // undo, redo, clear toolbar 
-document.querySelector('#undo').addEventListener('click', () => painting.undo(state));
-document.querySelector('#redo').addEventListener('click', () => painting.redo(state));
-document.querySelector('#clearAll').addEventListener('click', () => painting.clearAll());
+document.querySelector('#undo').addEventListener('click', () => paint.undo(state));
+document.querySelector('#redo').addEventListener('click', () => paint.redo(state));
+document.querySelector('#clearAll').addEventListener('click', () => paint.clearAll());
 
 // predict btn, upload original image to backend then predict.
 document.querySelector('#predictAreaBtn').addEventListener('click', () => {
-    if (painting.length == 0) {
+    if (paint.length == 0) {
         alert('No scale, Please give scale first!');
-    } else if (painting.backPredictFlag != true) {
+    } else if (paint.backPredictFlag != true) {
         alert('This is same images!');
     } else {
         document.querySelector('#nav-predict-tab').click();
@@ -391,8 +297,8 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_predict();
-        painting.backPredictFlag = false;
+        paint.backend_predict();
+        paint.backPredictFlag = false;
 
         // clean old iou image
         document.querySelector('#iouImg').src = "../assets/img/preview/pre_bg.jpg";
@@ -401,13 +307,13 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
 
 // iou btn, upload cavans image to backend with predcit result do iou calculate.
 document.querySelector('#iouBtn').addEventListener('click', () => {
-    if (painting.iouFlag) {
+    if (paint.iouFlag) {
         document.querySelector('#nav-predict-tab').click();
         let close = document.querySelectorAll('.btn-close');
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        painting.backend_iou_upload();
+        paint.backend_iou_upload();
     } else {
         alert("Error Operation.");
     }
@@ -440,5 +346,5 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
 });
 
 document.querySelector('#testBtn').addEventListener('click', () => {
-    console.log(painting.temp_key);
+    console.log(paint.temp_key);
 });
