@@ -147,10 +147,8 @@ paint.canvas.addEventListener('mousemove', (e) => {
 paint.canvas.addEventListener('mouseout', () => paint.isDrawing = false);
 
 paint.canvas.addEventListener('mouseup', () => {
-    if (state) {
-        paint.isDrawing = false;
-        paint.saveHistory(state);
-    }
+    paint.saveHistory();
+    paint.isDrawing = false;
 });
 
 window.addEventListener("mousewheel", (e) => {

@@ -2,7 +2,7 @@ import { getStayIn } from '../../js/login.js'
 import * as chart from './chart.js'
 
 class Paint {
-    constructor(canvas, ctx) {
+    constructor() {
         this.canvas = document.querySelector('#canvas');
         this.ctx = this.canvas.getContext('2d', {willReadFrequently: true});
         this.color = '#ffffff';
@@ -203,7 +203,6 @@ class Paint {
             canvasImg.addEventListener('load', e => {
                 this.clearAll();
                 this.setCanvas(canvasImg.height);
-
                 this.canvas.setAttribute('width', canvasImg.width);
                 this.canvas.setAttribute('height', canvasImg.height);
                 this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
@@ -509,6 +508,7 @@ class Paint {
         let img = new Image();
         img = this.canvas.toDataURL();
         this.historyArr.push(img);
+        console.log(this.historyArr)
     }
 
     saveImage() {
@@ -533,17 +533,17 @@ class Paint {
 
         // draw image on canvas
         newImage.addEventListener('load', (event) => {
-            let width2 = newImage.width;
-            let height2 = newImage.height;
+            let width = newImage.width;
+            let height = newImage.height;
 
-            this.canvas.width = width2;
-            this.canvas.height = height2;
+            this.canvas.width = width;
+            this.canvas.height = height;
 
-            this.origin_img_width = width2;
-            this.origin_img_height = height2;
+            this.origin_img_width = width;
+            this.origin_img_height = height;
 
-            this.setCanvas(height2);
-            this.ctx.drawImage(newImage, 0, 0, width2, height2);
+            this.setCanvas(height);
+            this.ctx.drawImage(newImage, 0, 0, width, height);
 
             openImageInput.setAttribute("type", "file");
             this.saveHistory();
