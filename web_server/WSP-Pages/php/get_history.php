@@ -37,7 +37,7 @@ $response = Array();
 $sql_select = "SELECT `patient_id`, `area`, `date`, `original_img`, `predict_img`, `comment` FROM backend_area ".
 "WHERE `patient_id`='".$_SESSION['patientID']."' AND `disable` IS NULL ".
 "UNION ALL ".
-"SELECT `patient_id`, `area`, `date`, `original_img`, NULL, `comment` FROM frontend_area ".
+"SELECT `patient_id`, `area`, `date`, `original_img`, `label_img`, `comment` FROM frontend_area ".
 "WHERE `patient_id`='".$_SESSION['patientID']."' AND `disable` IS NULL ".
 "ORDER BY `date`;";
 

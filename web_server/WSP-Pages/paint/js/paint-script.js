@@ -221,7 +221,6 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
     document.querySelector('#nav-home-tab').click()
 });
 openImageInput.addEventListener('change', () => {
-    paint.frontUploadFlag = 1;
     paint.displayImg();
     // document.querySelector('.front-areatext').innerHTML = '';
 });
@@ -305,6 +304,8 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
 
         // clean old iou image
         document.querySelector('#iouImg').src = "../assets/img/preview/pre_bg.jpg";
+        document.querySelector('#iouText').innerHTML = 'IOU';
+        document.querySelector('#areaText').innerHTML = 'Area';
     }
 });
 

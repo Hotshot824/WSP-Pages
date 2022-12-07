@@ -42,9 +42,10 @@ class Paint extends base.BasePaint {
 
     setFlag() {
         this.temp_key;
-        this.original_img;
-        this.original_label;
-        this.frontUploadFlag = 0;
+        this.last_origin;
+        this.last_label;
+        this.last_hand_label;
+        this.last_pixel_length
         this.iouFlag = false;
         this.backPredictFlag = false;
     }
@@ -329,8 +330,9 @@ class Paint extends base.BasePaint {
 
         if (area == true) {
             let perpixel = Math.pow(Math.pow((this.x2 - this.x1), 2) + Math.pow((this.y2 - this.y1), 2), 0.5);
-            let pixel_scale = this.length / perpixel;
-            let area = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2)
+            let pixel_length = this.length / perpixel;
+            this.last_pixel_length = pixel_length;
+            let area = (pixels_num * (pixel_length ** 2)).toFixed(2)
             this.ctx.putImageData(pixels, 0, 0);
             return area;
         } else {
@@ -384,16 +386,16 @@ class Paint extends base.BasePaint {
     }
 
     async backend_iou_upload() {
-        if (this.canvas.toDataURL() == this.original_label) {
+        if (this.canvas.toDataURL() == this.last_label) {
             return;
         } else {
-            this.original_img = this.canvas.toDataURL();
+            this.last_origin = this.canvas.toDataURL();
         }
 
         var data = {
             "stay_in": getStayIn(),
             "temp_key": this.temp_key,
-            "label": this.original_img
+            "label": this.last_origin
         }
 
         let imgpreview = "../assets/img/preview/pre_img.gif"
@@ -417,25 +419,18 @@ class Paint extends base.BasePaint {
     }
 
     async frontendAreaUpload(area) {
-        // to image
-        // if (!this.frontUploadFlag) {
-        //     return;
-        // } else {
-        //     this.frontUploadFlag = false;
-        // }
-
-        if (this.canvas.toDataURL() == this.original_label) {
+        if (this.canvas.toDataURL() == this.last_hand_label) {
             return;
         } else {
-            this.original_label = this.canvas.toDataURL();
+            this.last_hand_label = this.canvas.toDataURL();
         }
 
         let data = {
             'temp_key': this.temp_key,
             'stay_in': getStayIn(),
             'area': area,
-            'original_img': this.original_img,
-            'label_img': this.original_label,
+            'original_img': this.last_origin,
+            'label_img': this.last_label,
         }
         await fetch('../php/frontend_area.php', {
             method: 'POST',
@@ -451,7 +446,7 @@ class Paint extends base.BasePaint {
                 console.log(`Error: ${error}`);
             })
     }
-    
+
     // Check image type
     checkFiletype(file) {
         if (file.type.match('image/jpg|image/jpeg|image/png')) {

@@ -93,7 +93,6 @@ async function showHistoryPredict(index) {
             return response.json();
         })
         .then((response) => {
-            console.log(response);
             document.querySelector('#historyOriginal').src = response['original_img'];
             if (response['predict_img']) {
                 document.querySelector('#historyPredictImg').classList.remove('d-none');
