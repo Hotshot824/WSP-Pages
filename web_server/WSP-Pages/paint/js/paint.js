@@ -1,18 +1,10 @@
 import { getStayIn } from '../../js/login.js'
 import * as chart from './chart.js'
+import * as base from './base-paint.js'
 
-class Paint {
+class Paint extends base.BasePaint {
     constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
-        this.color = '#ffffff';
-        this.lineWidth = 10;
-        this.lineJoin = "round";
-        this.lineCap = "round";
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight * 0.99;
-        this.canvas.beginHeight = window.innerHeight;
-
+        super(canvas, ctx)
         this.setDrawingVar();
         this.setBaseScale();
         this.setCutScale();
@@ -24,18 +16,6 @@ class Paint {
         this.forMarginLeft = 0;
 
         this.setFlag();
-    }
-
-    setDrawingVar() {
-        this.isDrawing = false;
-        this.lastX = 0;
-        this.lastY = 0;
-        this.hue = 0;
-        this.step = -1;
-        this.historyArr = [];
-        this.left = 0;
-        this.top = 0;
-        this.length = 0;
     }
 
     setBaseScale() {
@@ -67,151 +47,6 @@ class Paint {
         this.frontUploadFlag = 0;
         this.iouFlag = false;
         this.backPredictFlag = false;
-    }
-
-    setCanvas(temp_height) {
-        if (temp_height < this.canvas.beginHeight) {
-            this.canvas.style.position = "absolute";
-            this.canvas.style.display = "block";
-            this.canvas.style.margin = "auto";
-            this.canvas.style.left = 0;
-            this.canvas.style.right = 0;
-            this.canvas.style.top = 0;
-            this.canvas.style.bottom = 0;
-        } else {
-            this.canvas.style.position = "absolute";
-            this.canvas.style.display = "block";
-            this.canvas.style.margin = "auto";
-            this.canvas.style.left = 0;
-            this.canvas.style.right = 0;
-            this.canvas.style.top = "";
-            this.canvas.style.bottom = "";
-        }
-    }
-
-    startDrawing(e) {
-
-        if (!this.isDrawing) return;
-
-        this.ctx.strokeStyle = this.color;
-
-        this.ctx.lineWidth = this.lineWidth;
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.lastX, this.lastY);
-        this.ctx.lineTo(e.offsetX * this.canvas.width / this.canvas.clientWidth | 0,
-            e.offsetY * this.canvas.height / this.canvas.clientHeight | 0);
-
-        this.ctx.lineJoin = this.lineJoin;
-        this.ctx.lineCap = this.lineCap;
-
-        this.ctx.stroke();
-        this.lastX = e.offsetX * this.canvas.width / this.canvas.clientWidth | 0;
-        this.lastY = e.offsetY * this.canvas.height / this.canvas.clientHeight | 0;
-
-    }
-
-    touchStartDrawing(e, left, top) {
-
-        if (!this.isDrawing) return;
-        e.preventDefault();
-
-        this.ctx.strokeStyle = this.color;
-
-
-        this.ctx.lineWidth = this.lineWidth;
-
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.lastX, this.lastY);
-        this.ctx.lineTo(e.touches[0].clientX - left,
-            e.touches[0].clientY - top);
-        this.ctx.lineJoin = this.lineJoin;
-        this.ctx.lineCap = this.lineCap;
-
-        this.ctx.stroke();
-        this.lastX = e.touches[0].clientX - left;
-        this.lastY = e.touches[0].clientY - top;
-
-    }
-
-    scroll_big_small(e) {
-        this.transOrigin = 0 + "px " + this.midy * this.scal + "px";
-        this.forMarginLeft = window.innerWidth / 2 - (this.canvas.width * this.scal) / 2;
-        if (this.forMarginLeft < 0) {
-            this.forMarginLeft = "auto";
-        }
-        else {
-            this.forMarginLeft = this.forMarginLeft + "px";
-        }
-
-        if (e.wheelDelta > 0 && e.ctrlKey) {
-            this.canvas.style.position = "absolute";
-            this.canvas.style.display = "block";
-            this.canvas.style.marginLeft = this.forMarginLeft;
-
-            this.scal = (parseFloat(this.scal) + 0.01).toFixed(2);
-            this.canvas.style.transform = 'scale(' + this.scal + ')';
-            this.canvas.style.transformOrigin = this.transOrigin;
-
-        }
-        else if (e.wheelDelta < 0 && e.ctrlKey) {
-
-            this.canvas.style.position = "absolute";
-            this.canvas.style.display = "block";
-            this.canvas.style.marginLeft = this.forMarginLeft;
-
-            this.scal = (parseFloat(this.scal) - 0.01).toFixed(2);
-            this.canvas.style.transform = 'scale(' + this.scal + ')';
-            this.canvas.style.transformOrigin = this.transOrigin;
-
-        }
-        return false;
-    }
-
-    changeStroke() {
-        let strokeWidth = document.querySelector('#stroke').value;
-        if (isNaN(strokeWidth)) return;
-        this.lineWidth = strokeWidth;
-    }
-
-    clearAll() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    redo(str) {
-        if (this.step < this.historyArr.length - 1) {
-            this.step++;
-            let canvasImg = new Image();
-            canvasImg.src = this.historyArr[this.step];
-            canvasImg.addEventListener('load', e => {
-                this.clearAll();
-                this.setCanvas(canvasImg.height);
-                this.canvas.setAttribute('width', canvasImg.width);
-                this.canvas.setAttribute('height', canvasImg.height);
-                this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
-                if (str == "select") {
-                    this.img = canvasImg;
-                }
-            })
-        }
-    }
-
-    undo(str) {
-        if (this.step > 0) {
-            this.step--;
-            let canvasImg = new Image();
-            canvasImg.src = this.historyArr[this.step];
-            canvasImg.addEventListener('load', e => {
-                this.clearAll();
-                this.setCanvas(canvasImg.height);
-
-                this.canvas.setAttribute('width', canvasImg.width);
-                this.canvas.setAttribute('height', canvasImg.height);
-                this.ctx.drawImage(canvasImg, 0, 0, canvasImg.width, canvasImg.height);
-                if (str == "select") {
-                    this.img = canvasImg;
-                }
-            })
-        }
     }
 
     getScale() {
@@ -418,54 +253,89 @@ class Paint {
         this.ctx.putImageData(pixels, 0, 0);
     }
 
-    saveHistory(str) {
-        this.step++;
-        if (this.step < this.historyArr.length) { this.historyArr.length = this.step };
-        let img = new Image();
-        img = this.canvas.toDataURL();
-        this.historyArr.push(img);
-    }
+    // bucket and frontend area calculate algorithm.
+    floodFill(x, y, color, area) {
+        let pixels_num = 0
+        let pixel_stack = [{ x: x, y: y }];
+        let pixels = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let linear_cords = (y * canvas.width + x) * 4;
+        let original_color = {
+            r: pixels.data[linear_cords],
+            g: pixels.data[linear_cords + 1],
+            b: pixels.data[linear_cords + 2],
+            a: pixels.data[linear_cords + 3]
+        };
 
-    saveImage() {
-        let download = document.querySelector('#saveImageBtn');
-        let image = this.canvas.toDataURL();
-        download.setAttribute("href", image);
-    }
+        while (pixel_stack.length > 0) {
+            let new_pixel = pixel_stack.shift();
+            let x = new_pixel.x;
+            let y = new_pixel.y;
 
-    displayImg() {
-        let newImage = new Image();
-        let openImageInput = document.querySelector('#openImageInput');
-        // to image
-        if (openImageInput.files[0]) {
-            let reader = new FileReader();
-            reader.readAsDataURL(openImageInput.files[0]);
-            reader.onload = (e) => {
-                newImage.setAttribute("src", reader.result);
-                this.original_img = reader.result;
-                openImageInput.setAttribute("type", "text");
-            };
+            // console.log(x + ", " + y);
+
+            linear_cords = (y * canvas.width + x) * 4;
+            while (y >= 0 &&
+                (pixels.data[linear_cords] == original_color.r &&
+                    pixels.data[linear_cords + 1] == original_color.g &&
+                    pixels.data[linear_cords + 2] == original_color.b &&
+                    pixels.data[linear_cords + 3] == original_color.a)) {
+                linear_cords -= canvas.width * 4;
+                y--;
+            }
+            linear_cords += canvas.width * 4;
+            y++;
+
+            let reached_left = false;
+            let reached_right = false;
+            while (y++ < canvas.height &&
+                (pixels.data[linear_cords] == original_color.r &&
+                    pixels.data[linear_cords + 1] == original_color.g &&
+                    pixels.data[linear_cords + 2] == original_color.b &&
+                    pixels.data[linear_cords + 3] == original_color.a)) {
+                pixels.data[linear_cords + 3] = color;
+                pixels_num++;
+
+                if (x > 0) {
+                    if (pixels.data[linear_cords - 4] == original_color.r &&
+                        pixels.data[linear_cords - 4 + 1] == original_color.g &&
+                        pixels.data[linear_cords - 4 + 2] == original_color.b &&
+                        pixels.data[linear_cords - 4 + 3] == original_color.a) {
+                        if (!reached_left) {
+                            pixel_stack.push({ x: x - 1, y: y });
+                            reached_left = true;
+                        }
+                    } else if (reached_left) {
+                        reached_left = false;
+                    }
+                }
+
+                if (x < canvas.width - 1) {
+                    if (pixels.data[linear_cords + 4] == original_color.r &&
+                        pixels.data[linear_cords + 4 + 1] == original_color.g &&
+                        pixels.data[linear_cords + 4 + 2] == original_color.b &&
+                        pixels.data[linear_cords + 4 + 3] == original_color.a) {
+                        if (!reached_right) {
+                            pixel_stack.push({ x: x + 1, y: y });
+                            reached_right = true;
+                        }
+                    } else if (reached_right) {
+                        reached_right = false;
+                    }
+                }
+
+                linear_cords += canvas.width * 4;
+            }
         }
 
-        // draw image on canvas
-        newImage.addEventListener('load', (event) => {
-            let width2 = newImage.width;
-            let height2 = newImage.height;
-
-            this.canvas.width = width2;
-            this.canvas.height = height2;
-
-            this.origin_img_width = width2;
-            this.origin_img_height = height2;
-
-            this.setCanvas(height2);
-            this.ctx.drawImage(newImage, 0, 0, width2, height2);
-
-            openImageInput.setAttribute("type", "file");
-            this.saveHistory();
-        });
-
-        this.iouFlag = false;
-        this.backPredictFlag = true;
+        if (area == true) {
+            let perpixel = Math.pow(Math.pow((this.x2 - this.x1), 2) + Math.pow((this.y2 - this.y1), 2), 0.5);
+            let pixel_scale = this.length / perpixel;
+            let area = (pixels_num * (pixel_scale * pixel_scale)).toFixed(2)
+            this.ctx.putImageData(pixels, 0, 0);
+            return area;
+        } else {
+            this.ctx.putImageData(pixels, 0, 0);
+        }
     }
 
     async backend_predict() {
@@ -581,21 +451,21 @@ class Paint {
                 console.log(`Error: ${error}`);
             })
     }
-}
-
-// Check image type
-function checkFiletype(file) {
-    if (file.type.match('image/jpg|image/jpeg|image/png')) {
-        return false;
+    
+    // Check image type
+    checkFiletype(file) {
+        if (file.type.match('image/jpg|image/jpeg|image/png')) {
+            return false;
+        }
+        return true;
     }
-    return true;
-}
-// Check image size
-function checkFilesize(file) {
-    if (file.size < 5242880) {
-        return false;
+    // Check image size
+    checkFilesize(file) {
+        if (file.size < 5242880) {
+            return false;
+        }
+        return true;
     }
-    return true;
 }
 
 export { Paint };
