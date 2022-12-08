@@ -8,7 +8,7 @@ function areatextPosition(string = null) {
     if (string) {
         frontAreatext.innerHTML = string;
     }
-    
+
     let text_width = frontAreatext.offsetWidth;
     let text_height = frontAreatext.offsetHeight;
     // frontAreatext.style.transform = 'translate(' + (window.innerWidth - (text_width + 15)) + 'px,' + (window.innerHeight - (text_height + 15)) + 'px)';
@@ -37,4 +37,21 @@ function chartStatus(status) {
     }
 }
 
-export {toastPosition, areatextPosition, loginStatus, chartStatus};
+function enableRuler() {
+    document.querySelector('#scaleText').innerHTML = 'None';
+    document.querySelector('#scaleText').style = 'color: gary;';
+    document.querySelector('#rulerBtn').classList.add("btn-danger");
+    document.querySelector('#rulerBtn').classList.remove("btn-outline-secondary");
+}
+
+function disableRuler() {
+    document.querySelector('#scaleText').innerHTML = 'None';
+    document.querySelector('#scaleText').style = 'color: gary;';
+    document.querySelector('#rulerBtn').classList.remove("btn-danger");
+    document.querySelector('#rulerBtn').classList.add("btn-outline-secondary");
+}
+
+export {
+    toastPosition, areatextPosition, loginStatus,
+    chartStatus, enableRuler, disableRuler
+};

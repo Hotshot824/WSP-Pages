@@ -64,7 +64,7 @@ function getTouchCoordinate(e) {
 }
 
 window.addEventListener('mousedown', () => {
-    $("#message").popover('hide');
+    $('#message').popover('hide');
 });
 
 window.addEventListener('load', () => {
@@ -76,9 +76,10 @@ window.addEventListener('load', () => {
 
     paint.saveHistory("brushbtn");
     // init
-    $("#message").popover('show');
+    $('#message').popover('show');
     style.toastPosition();
-    style.areatextPosition("Hello");
+    style.areatextPosition('Hello');
+    document.querySelector('#signIn').click();
 });
 
 window.addEventListener('resize', () => {
@@ -108,14 +109,12 @@ paint.canvas.addEventListener('mousedown', (e) => {
         case 'ruler':
             if (paint.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
+                
                 state = null;
                 changeActive(null);
 
                 // scale ready animate
-                document.querySelector('#scaleText').innerHTML = 'None';
-                document.querySelector('#scaleText').style = 'color: gary;';
-                document.querySelector('#rulerBtn').classList.add("btn-danger");
-                document.querySelector('#rulerBtn').classList.remove("btn-outline-secondary");
+                style.enableRuler();
             };
             break;
         case 'area':
@@ -167,9 +166,9 @@ window.addEventListener("mousewheel", (e) => {
     }
 }, { passive: false });
 
-var store = {
-    scale: 1
-};
+// var store = {
+//     scale: 1
+// };
 // Touch event
 paint.canvas.addEventListener('touchstart', (e) => {
     if (state != 'ruler' && paint.scaleCount != 1) {
@@ -188,6 +187,9 @@ paint.canvas.addEventListener('touchstart', (e) => {
             paint.floodFill(paint.lastX, paint.lastY, 250, true);
             paint.floodFill(paint.lastX, paint.lastY, 255, false);
 
+            let str = area + "c㎡"
+            alert(str);
+            style.areatextPosition(str);
             // upload image for frontend area compute
             paint.frontendAreaUpload()
 
@@ -198,8 +200,8 @@ paint.canvas.addEventListener('touchstart', (e) => {
             paint.isDrawing = true;
             break;
         default:
-            store.pageX1 = e.touches[0].clientX;
-            store.pageY1 = e.touches[0].clientY;
+            // store.pageX1 = e.touches[0].clientX;
+            // store.pageY1 = e.touches[0].clientY;
             break;
     }
 });
@@ -225,12 +227,13 @@ paint.canvas.addEventListener('touchend', (e) => {
     if (state) {
         paint.isDrawing = false;
         paint.saveHistory("touchend");
-    } else {
-        console.log(e);
-        store.pageX2 = e.changedTouches[0].clientX;
-        store.pageY2 = e.changedTouches[0].clientY;
-        console.log(store);
-    }
+    } 
+    // else {
+    //     console.log(e);
+    //     store.pageX2 = e.changedTouches[0].clientX;
+    //     store.pageY2 = e.changedTouches[0].clientY;
+    //     console.log(store);
+    // }
 });
 
 // Save Image
@@ -244,11 +247,7 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
 });
 openImageInput.addEventListener('change', () => {
     paint.displayImg();
-    paint.length = 0;
-    document.querySelector('#scaleText').innerHTML = 'None';
-    document.querySelector('#scaleText').style = 'color: gary;';
-    document.querySelector('#rulerBtn').classList.remove("btn-danger");
-    document.querySelector('#rulerBtn').classList.add("btn-outline-secondary");
+    style.disableRuler();
     // document.querySelector('.front-areatext').innerHTML = '';
 });
 
@@ -285,15 +284,20 @@ document.querySelector('#rulerBtn').addEventListener('click', () => {
     }
 });
 
-document.querySelector('#areaBtn').addEventListener('click', () => {
-    if (paint.length != 0) {
-        changeActive('#areaBtn');
-        alert('Click wound compute area!')
-        state = 'area';
-    } else {
-        alert('No scale, Please give scale first!')
-    }
-});
+let areaBtn = document.querySelectorAll('#areaBtn');
+for (let i = 0; i < areaBtn.length; i++) {
+    areaBtn[i].addEventListener('click', () => {
+        if (!paint.scaleFlag) {
+            alert('No scale, Please give scale first!');
+        } else if (!paint.predictFlag) {
+            alert('Please input a images!');
+        } else {
+            changeActive('#areaBtn');
+            alert('Click wound compute area!')
+            state = 'area';
+        }
+    });
+}
 
 document.querySelector('#selectBtn').addEventListener('click', () => {
     changeActive('#selectBtn');
@@ -305,7 +309,7 @@ document.querySelector('#cutBtn').addEventListener('click', () => {
     if (paint.selectflag == 1) {
         paint.cutSelectArea();
         paint.selectflag = 0;
-        paint.backPredictFlag = true;
+        paint.predictFlag = true;
     }
 });
 
@@ -316,18 +320,18 @@ document.querySelector('#clearAll').addEventListener('click', () => paint.clearA
 
 // predict btn, upload original image to backend then predict.
 document.querySelector('#predictAreaBtn').addEventListener('click', () => {
-    if (paint.length == 0) {
+    if (!paint.scaleFlag) {
         alert('No scale, Please give scale first!');
-    } else if (paint.backPredictFlag != true) {
-        alert('This is same images!');
+    } else if (!paint.predictFlag) {
+        alert('Please input a images!');
     } else {
         document.querySelector('#nav-predict-tab').click();
         let close = document.querySelectorAll('.btn-close');
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
+        
         paint.backend_predict();
-        paint.backPredictFlag = false;
 
         // clean old iou image
         document.querySelector('#iouImg').src = "../assets/img/preview/pre_bg.jpg";

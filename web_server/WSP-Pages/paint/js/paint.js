@@ -47,7 +47,8 @@ class Paint extends base.BasePaint {
         this.last_hand_label;
         this.last_pixel_length
         this.iouFlag = false;
-        this.backPredictFlag = false;
+        this.predictFlag = false;
+        this.scaleFlag = false;
     }
 
     displayImg() {
@@ -83,24 +84,26 @@ class Paint extends base.BasePaint {
         });
 
         this.iouFlag = false;
-        this.backPredictFlag = true;
+        this.predictFlag = true;
+        this.length = 0;
+        this.scaleFlag = false;
     }
 
     getScale() {
         if (this.scaleCount == 1) {
             this.x1 = this.lastX;
             this.y1 = this.lastY;
-
             this.scaleCount++;
             return false;
         }
         else {
+            alert("Enter complete, the distance between the two point is " + this.length);
             this.x2 = this.lastX;
             this.y2 = this.lastY;
-            alert("Enter complete, the distance between the two point is " + this.length);
             this.ruler_deltax = Math.abs(this.x2 - this.x1);
             this.ruler_deltay = Math.abs(this.y2 - this.y1);
             this.scaleCount--;
+            this.scaleFlag = true;
             return true;
         }
     }
@@ -329,6 +332,9 @@ class Paint extends base.BasePaint {
                     pixels.data[linear_cords + 1] == original_color.g &&
                     pixels.data[linear_cords + 2] == original_color.b &&
                     pixels.data[linear_cords + 3] == original_color.a)) {
+                pixels.data[linear_cords] = color;
+                pixels.data[linear_cords + 1] = color;
+                pixels.data[linear_cords + 2] = color;
                 pixels.data[linear_cords + 3] = color;
                 pixels_num++;
 
@@ -384,6 +390,8 @@ class Paint extends base.BasePaint {
             "oringnal_image": img,
         }
 
+        this.last_origin = img;
+
         if (this.ruler_deltax != 0 || this.ruler_deltay != 0) {
             data["x"] = this.ruler_deltax;
             data["y"] = this.ruler_deltay;
@@ -424,6 +432,8 @@ class Paint extends base.BasePaint {
     async backend_iou_upload() {
         if (this.canvas.toDataURL() == this.last_label) {
             return;
+        } else if (this.last_origin == null) {
+            return;
         } else {
             this.last_origin = this.canvas.toDataURL();
         }
@@ -456,6 +466,8 @@ class Paint extends base.BasePaint {
 
     async frontendAreaUpload(area) {
         if (this.canvas.toDataURL() == this.last_hand_label) {
+            return;
+        } else if (!this.predictFlag) {
             return;
         } else {
             this.last_hand_label = this.canvas.toDataURL();
