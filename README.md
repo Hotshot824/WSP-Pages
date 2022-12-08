@@ -5,6 +5,8 @@ WSP is a wound analysis platform, focusing on **pressure sore** type wounds.
 
 ![](https://github.com/Hotshot824/WSP-Pages/blob/main/img/paint_example.png?raw=true)
 
+![](https://github.com/Hotshot824/WSP-Pages/blob/main/img/chart_example.png?raw=true)
+
 # Docker
 This docker compose will listen for:
 * 80 (web service)
