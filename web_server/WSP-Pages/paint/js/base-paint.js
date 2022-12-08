@@ -183,42 +183,6 @@ class BasePaint {
         let image = this.canvas.toDataURL();
         download.setAttribute("href", image);
     }
-
-    displayImg() {
-        let newImage = new Image();
-        let openImageInput = document.querySelector('#openImageInput');
-        // to image
-        if (openImageInput.files[0]) {
-            let reader = new FileReader();
-            reader.readAsDataURL(openImageInput.files[0]);
-            reader.onload = (e) => {
-                newImage.setAttribute("src", reader.result);
-                this.last_origin = reader.result;
-                openImageInput.setAttribute("type", "text");
-            };
-        }
-
-        // draw image on canvas
-        newImage.addEventListener('load', (event) => {
-            let width2 = newImage.width;
-            let height2 = newImage.height;
-
-            this.canvas.width = width2;
-            this.canvas.height = height2;
-
-            this.origin_img_width = width2;
-            this.origin_img_height = height2;
-
-            this.setCanvas(height2);
-            this.ctx.drawImage(newImage, 0, 0, width2, height2);
-
-            openImageInput.setAttribute("type", "file");
-            this.saveHistory();
-        });
-
-        this.iouFlag = false;
-        this.backPredictFlag = true;
-    }
 }
 
 export { BasePaint }

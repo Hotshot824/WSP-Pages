@@ -93,6 +93,9 @@ document.querySelector('#nav-predict-tab').addEventListener('click', () => {
 
 // Mouse event
 paint.canvas.addEventListener('mousedown', (e) => {
+    if (state != 'ruler' && paint.scaleCount != 1) {
+        paint.scaleCount = 1;
+    }
     getCoordinate(e)
     switch (state) {
         case 'brush':
@@ -109,6 +112,8 @@ paint.canvas.addEventListener('mousedown', (e) => {
                 changeActive(null);
 
                 // scale ready animate
+                document.querySelector('#scaleText').innerHTML = 'None';
+                document.querySelector('#scaleText').style = 'color: gary;';
                 document.querySelector('#rulerBtn').classList.add("btn-danger");
                 document.querySelector('#rulerBtn').classList.remove("btn-outline-secondary");
             };
@@ -162,8 +167,14 @@ window.addEventListener("mousewheel", (e) => {
     }
 }, { passive: false });
 
+var store = {
+    scale: 1
+};
 // Touch event
 paint.canvas.addEventListener('touchstart', (e) => {
+    if (state != 'ruler' && paint.scaleCount != 1) {
+        paint.scaleCount = 1;
+    }
     getTouchCoordinate(e)
     switch (state) {
         case 'brush':
@@ -174,8 +185,8 @@ paint.canvas.addEventListener('touchstart', (e) => {
             document.querySelector('#brushBtn').click();
             break;
         case 'area':
-            floodFill(paint.lastX, paint.lastY, 250, true);
-            floodFill(paint.lastX, paint.lastY, 255, false);
+            paint.floodFill(paint.lastX, paint.lastY, 250, true);
+            paint.floodFill(paint.lastX, paint.lastY, 255, false);
 
             // upload image for frontend area compute
             paint.frontendAreaUpload()
@@ -185,6 +196,10 @@ paint.canvas.addEventListener('touchstart', (e) => {
             break;
         case 'select':
             paint.isDrawing = true;
+            break;
+        default:
+            store.pageX1 = e.touches[0].clientX;
+            store.pageY1 = e.touches[0].clientY;
             break;
     }
 });
@@ -200,14 +215,21 @@ paint.canvas.addEventListener('touchmove', (e) => {
             case 'select':
                 paint.getSelectAreaMobile(e);
                 break;
+            default:
+                break;
         }
     }
 });
 
-paint.canvas.addEventListener('touchend', () => {
+paint.canvas.addEventListener('touchend', (e) => {
     if (state) {
         paint.isDrawing = false;
         paint.saveHistory("touchend");
+    } else {
+        console.log(e);
+        store.pageX2 = e.changedTouches[0].clientX;
+        store.pageY2 = e.changedTouches[0].clientY;
+        console.log(store);
     }
 });
 
@@ -222,6 +244,11 @@ document.querySelector('#openImageBtn').addEventListener('click', () => {
 });
 openImageInput.addEventListener('change', () => {
     paint.displayImg();
+    paint.length = 0;
+    document.querySelector('#scaleText').innerHTML = 'None';
+    document.querySelector('#scaleText').style = 'color: gary;';
+    document.querySelector('#rulerBtn').classList.remove("btn-danger");
+    document.querySelector('#rulerBtn').classList.add("btn-outline-secondary");
     // document.querySelector('.front-areatext').innerHTML = '';
 });
 

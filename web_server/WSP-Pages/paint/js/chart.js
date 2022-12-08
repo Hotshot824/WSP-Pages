@@ -57,7 +57,7 @@ function drawingChart(array, id) {
             x: 0.50,
         },
         yaxis: { fixedrange: true },
-        xaxis: { fixedrange: true }
+        xaxis: { fixedrange: true },
     };
     let config = {
         'displayModeBar': false,
@@ -84,7 +84,6 @@ async function showHistoryPredict(index) {
     let imgpreview = "../assets/img/preview/pre_img.gif"
     document.querySelector('#historyOriginal').src = imgpreview;
     document.querySelector('#historyPredict').src = imgpreview;
-    console.log(data);
     await fetch("../php/get_history_image.php", {
         method: "POST",
         body: JSON.stringify(data)
@@ -93,13 +92,9 @@ async function showHistoryPredict(index) {
             return response.json();
         })
         .then((response) => {
+            console.log(response)
             document.querySelector('#historyOriginal').src = response['original_img'];
-            if (response['predict_img']) {
-                document.querySelector('#historyPredictImg').classList.remove('d-none');
-                document.querySelector('#historyPredict').src = response['predict_img'];
-            } else {
-                document.querySelector('#historyPredictImg').classList.add('d-none');
-            }
+            document.querySelector('#historyPredict').src = response['predict_img'];
             document.querySelector('#historyCommentText').value = chartData[index]['comment'];
             document.querySelector('#historyArea').innerHTML = "Area: " + chartData[index]['area'] + 'c㎡';
         })

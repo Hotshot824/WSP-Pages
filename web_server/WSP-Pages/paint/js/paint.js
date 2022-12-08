@@ -50,6 +50,42 @@ class Paint extends base.BasePaint {
         this.backPredictFlag = false;
     }
 
+    displayImg() {
+        let newImage = new Image();
+        let openImageInput = document.querySelector('#openImageInput');
+        // to image
+        if (openImageInput.files[0]) {
+            let reader = new FileReader();
+            reader.readAsDataURL(openImageInput.files[0]);
+            reader.onload = (e) => {
+                newImage.setAttribute("src", reader.result);
+                openImageInput.setAttribute("type", "text");
+            };
+        }
+
+        // draw image on canvas
+        newImage.addEventListener('load', (event) => {
+            let width2 = newImage.width;
+            let height2 = newImage.height;
+
+            this.canvas.width = width2;
+            this.canvas.height = height2;
+
+            this.origin_img_width = width2;
+            this.origin_img_height = height2;
+
+            this.setCanvas(height2);
+            this.ctx.drawImage(newImage, 0, 0, width2, height2);
+
+            openImageInput.setAttribute("type", "file");
+            this.saveHistory();
+            this.last_origin = this.canvas.toDataURL('image/png');
+        });
+
+        this.iouFlag = false;
+        this.backPredictFlag = true;
+    }
+
     getScale() {
         if (this.scaleCount == 1) {
             this.x1 = this.lastX;
@@ -424,13 +460,12 @@ class Paint extends base.BasePaint {
         } else {
             this.last_hand_label = this.canvas.toDataURL();
         }
-
         let data = {
             'temp_key': this.temp_key,
             'stay_in': getStayIn(),
             'area': area,
             'original_img': this.last_origin,
-            'label_img': this.last_label,
+            'label_img': this.last_hand_label,
         }
         await fetch('../php/frontend_area.php', {
             method: 'POST',
