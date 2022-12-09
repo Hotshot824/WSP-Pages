@@ -7,13 +7,13 @@ WSP is a wound analysis platform, focusing on **pressure sore** type wounds.
 
 ![](https://github.com/Hotshot824/WSP-Pages/blob/main/img/chart_example.png?raw=true)
 
-# Docker
+## Docker
 This docker compose will listen for:
 * 80 (web service)
 * 8080 (gui for database, phpMyAdmin.)
 * 3306 (database service)
 
-### Configure
+## Configure
 * Web server php config at `web_server/config/php.ini`
 * SQL initialization script file at `db_server/init/`  
    * about how to create SQL table, user.
@@ -31,14 +31,14 @@ In `php.ini` attributes:
 * `ptmp.tmpfile_max`  
     maximum number of temporary file store.
 
-# Predict module
+## Predict module
 The Predict mod pack is outside of this repository. \
 Download and then put in the following path.
 ```
 web_server/WSP-Pages/wound
 ```
 
-# Build from scratch
+## Build from scratch
 
 1. Clone repository, and install docker.
 2. Download prediction module.
