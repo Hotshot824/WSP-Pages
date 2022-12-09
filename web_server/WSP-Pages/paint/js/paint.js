@@ -467,8 +467,6 @@ class Paint extends base.BasePaint {
     async frontendAreaUpload(area) {
         if (this.canvas.toDataURL() == this.last_hand_label) {
             return;
-        } else if (!this.predictFlag) {
-            return;
         } else {
             this.last_hand_label = this.canvas.toDataURL();
         }
