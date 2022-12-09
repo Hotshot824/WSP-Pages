@@ -79,7 +79,6 @@ window.addEventListener('load', () => {
     $('#message').popover('show');
     style.toastPosition();
     style.areatextPosition('Hello');
-    document.querySelector('#signIn').click();
 });
 
 window.addEventListener('resize', () => {

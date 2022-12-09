@@ -1,22 +1,16 @@
 <?php
 
+require __DIR__ . '/lib/database.php';
+
 $content = trim(file_get_contents("php://input"));
 $decode = json_decode($content, true);
 
-if (isset($decode["stay_in"])) {
-    $lifetime = 86400;
-    ini_set("session.gc_maxlifetime", $lifetime);
-}
-
-// if hava anyone creat session will check time out session
-// ini_set("session.gc_probability", 100);
-session_save_path('/tmp');
-session_start();
+$db = new \database\WSPDB(isset($decode["stay_in"]));
 
 // check data
 $response = Array();
-if (isset($_SESSION['patientID'])) {
-    $response['patientID'] = $_SESSION['patientID'];
+if ($db -> check_login()) {
+    $response['patientID'] = $db -> get_patient_id();
 } else {
     $response['patientID'] = FALSE;
 }

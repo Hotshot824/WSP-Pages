@@ -23,18 +23,19 @@ async function checkLogin() {
                 style.loginStatus(true);
                 style.chartStatus(true);
                 style.areatextPosition('Hello ' + patientID + '!');
-                return;
+                return true;
             }
             style.loginStatus(false);
             style.chartStatus(false);
-            return;
+            document.querySelector('#signIn').click();
+            return false;
         })
         .catch((error) => {
             console.log(`Error: ${error}`);
         })
 }
-window.addEventListener('load', () => {
-    checkLogin();
+window.addEventListener('load', async () => {
+    checkLogin()
 })
 
 document.querySelector('#signUpForm').addEventListener('submit', async (event) => {
