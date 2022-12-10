@@ -92,7 +92,6 @@ async function showHistoryPredict(index) {
             return response.json();
         })
         .then((response) => {
-            console.log(response)
             document.querySelector('#historyOriginal').src = response['original_img'];
             document.querySelector('#historyPredict').src = response['predict_img'];
             document.querySelector('#historyCommentText').value = chartData[index]['comment'];

@@ -35,7 +35,7 @@ async function checkLogin() {
         })
 }
 window.addEventListener('load', async () => {
-    checkLogin()
+    checkLogin();
 })
 
 document.querySelector('#signUpForm').addEventListener('submit', async (event) => {

@@ -2,6 +2,7 @@
 
 require __DIR__ . '/lib/image.php';
 require __DIR__ . '/lib/tmpfile.php';
+require __DIR__ . '/lib/database.php';
 
 // Upload directory
 $content = trim(file_get_contents("php://input"));
@@ -11,9 +12,8 @@ $path = "/etc/php/8.1/cli/php.ini";
 $db_default = parse_ini_file($path);
 
 $temp_key = $decoded['temp_key'];
-$upload_path = $db_default['ptmp.path'];
-$result_path = $upload_path . $temp_key . "/";
-$upload_path = $upload_path . $temp_key . "/upload/";
+$result_path = $db_default['ptmp.path'] . $temp_key . "/";
+$upload_path = $result_path . "upload/";
 
 \image\decode_images_move($decoded['label'], $result_path, 'iou_label.png');
 
@@ -26,25 +26,28 @@ $response['iou_image'] = \image\get_image_to_base64($result_path, 'iou_result.pn
 $response['iou_value'] = $IOU; 
 
 // check login
-if (isset($decoded['stay_in'])) {
-    $lifetime = 86400;
-    ini_set("session.gc_maxlifetime", $lifetime);
+$db = new \database\WSPDB(isset($decode["stay_in"]));
+if (!$db -> check_login()) {
+    exit(json_encode($response));
 }
-session_save_path('/tmp');
-session_start();
 
-if (!isset($_SESSION['patientID'])) {
+$response['error'] = $db -> database_connect();
+if (isset($response['error'])) {
     exit(json_encode($response));
 }
 
 $cur_date = $_SESSION['last_predict_date'];
+$store_path = $db_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/backend/";
 
-$predict = $result_path . 'predict_ccl.png';
-$store_path = "/home/wsp/mysql_image/" . $_SESSION['patientID'] . "/";
-$iou_store_path = $store_path . "iou/";
-$iou = $result_path . 'iou_label.png';
+\tmpfile\stoage_file(
+    $result_path.'iou_label.png',
+    $store_path."iou/".$cur_date.".png",
+);
 
-\tmpfile\store_iou_result($_SESSION['patientID'], $iou_store_path, $iou, $cur_date);
+$response['error'] = $db -> update_iou_result($store_path."iou/".$cur_date.".png", $cur_date);
+if (isset($response['error'])) {
+    exit(json_encode($response));
+}
 
 echo json_encode($response);
 ?>

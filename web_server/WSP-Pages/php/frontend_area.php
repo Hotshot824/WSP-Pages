@@ -16,12 +16,8 @@ $temp_key = $decoded['temp_key'];
 $upload_path = $db_default['ptmp.path'];
 $upload_path = $upload_path . $temp_key . "/";
 
-if (!file_exists($upload_path)) {
-    mkdir($upload_path, 0777, true);
-}
-
-\tmpfile\move_file($decoded['original_img'], $upload_path, 'f_original.png');
-\tmpfile\move_file($decoded['label_img'], $upload_path, 'f_label.png');
+\tmpfile\upload_file($decoded['original_img'], $upload_path, 'f_original.png');
+\tmpfile\upload_file($decoded['label_img'], $upload_path, 'f_label.png');
 
 // check login
 if (isset($decoded['stay_in'])) {

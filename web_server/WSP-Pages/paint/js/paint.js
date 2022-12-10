@@ -413,10 +413,16 @@ class Paint extends base.BasePaint {
             body: JSON.stringify(data)
         })
             .then((response) => {
-                this.iouFlag = true;
                 return response.json();
             })
             .then((response) => {
+                if (response['error']) {
+                    alert(response['error'])
+                }
+                return response;
+            })
+            .then((response) => {
+                this.iouFlag = true;
                 document.querySelector('#originalImg').src = response['oringnal_image'];
                 document.querySelector('#overlayImg').src = response['overlay_image'];
                 document.querySelector('#superpositionImg').src = response['super_position_image'];
@@ -453,6 +459,12 @@ class Paint extends base.BasePaint {
         })
             .then((response) => {
                 return response.json();
+            })
+            .then((response) => {
+                if (response['error']) {
+                    alert(response['error'])
+                }
+                return response;
             })
             .then((response) => {
                 document.querySelector('#iouImg').src = response['iou_image'];
