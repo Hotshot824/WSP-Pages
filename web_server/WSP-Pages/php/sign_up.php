@@ -7,10 +7,10 @@ function close_mysqli($mysqli) {
 
 // get jsondecode
 $content = trim(file_get_contents("php://input"));
-$text = json_decode($content, true);
-$patientID = $text["patientID"];
-$password = $text["password"];
-$emailAddress = $text['emailAddress'];
+$decode = json_decode($content, true);
+$patientID = $decode["patientID"];
+$password = $decode["password"];
+$emailAddress = $decode['emailAddress'];
 
 $response = Array();
 

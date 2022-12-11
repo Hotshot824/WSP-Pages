@@ -106,6 +106,7 @@
             </div>
             <div>
                 <div class="btn-group" role="group">
+                    <button id="testBtn" class="btn btn-outline-secondary">test</button>
                     <button type="button" class="btn btn-outline-success d-none" id="chartBtn" tabindex="0"
                         data-bs-toggle="popover" data-bs-trigger="focus hover" data-bs-html="true"
                         data-bs-content="User history data drawing a wound tracechart.">
@@ -248,7 +249,14 @@
                     </div>
                 </div>
                 <section class="page-section py-5" id="chart">
-                    <div id="areaChart" class="shadow"></div>
+                    <div class="row py-1 gx-4 gx-lg-5 justify-content-center shadow" id="imageBox">
+                        <div class="col-lg-12 col-sm-12 text-center">
+                            <div id="areaChart"></div>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 pb-3 text-center">
+                            <p class="text-dark m-1 py-2" id="storage">IOU</p>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

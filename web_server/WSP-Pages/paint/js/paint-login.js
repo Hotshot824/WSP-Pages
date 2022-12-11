@@ -1,7 +1,7 @@
 import * as style from './style.js';
 import * as login from '../../js/login.js';
 
-var patientID;
+var patientID, max_size, storage_size;
 
 function exitPaint(event) {
     // Cancel the event as stated by the standard.
@@ -20,6 +20,12 @@ async function checkLogin() {
         .then((response) => {
             if (response['patientID']) {
                 patientID = response['patientID'];
+                max_size = parseInt(response['max_size']);
+                storage_size = parseInt(response['storage_size']);
+                document.querySelector('#storage').innerHTML = (storage_size/1024).toFixed(2) + '/' + (max_size/1024) + 'Mb'; 
+                if (storage_size > max_size) {
+                    alert('Storage space is full! Please clear some data.')
+                }
                 style.loginStatus(true);
                 style.chartStatus(true);
                 style.areatextPosition('Hello ' + patientID + '!');
@@ -34,7 +40,7 @@ async function checkLogin() {
             console.log(`Error: ${error}`);
         })
 }
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
     checkLogin();
 })
 

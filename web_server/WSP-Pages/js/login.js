@@ -36,10 +36,11 @@ function getStayIn() {
 
 async function signInCheck() {
     let data = {
-        "stay_in": getStayIn()
+        'type': 'checklogin',
+        'stay_in': getStayIn()
     }
     if (getCookie('PHPSESSID') != "") {
-        let response = await fetch("/php/sign_in_check.php", {
+        let response = await fetch("/interface.php", {
             method: "POST",
             body: JSON.stringify(data)
         })
@@ -50,7 +51,7 @@ async function signInCheck() {
 
 async function logOut() {
     delGlobalCookie('stay_in');
-    let response = await fetch("/php/log_out.php", {
+    let response = await fetch("/interface.php?type=logout", {
         method: "GET",
     })
     return response;
@@ -64,7 +65,8 @@ async function signUp(event, form) {
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
-        return await fetch("/php/sign_up.php", {
+        formDataObiect['type'] = 'signup';
+        return await fetch("/interface.php", {
             method: "POST",
             body: JSON.stringify(formDataObiect)
         })
@@ -79,10 +81,11 @@ async function signIn(event, form) {
         let formData = new FormData(form);
         let formDataObiect = Object.fromEntries(formData.entries());
         formDataObiect['password'] = sha256(formDataObiect['password']);
+        formDataObiect['type'] = 'signin';
         if (formDataObiect['stayIn'] == 'on') {
             document.cookie = "stay_in=on;path=/;";
         }
-        return await fetch("/php/sign_in.php", {
+        return await fetch("/interface.php", {
             method: "POST",
             body: JSON.stringify(formDataObiect)
         })

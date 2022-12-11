@@ -9,10 +9,11 @@ $db = new \database\WSPDB(isset($decode["stay_in"]));
 
 // check data
 $response = Array();
-if ($db -> check_login()) {
-    $response['patientID'] = $db -> get_patient_id();
+if ($db -> Check_login()) {
+    $response['patientID'] = $db -> Get_patient_id();
 } else {
     $response['patientID'] = FALSE;
+    exit(json_encode($response));
 }
 
 echo json_encode($response);

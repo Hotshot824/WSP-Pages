@@ -5,7 +5,7 @@ require __DIR__ . '/lib/tmpfile.php';
 require __DIR__ . '/lib/database.php';
 
 $path = "/etc/php/8.1/cli/php.ini";
-$db_default = parse_ini_file($path);
+$php_default = parse_ini_file($path);
 
 // temporary file clear function.
 \tmpfile\random_remove_tmpfile();
@@ -15,7 +15,7 @@ $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
 
 $temp_key = $decoded['temp_key'];
-$result_path = $db_default['ptmp.path'] . $temp_key . "/";
+$result_path = $php_default['ptmp.path'] . $temp_key . "/";
 $upload_path = $result_path . "upload/";
 
 // decode image move to upload path
@@ -52,16 +52,16 @@ $response['super_position_image'] = \image\get_image_to_base64($result_path, 'su
 $response['area_image'] = \image\get_image_to_base64($result_path, 'area.png');
 
 $db = new \database\WSPDB(isset($decode["stay_in"]));
-if (!$db -> check_login()) {
+if (!$db -> Check_login()) {
     exit(json_encode($response));
 }
 
-$response['error'] = $db -> database_connect();
+$response['error'] = $db -> Database_connect();
 if (isset($response['error'])) {
     exit(json_encode($response));
 }
 
-$store_path = $db_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/backend/";
+$store_path = $php_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/backend/";
 $cur_date = date("Y-m-d_H-i-s");
 $_SESSION['last_predict_date'] = $cur_date;
 
@@ -78,7 +78,7 @@ $_SESSION['last_predict_date'] = $cur_date;
     $store_path."predict/".$cur_date.".png",
 );
 
-$response['error'] = $db -> insert_predict_result(
+$response['error'] = $db -> Insert_predict_result(
     $area, 
     $cur_date, 
     $store_path."original/".$cur_date.".png",

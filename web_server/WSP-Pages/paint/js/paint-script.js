@@ -108,7 +108,7 @@ paint.canvas.addEventListener('mousedown', (e) => {
         case 'ruler':
             if (paint.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
-                
+
                 state = null;
                 changeActive(null);
 
@@ -226,7 +226,7 @@ paint.canvas.addEventListener('touchend', (e) => {
     if (state) {
         paint.isDrawing = false;
         paint.saveHistory("touchend");
-    } 
+    }
     // else {
     //     console.log(e);
     //     store.pageX2 = e.changedTouches[0].clientX;
@@ -329,7 +329,7 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        
+
         paint.backend_predict();
 
         // clean old iou image
@@ -379,6 +379,14 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
     }
 });
 
-// document.querySelector('#testBtn').addEventListener('click', () => {
-//     console.log(paint.temp_key);
-// });
+document.querySelector('#testBtn').addEventListener('click', () => {
+    fetch("/interface.php?type=logout", {
+        method: "GET",
+    }).then((response) => {
+        return response.text()
+    }).then((response) => {
+        console.log(response);
+    })
+
+
+});

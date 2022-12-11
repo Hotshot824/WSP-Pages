@@ -29,10 +29,6 @@ session_save_path('/tmp');
 session_start();
 
 $response = Array();
-// $sql_select = "SELECT `date`, `area`, `original_img`, `predict_img`, `comment` " .
-// "FROM `backend_area` " .
-// "WHERE `patient_id` = '" . $_SESSION['patientID'] . "' AND `disable` IS NULL ".
-// "ORDER BY `date`;";
 
 $sql_select = "SELECT `patient_id`, `area`, `date`, `original_img`, `predict_img`, `comment` FROM backend_area ".
 "WHERE `patient_id`='".$_SESSION['patientID']."' AND `disable` IS NULL ".
