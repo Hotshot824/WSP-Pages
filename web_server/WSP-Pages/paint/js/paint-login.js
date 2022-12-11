@@ -20,12 +20,6 @@ async function checkLogin() {
         .then((response) => {
             if (response['patientID']) {
                 patientID = response['patientID'];
-                max_size = parseInt(response['max_size']);
-                storage_size = parseInt(response['storage_size']);
-                document.querySelector('#storage').innerHTML = (storage_size/1024).toFixed(2) + '/' + (max_size/1024) + 'Mb'; 
-                if (storage_size > max_size) {
-                    alert('Storage space is full! Please clear some data.')
-                }
                 style.loginStatus(true);
                 style.chartStatus(true);
                 style.areatextPosition('Hello ' + patientID + '!');
@@ -51,8 +45,8 @@ document.querySelector('#signUpForm').addEventListener('submit', async (event) =
             return response.json()
         })
         .then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
+            if (response['error']) {
+                alert(response['error']);
                 return;
             }
             alert("Account created successfully!")
@@ -76,8 +70,8 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
             return response.json()
         })
         .then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
+            if (response['error']) {
+                alert(response['error']);
                 return;
             }
 
@@ -89,6 +83,9 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
             for (let i = 0; i < input.length; i++) {
                 input[i].value = null;
             }
+
+            window.removeEventListener("beforeunload", exitPaint);
+            location.reload();
         })
         .catch((error) => {
             console.log(`Error: ${error}`);

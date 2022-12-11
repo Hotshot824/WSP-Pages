@@ -27,7 +27,7 @@ define('_DBname', 'WSP');
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
 } catch (Exception $e){
-    $response['error_status'] = "Error: Database connection error!";
+    $response['error'] = "Error: Database connection error!";
     exit(json_encode($response));
 }
 
@@ -51,12 +51,12 @@ $sql_insert = "INSERT INTO `patient_info` (patient_id, patient_password, salt)" 
 if($mysqli){
     $result = mysqli_query($mysqli, $sql_exist);
     if(mysqli_num_rows($result) > 0){
-        $response['error_status'] = "Error: Account already existed!";
+        $response['error'] = "Error: Account already existed!";
         exit(json_encode($response));
     }
 
     if($password != $invite_code){
-        $response['error_status'] = "Error: Incorrect invitation code!"; 
+        $response['error'] = "Error: Incorrect invitation code!"; 
         exit(json_encode($response));
     }
 

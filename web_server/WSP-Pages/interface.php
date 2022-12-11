@@ -7,6 +7,9 @@ switch($method) {
             case 'logout':
                 include './php/logout.php';
                 break;
+            case 'checkspace':
+                include './php/get_space.php';
+                break;
             default:
                 exit(json_encode(Array(
                     'error' => 'Error GET request!'
