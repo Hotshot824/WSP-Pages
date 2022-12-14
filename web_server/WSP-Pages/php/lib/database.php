@@ -123,5 +123,19 @@ class WSPDB extends BaseDB {
             }
         }
     }
+
+    public function Remove_result($store_path, $cur_date) {
+        $update = "UPDATE `backend_area` " .
+        "SET `iou_img` = '" . $store_path . "' " .
+        "WHERE `patient_id` = '" . $this->_patient_id . "' AND `original_img` LIKE '%" . $cur_date . "%';";
+
+        if ($this -> Mysql) {
+            try {
+                mysqli_query($this -> Mysql, $update);
+            } catch (\Exception $e){
+                return "Error: IOU database update error!";
+            }
+        }
+    }
 }
 ?>

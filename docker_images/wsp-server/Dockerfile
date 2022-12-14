@@ -15,7 +15,7 @@ RUN apt-get install -y --no-install-recommends tzdata \
 && echo $TZ > /etc/timezone \
 && dpkg-reconfigure -f noninteractive tzdata 
 
-RUN apt-get install -y apache2 \
+RUN apt-get install -y apache2 libapache2-mod-evasive \
 && apt-get install -y gcc make wget
 
 # Build source code pyhton and install pip

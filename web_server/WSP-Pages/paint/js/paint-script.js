@@ -78,7 +78,7 @@ async function checkSpace() {
 }
 
 function isFullStorage() {
-    if (storage_size > max_size) {
+    if (storage_size >= max_size) {
         return true;
     } else {
         return false;
@@ -414,12 +414,12 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
     }
 });
 
-document.querySelector('#testBtn').addEventListener('click', () => {
-    fetch("/interface.php?type=logout", {
-        method: "GET",
-    }).then((response) => {
-        return response.text()
-    }).then((response) => {
-        console.log(response);
-    })
-});
+// document.querySelector('#testBtn').addEventListener('click', () => {
+//     fetch("/interface.php?type=logout", {
+//         method: "GET",
+//     }).then((response) => {
+//         return response.text()
+//     }).then((response) => {
+//         console.log(response);
+//     })
+// });

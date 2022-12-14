@@ -11,10 +11,13 @@ define('_DBname', 'WSP');
 
 $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
-
 $reomve = $decoded['original'];
-
 $response = Array();
+
+// if (!preg_match('/^/home/wsp/mysql_image/.*$/', $reomve)) {
+//     $response['error'] = 'This is error path!';
+//     exit(json_encode($response));
+// }
 
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
