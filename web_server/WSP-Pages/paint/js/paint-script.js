@@ -78,10 +78,11 @@ async function checkSpace() {
 }
 
 function isFullStorage() {
+    console.log(storage_size, max_size)
     if (storage_size >= max_size) {
-        return true;
-    } else {
         return false;
+    } else {
+        return true;
     }
 }
 

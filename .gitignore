@@ -1,7 +1,7 @@
 ## WSP
 ## benson
 ## version: 0.0.2
-*/__pycache__
+__pycache__/
 web_server/WSP-Pages/wound/upload
 web_server/WSP-Pages/wound/build
 web_server/WSP-Pages/wound/*.hdf5
