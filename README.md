@@ -40,15 +40,28 @@ web_server/WSP-Pages/wound
 
 ## Build from scratch
 
-1. Clone repository, and install docker.
-2. Download prediction module.
+First install docker with docker-compose environment.
+```
+sudo apt-get install docker docker-compose
+```
+
+1. Clone this repository.
+2. Download prediction module. [module link]
 3. Unzip the file, and then join prediction mod to `/web_server/WSP-Pages/wound`.
-4. run `docker-compose up`
-5. web service is start.
+4. Run `docker-compose up`
+5. Web service is start.
+
+Tip. You can build docker image in local, in docker_image directory, 
+below is a build wsp-server image example:
+```
+$cd ./docker_images/wsp-server
+$sudo docker build –t <imagename> .
+```
+Remenber change docker-compose file content, change image source.
 
 <br>
 
-## directiory structure
+## Directiory structure
 
 currently directory will be like:
 - mysql: store all database data.
@@ -57,9 +70,11 @@ currently directory will be like:
 ```
 |---db_server---data---|---mysql
 |                      |---mysql_image
-|---img
+|---images
 |
 |---wbe_server
 |
 |---docker-compose.yml
 ```
+
+[module link]: https://drive.google.com/file/d/14w-BeoMspX2JWcgqsVWH-CB_ulBCn8Uh/view?usp=sharing
