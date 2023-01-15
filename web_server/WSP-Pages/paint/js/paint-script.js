@@ -12,6 +12,7 @@ paint.temp_key = login.getCookie('PHPSESSID') + login.randomString(2);
 
 // mouse click status
 let state;
+let max_size, storage_size;
 let toolbarBtnlist = ['#brushBtn', '#eraserBtn', '#bucketBtn', '#rulerBtn', '#areaBtn', '#selectBtn'];
 
 function isNumeric(val) {
@@ -63,6 +64,27 @@ function getTouchCoordinate(e) {
     paint.lastY = parseInt(e.touches[0].clientY - paint.top)
 }
 
+async function checkSpace() {
+    let response = await chart.getSpace();
+    max_size = response['max_size'];
+    storage_size = response['storage_size'];
+    document.querySelector('#storeSize').innerHTML = (storage_size / 1024).toFixed(2);
+    document.querySelector('#maxSize').innerHTML = (max_size / 1024) + 'Mb'
+    if (storage_size > max_size) {
+        document.querySelector('#storeSize').style = 'color: red;';
+    } else {
+        document.querySelector('#storeSize').style = 'color: black;';
+    }
+}
+
+function isFullStorage() {
+    if (storage_size >= max_size) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 window.addEventListener('mousedown', () => {
     $('#message').popover('hide');
 });
@@ -79,6 +101,8 @@ window.addEventListener('load', () => {
     $('#message').popover('show');
     style.toastPosition();
     style.areatextPosition('Hello');
+
+    checkSpace();
 });
 
 window.addEventListener('resize', () => {
@@ -108,7 +132,7 @@ paint.canvas.addEventListener('mousedown', (e) => {
         case 'ruler':
             if (paint.getScale(e) == true) {
                 document.querySelector('#scaleText').innerHTML = 'OK';
-                
+
                 state = null;
                 changeActive(null);
 
@@ -125,6 +149,7 @@ paint.canvas.addEventListener('mousedown', (e) => {
             style.areatextPosition(str);
             // upload image for frontend area compute
             paint.frontendAreaUpload(area)
+            checkSpace();
 
             state = null;
             changeActive(null);
@@ -190,7 +215,12 @@ paint.canvas.addEventListener('touchstart', (e) => {
             alert(str);
             style.areatextPosition(str);
             // upload image for frontend area compute
-            paint.frontendAreaUpload()
+            if (isFullStorage()) {
+                alert('Storage space is full!');
+            } else {
+                paint.frontendAreaUpload()
+                checkSpace();
+            }
 
             state = null;
             changeActive(null);
@@ -226,7 +256,7 @@ paint.canvas.addEventListener('touchend', (e) => {
     if (state) {
         paint.isDrawing = false;
         paint.saveHistory("touchend");
-    } 
+    }
     // else {
     //     console.log(e);
     //     store.pageX2 = e.changedTouches[0].clientX;
@@ -323,14 +353,17 @@ document.querySelector('#predictAreaBtn').addEventListener('click', () => {
         alert('No scale, Please give scale first!');
     } else if (!paint.predictFlag) {
         alert('Please input a images!');
+    } else if (isFullStorage()) {
+        alert('Storage space is full!');
     } else {
         document.querySelector('#nav-predict-tab').click();
         let close = document.querySelectorAll('.btn-close');
         for (let i = 0; i < close.length; i++) {
             close[i].click();
         }
-        
+
         paint.backend_predict();
+        checkSpace();
 
         // clean old iou image
         document.querySelector('#iouImg').src = "../assets/img/preview/pre_bg.jpg";
@@ -348,6 +381,7 @@ document.querySelector('#iouBtn').addEventListener('click', () => {
             close[i].click();
         }
         paint.backend_iou_upload();
+        checkSpace();
     } else {
         alert("Error Operation.");
     }
@@ -366,6 +400,7 @@ document.querySelector('#chartBtn').addEventListener('click', async () => {
 document.querySelector('#historyRemove').addEventListener('click', () => {
     if (confirm('Are you sure to delete this data?')) {
         chart.removeHistory();
+        checkSpace();
     }
 });
 
@@ -380,5 +415,11 @@ document.querySelector('#historyComment').addEventListener('click', (event) => {
 });
 
 // document.querySelector('#testBtn').addEventListener('click', () => {
-//     console.log(paint.temp_key);
+//     fetch("/interface.php?type=logout", {
+//         method: "GET",
+//     }).then((response) => {
+//         return response.text()
+//     }).then((response) => {
+//         console.log(response);
+//     })
 // });

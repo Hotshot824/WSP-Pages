@@ -9,10 +9,10 @@ $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
 
 $path = "/etc/php/8.1/cli/php.ini";
-$db_default = parse_ini_file($path);
+$php_default = parse_ini_file($path);
 
 $temp_key = $decoded['temp_key'];
-$result_path = $db_default['ptmp.path'] . $temp_key . "/";
+$result_path = $php_default['ptmp.path'] . $temp_key . "/";
 $upload_path = $result_path . "upload/";
 
 \image\decode_images_move($decoded['label'], $result_path, 'iou_label.png');
@@ -27,24 +27,24 @@ $response['iou_value'] = $IOU;
 
 // check login
 $db = new \database\WSPDB(isset($decode["stay_in"]));
-if (!$db -> check_login()) {
+if (!$db -> Check_login()) {
     exit(json_encode($response));
 }
 
-$response['error'] = $db -> database_connect();
+$response['error'] = $db -> Database_connect();
 if (isset($response['error'])) {
     exit(json_encode($response));
 }
 
 $cur_date = $_SESSION['last_predict_date'];
-$store_path = $db_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/backend/";
+$store_path = $php_default['ptmp.storage_path'] . $_SESSION['patientID'] . "/backend/";
 
 \tmpfile\stoage_file(
     $result_path.'iou_label.png',
     $store_path."iou/".$cur_date.".png",
 );
 
-$response['error'] = $db -> update_iou_result($store_path."iou/".$cur_date.".png", $cur_date);
+$response['error'] = $db -> Update_iou_result($store_path."iou/".$cur_date.".png", $cur_date);
 if (isset($response['error'])) {
     exit(json_encode($response));
 }

@@ -32,14 +32,14 @@ $response = Array();
 try {
     $mysqli = mysqli_connect(_DBhost, _DBuser, _DBpassword, _DBname);
 } catch (Exception $e) {
-    $response['error_status'] = "Error: Database connection error!";
+    $response['error'] = "Error: Database connection error!";
     exit(json_encode($response));
 }
 
 if ($mysqli) {
     $result = mysqli_query($mysqli, $sql_exist);
     if (!(mysqli_num_rows($result) > 0)) {
-        $response['error_status'] = "Error: Account not existed!";
+        $response['error'] = "Error: Account not existed!";
         exit(json_encode($response));
     }
 
@@ -48,7 +48,7 @@ if ($mysqli) {
     $password = hash('sha256', $password . $result['salt']);
 
     if ($password != $result['patient_password']) {
-        $response['error_status'] = "Error: Password error!";
+        $response['error'] = "Error: Password error!";
         exit(json_encode($response));
     }
 

@@ -1,7 +1,7 @@
 import * as style from './style.js';
 import * as login from '../../js/login.js';
 
-var patientID;
+var patientID, max_size, storage_size;
 
 function exitPaint(event) {
     // Cancel the event as stated by the standard.
@@ -34,7 +34,7 @@ async function checkLogin() {
             console.log(`Error: ${error}`);
         })
 }
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
     checkLogin();
 })
 
@@ -45,8 +45,8 @@ document.querySelector('#signUpForm').addEventListener('submit', async (event) =
             return response.json()
         })
         .then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
+            if (response['error']) {
+                alert(response['error']);
                 return;
             }
             alert("Account created successfully!")
@@ -70,8 +70,8 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
             return response.json()
         })
         .then((response) => {
-            if (response['error_status']) {
-                alert(response['error_status']);
+            if (response['error']) {
+                alert(response['error']);
                 return;
             }
 
@@ -83,6 +83,9 @@ document.querySelector('#signInForm').addEventListener('submit', async (event) =
             for (let i = 0; i < input.length; i++) {
                 input[i].value = null;
             }
+
+            window.removeEventListener("beforeunload", exitPaint);
+            location.reload();
         })
         .catch((error) => {
             console.log(`Error: ${error}`);

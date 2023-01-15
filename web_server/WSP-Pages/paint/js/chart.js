@@ -102,6 +102,17 @@ async function showHistoryPredict(index) {
         })
 }
 
+async function getSpace() {
+    let request = "/interface.php?type=checkspace&stay_in=" + login.getStayIn();
+    return await fetch(request, {
+        method: "GET",
+    }) .then((response) => {
+        return response.json();
+    }) .then((response) => {
+        return response;
+    })
+}
+
 async function removeHistory() {
     let data = {
         "original": chartData[index]['original_img'],
@@ -148,4 +159,4 @@ async function sotreComment() {
 }
 
 
-export { drawingChart, startChart, removeHistory, sotreComment };
+export { drawingChart, startChart, removeHistory, sotreComment, getSpace };

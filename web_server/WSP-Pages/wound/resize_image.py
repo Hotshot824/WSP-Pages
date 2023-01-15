@@ -14,7 +14,7 @@ def modify_lightness_saturation(img):
 
     lightness = 0 # lightness 調整為  "1 +/- 幾 %"
     saturation = 300 # saturation 調整為 "1 +/- 幾 %"
- 
+
     # 亮度調整
     hlsCopy[:, :, 1] = (1 + lightness / 100.0) * hlsCopy[:, :, 1]
     hlsCopy[:, :, 1][hlsCopy[:, :, 1] > 1] = 1  # 應該要介於 0~1，計算出來超過1 = 1

@@ -7,6 +7,12 @@ $db_default = parse_ini_file($path);
 // temporary file clear function.
 \tmpfile\random_remove_tmpfile();
 
+// database link
+define('_DBhost', $db_default['mysqli.default_host']);
+define('_DBuser', $db_default['mysqli.default_user']);
+define('_DBpassword', $db_default['mysqli.default_pw']);
+define('_DBname', 'WSP');
+
 // Receive the RAW post data.
 $content = trim(file_get_contents("php://input"));
 $decoded = json_decode($content, true);
